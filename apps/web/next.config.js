@@ -5,6 +5,7 @@ module.exports = {
     disableClientWebpackPlugin: true,
   },
   experimental: {
+    typedRoutes: true
   },
   images: {
     remotePatterns: [
