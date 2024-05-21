@@ -1,11 +1,44 @@
 {
-  "extends": "@repo/typescript-config/nextjs.json",
+  "ts-node": {
+    "compilerOptions": {
+      "module": "CommonJS",
+      "paths": {
+        "@/*": [
+          "./*"
+        ]
+      }
+    }
+  },
+  "display": "Next.js",
+  "paths": {
+    "@/*": [
+      "./*"
+    ],
+  },
   "compilerOptions": {
+    "baseUrl": ".",
+    "target": "ES2020",
     "plugins": [
       {
         "name": "next"
       }
-    ]
+    ],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "allowJs": true,
+    "jsx": "preserve",
+    "noEmit": true,
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "skipLibCheck": true,
+    "strict": false,
+    "incremental": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true
   },
   "include": [
     "next-env.d.ts",
@@ -14,5 +47,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules"
+  ]
 }

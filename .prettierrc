@@ -8,5 +8,5 @@
    "singleQuote": false,
    "proseWrap": "always",
    "quoteProps": "consistent",
-   "plugins": ["prettier-plugin-tailwindcss"]
+   "plugins": ["prettier-plugin-tailwindcss", "prettier-plugin-organize-imports"]
 }
