@@ -38,3 +38,17 @@ export async function getGravatarImageUrl(email: string) {
 
    return imageUrl;
 }
+
+export async function sleep(duration: number) {
+   return await new Promise(res => setTimeout(res, duration));
+}
+
+export function isAbsoluteUrl(url: string) {
+
+   // Regular expression for absolute URL
+   const absoluteUrlPattern = /^(?:https?:\/\/)?(?:\w+\.)+\w{2,}(?:\/.*)?$/;
+
+   // Test the string against the pattern
+   return absoluteUrlPattern.test(url);
+}
+

@@ -18,6 +18,7 @@ model User {
   email         String    @unique
   password      String?
   emailVerified DateTime?
+  metadata      Json?     @default("null") @db.JsonB
   image         String?
   accounts      Account[]
   sessions      Session[]

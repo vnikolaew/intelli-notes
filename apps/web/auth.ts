@@ -20,9 +20,8 @@ const customAdapter = {
    ...PrismaAdapter(xprisma),
    // @ts-ignore
    createUser({ id, iss, ...user }: AdapterUser): Awaitable<AdapterUser> {
-      console.log({ user });
-      const { email, name, picture, emailVerified } = user as unknown as GoogleProfile;
-      return xprisma.user.create({ data: { email, name, image: picture, emailVerified } });
+      const { email, name, picture, image, emailVerified } = user as unknown as GoogleProfile;
+      return xprisma.user.create({ data: { email, name, image: picture ?? image, emailVerified } });
    },
 } satisfies Adapter;
 
@@ -32,14 +31,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       // @ts-ignore
       createUser: async (user: { user: User }) => {
          // Send a welcome e-mail:
+         console.log({ user });
+
          try {
-            const res = new EmailService().sendMail({
-               to: user.user.email,
+            const res = await new EmailService().sendMail({
+               to: user.user?.email,
                subject: `Welcome to ${APP_NAME}`,
-               element: WelcomeEmail({
-                  username: user.user.name!,
+               react: WelcomeEmail({
+                  username: user.user?.name!,
                   appName: APP_NAME,
-                  introduction: `Welcome to <b>{appName}</b>! We&apos;re thrilled to have you on board and excited to see the
+                  introduction: `Welcome to <b>${APP_NAME}</b>! We&apos;re thrilled to have you on board and excited to see the
                   memories you&apos;ll create and share with our community.`,
                   description: `At <b>${APP_NAME}</b>, we believe in the power of images to connect people, spark conversations,
                   and inspire creativity. Whether you&apos;re a seasoned photographer or someone who simply loves
@@ -47,7 +48,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                   discover inspiring content from others.`,
                }),
             });
-            // console.log(`Welcome e-mail successfully sent to: ${user.user.email} with ID: ${data?.id}`);
+            if (res.success) console.log(`Welcome e-mail successfully sent to: ${user.user.email} with ID: ${res?.success ? res?.id : ``}`);
          } catch (err) {
             console.error(`An error occurred while sending a Welcome e-mail to: ${user.user.email}: ${err}`);
          }
@@ -60,7 +61,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
          return true;
       },
       async signIn({ user, profile, account, email }) {
-         console.log({ user });
          return true;
       },
       async jwt({ token, user, session, profile, account }) {
@@ -81,7 +81,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             const res = await new EmailService().sendMail({
                to: identifier,
                subject: "Login Link to your Account",
-               element: "<p>Click the magic link below to sign in to your account:</p>\
+               html: "<p>Click the magic link below to sign in to your account:</p>\
                  <p><a href=\"" + url + "\"><b>Sign in</b></a></p>",
             });
          } catch (error) {

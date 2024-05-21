@@ -46,7 +46,7 @@ export const Footer = ({appName}: FooterProps) => {
                   </svg>
                </a>
             </div>
-            <div className="mt-12 text-sm text-neutral-400">
+            <div className="mt-12 text-base text-neutral-400">
                Copyright © {new Date().getFullYear()} - All right reserved by <b>
                {appName}
             </b>

@@ -1,23 +1,22 @@
-import styles from "./page.module.css";
 import { xprisma } from "@repo/db";
-import { auth, signIn, signOut } from "auth";
+import { auth, signIn } from "../auth";
 import { Avatar, AvatarFallback, AvatarImage } from "components/ui/avatar";
-import { Button } from "components/ui/button";
 import { Fragment } from "react";
-
-
-async function handleSignOut() {
-   "use server";
-   await signOut({ redirectTo: `/` });
-}
+import { User } from "@prisma/client";
+import { Button } from "../components/ui/button";
+//@ts-ignore
+import { UilGoogle } from "@iconscout/react-unicons";
 
 export default async function Page(): Promise<JSX.Element> {
-   const count = await xprisma.user.count();
    const session = await auth();
+   let user: User;
+   if (session) {
+      user = await xprisma.user.findUnique({ where: { id: session.user.id } });
+      console.log({ user });
+   }
 
    return (
-      <main className={styles.main}>
-         <Button className={``}>Click me!</Button>
+      <section className={`flex flex-col items-center p-12 min-h-[70vh] gap-4`}>
          {!session ? (
             <form
                action={async () => {
@@ -25,7 +24,11 @@ export default async function Page(): Promise<JSX.Element> {
                   await signIn("google");
                }}
             >
-               <button type="submit">Signin with Google</button>
+               <Button className={`gap-2`} type="submit">
+                  <UilGoogle className={`text-red-700`} size={18} />
+                  Signin with Google
+               </Button>
+
             </form>
          ) : (
             <Fragment>
@@ -33,13 +36,14 @@ export default async function Page(): Promise<JSX.Element> {
                   <AvatarImage className={`!w-12 !h-12 !object-cover`} src={session.user.image} />
                   <AvatarFallback>VN</AvatarFallback>
                </Avatar>
-               <span>Welcome back, {session?.user?.name}</span>
-               <form action={handleSignOut}>
-                  <Button type={`submit`}>Sign out</Button>
-               </form>
+               <span>Welcome back,{` `}
+                  <b>
+                     {session?.user?.name}
+                  </b>
+               </span>
+
             </Fragment>
          )}
-         <span>Total users: {count}</span>
-      </main>
+      </section>
    );
 }

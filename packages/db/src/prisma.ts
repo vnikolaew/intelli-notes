@@ -40,6 +40,18 @@ export let xprisma = prisma.$extends({
          },
       },
       user: {
+         cookieConsent: {
+            needs: { metadata: true },
+            compute({ metadata }) {
+               return (metadata as any)?.[`cookie-consent`] ?? false;
+            },
+         },
+         cookiePreferences: {
+            needs: { metadata: true },
+            compute({ metadata }) {
+               return (metadata as any)?.[`cookie-preferences`] ?? { };
+            },
+         },
          updatePassword: {
             needs: { id: true },
             compute(user) {

@@ -4,7 +4,8 @@ import WelcomeEmail from "./WelcomeEmail";
 interface SendMailRequest {
    to: string,
    subject: string,
-   element: JSX.Element | string;
+   react?: JSX.Element;
+   html?: string
 }
 
 type  SendMailResponse = {
@@ -13,20 +14,21 @@ type  SendMailResponse = {
 
 export class EmailService {
    private resend: Resend;
-   static RESEND_ONBOARDING_EMAIL = `onboarding@resend.dev`;
+   static RESEND_ONBOARDING_EMAIL = `Resend <onboarding@resend.dev>`;
 
    constructor() {
       this.resend = new Resend(process.env.AUTH_RESEND_KEY!);
    }
 
-   public async sendMail({ to, subject, element }: SendMailRequest): Promise<SendMailResponse> {
+   public async sendMail({ to, subject, react, html }: SendMailRequest): Promise<SendMailResponse> {
       try {
          const { error, data } = await this.resend.emails.send({
             from: EmailService.RESEND_ONBOARDING_EMAIL,
-            to,
+            to: [to],
             subject,
-            ...(typeof element === `string` ? { html: element } : { react: element }),
-         }, );
+            react,
+            html,
+         });
 
          console.log(`Welcome e-mail successfully sent to: ${to} with ID: ${data?.id}`);
          return { success: true, id: data!.id! };
