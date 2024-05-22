@@ -1,11 +1,15 @@
 import React from "react";
 import CookieConsentBannerClient from "./CookieConsentBannerClient";
 import { xprisma } from "@repo/db";
-import { auth } from "../../auth";
+import { auth } from "auth";
 
 export interface CookieConsentBannerProps {
 }
 
+/**
+ * A cookie consent banner displayed at the bottom of the page.
+ * @constructor
+ */
 const CookieConsentBanner = async ({}: CookieConsentBannerProps) => {
    const session = await auth();
    if (!session) return null;

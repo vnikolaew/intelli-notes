@@ -10,6 +10,11 @@ export function cn(...inputs: ClassValue[]) {
 
 export interface PricingOneProps {
    appName: string;
+   pricingPlans : {
+      Free: string;
+      Regular: string;
+      Premium: string;
+   }
 }
 
 interface PricingCardProps {
@@ -18,9 +23,10 @@ interface PricingCardProps {
    price: ReactNode;
    features: string[];
    isBestBuy?: boolean;
+   paymentLink : string
 }
 
-const PricingCard = ({ price, appName, features, planName, isBestBuy }: PricingCardProps) => {
+const PricingCard = ({ price, paymentLink, appName, features, planName, isBestBuy }: PricingCardProps) => {
    return (
       <div className={cn(`rounded-lg p-8 flex flex-col items-start shadow-md bg-neutral-100/60 relative`,
          isBestBuy && `border-[1.5px] border-blue-500`)}>
@@ -46,7 +52,7 @@ const PricingCard = ({ price, appName, features, planName, isBestBuy }: PricingC
          </ul>
          <button
             className="inline-flex text-white bg-cta-button border-0 !py-3 px-12 focus:outline-none hover:bg-blue-600 rounded-lg text-base mt-auto hover:shadow-xl transition-all duration-200 items-center gap-2 group mx-2">
-            <Link className={`text-sm`} href={`#pricing`}>
+            <Link className={`text-sm`} href={paymentLink} target={"_self"}>
                Get {appName}
             </Link>
             <ChevronRight className={`group-hover:translate-x-1 transition-transform duration-200`} size={20} />
@@ -57,7 +63,7 @@ const PricingCard = ({ price, appName, features, planName, isBestBuy }: PricingC
 
 };
 
-export const PricingOne = ({ appName }: PricingOneProps) => {
+export const PricingOne = ({ appName, pricingPlans }: PricingOneProps) => {
    return (
       <div id={`pricing`} className={`flex flex-col items-center gap-4 w-full mx-auto mt-24`}>
          <h1 className={`text-2xl font-bold`}>Headline</h1>
@@ -66,6 +72,7 @@ export const PricingOne = ({ appName }: PricingOneProps) => {
          </p>
          <div className={`mx-auto grid grid-cols-3 w-fit gap-8 mt-8`}>
             <PricingCard
+               paymentLink={pricingPlans.Free}
                planName={`Start`}
                appName={appName}
                price={`Free`}
@@ -73,6 +80,7 @@ export const PricingOne = ({ appName }: PricingOneProps) => {
 
             <PricingCard
                planName={`Regular`}
+               paymentLink={pricingPlans.Regular}
                appName={appName}
                isBestBuy
                price={
@@ -84,7 +92,8 @@ export const PricingOne = ({ appName }: PricingOneProps) => {
                features={Array.from({ length: 4 }).map((_, i) => `Feature ${i + 1}`)} />
 
             <PricingCard
-               planName={`Pro`}
+               planName={`Premium`}
+               paymentLink={pricingPlans.Premium}
                appName={appName}
                price={
                   <div className={`flex items-center gap-1`}>

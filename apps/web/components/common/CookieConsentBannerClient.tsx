@@ -14,7 +14,7 @@ import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
 import { Switch } from "components/ui/switch";
 import { isExecuting } from "next-safe-action/status";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 
 
 export interface CookieConsentBannerProps {

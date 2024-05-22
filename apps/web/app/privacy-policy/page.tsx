@@ -8,6 +8,10 @@ export interface PageProps {
 
 const LAST_UPDATED = new Date(2024, 4, 21);
 
+/**
+ * The site's Privacy Policy page.
+ * @constructor
+ */
 const Page = ({}: PageProps) => {
    return (
       <section className={`flex flex-col w-full mt-12 items-center`}>

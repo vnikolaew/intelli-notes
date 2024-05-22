@@ -39,10 +39,18 @@ export async function getGravatarImageUrl(email: string) {
    return imageUrl;
 }
 
+/**
+ * A helper function for adding an artificial delay.
+ * @param duration
+ */
 export async function sleep(duration: number) {
    return await new Promise(res => setTimeout(res, duration));
 }
 
+/**
+ * Determines if the input URL is an absolute URL.
+ * @param url
+ */
 export function isAbsoluteUrl(url: string) {
 
    // Regular expression for absolute URL

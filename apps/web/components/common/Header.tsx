@@ -14,6 +14,10 @@ import { LogOut } from "lucide-react";
 export interface NavbarProps {
 }
 
+/**
+ * The site's header, containing the Navbar as well.
+ * @constructor
+ */
 const Header = ({}: NavbarProps) => {
    const session = useSession();
 
@@ -27,8 +31,9 @@ const Header = ({}: NavbarProps) => {
                   <span className={`font-semibold text-base`}>{APP_NAME}</span>
                </Link>
             </nav>
-            <div className={`flex-1 text-center`}>
-               <Link className={`hover:underline`} href={`/ai`}>AI playground</Link>
+            <div className={`flex-1 text-center flex items-center gap-8 justify-center`}>
+               <Link  className={`hover:underline text-base`} href={`/#pricing`}>Pricing</Link>
+               <Link className={`hover:underline text-base`} href={`/#faq`}>FAQ</Link>
             </div>
             <div className={`flex flex-1 items-center justify-end space-x-8`}>
                <ThemeSwitch />
@@ -49,11 +54,10 @@ const Header = ({}: NavbarProps) => {
                   <Button
                      onClick={_ => signIn()}
                      className={`px-6 !py-0 rounded-lg`}>
-                     Login
+                     Get Started
                   </Button>
                </SignedOut>
                <nav className={`flex items-center gap-3`}>
-                  {/*<SocialLinks />*/}
                </nav>
             </div>
          </div>

@@ -11,6 +11,9 @@ import {
 } from "@huggingface/inference";
 import { dot } from "@xenova/transformers";
 
+/**
+ * A HuggingFace API that can be used for different AI tasks.
+ */
 export class HuggingFaceAPI {
    hf: HfInference;
 
@@ -22,6 +25,12 @@ export class HuggingFaceAPI {
       });
    }
 
+   /**
+    * Answers a question on a document image. Recommended model: impira/ layoutlm-document-qa.
+    * @param image The input document's image.
+    * @param question The input question.
+    * @param model The model to be used.
+    */
    public async documentQuestionAnswering(image: File, question: string, model = ``) {
       const output = await this.hf.documentQuestionAnswering({
          model,
@@ -34,6 +43,13 @@ export class HuggingFaceAPI {
       return { success: true, output };
    }
 
+   /**
+    * Use the chat completion endpoint to generate a response to a prompt, using OpenAI message completion API no stream
+    * @param messages
+    * @param tools
+    * @param max
+    * @param model
+    */
    public async chatCompletion(messages: ({
       role: string,
       content: string
@@ -49,6 +65,11 @@ export class HuggingFaceAPI {
       return { success: true, output: response };
    }
 
+   /**
+    * This task reads some text and outputs raw float values, that are usually consumed as part of a semantic database/ semantic search.
+    * @param sentences
+    * @param model
+    */
    public async getEmbeddings(sentences: string[], model = ``) {
       const response = await this.hf.featureExtraction({
          model,
@@ -58,6 +79,11 @@ export class HuggingFaceAPI {
       return { success: true, output: response as number[][] };
    }
 
+   /**
+    * This task reads some image input and outputs the likelihood of classes. Recommended model: google/ vit-base-patch16-224
+    * @param image
+    * @param model
+    */
    public async imageClassification(image: File, model = ``) {
       const response: ImageClassificationOutput = await this.hf.imageClassification({
          model,
@@ -67,6 +93,11 @@ export class HuggingFaceAPI {
       return { success: true, output: response };
    }
 
+   /**
+    * This task reads some image input and outputs the text caption.
+    * @param image
+    * @param model
+    */
    public async imageToText(image: File, model = ``) {
       const response: ImageToTextOutput = await this.hf.imageToText({
          model,
@@ -76,6 +107,11 @@ export class HuggingFaceAPI {
       return { success: true, output: response };
    }
 
+   /**
+    * Finds the sentence similarity between two sentences using their embeddings.
+    * @param sentences
+    * @param model
+    */
    public async sentenceSimilarity(sentences: string[], model = ``) {
       if (sentences.length !== 2) {
          return { success: false };
@@ -91,6 +127,12 @@ export class HuggingFaceAPI {
       return { success: true, output: { embeddings: [e1, e2], similarity } };
    }
 
+   /**
+    * Usually used for sentiment-analysis this will output the likelihood of classes of an input.
+    * Recommended model: distilbert-base-uncased-finetuned-sst-2-english
+    * @param text
+    * @param model
+    */
    public async textClassification(text: string, model = ``) {
       const response: TextClassificationOutput = await this.hf.textClassification({
          model,
@@ -100,6 +142,12 @@ export class HuggingFaceAPI {
       return { success: true, output: response };
    }
 
+   /**
+    * Classify an image to specified classes. Recommended model: openai/ clip-vit-large-patch14-336
+    * @param image
+    * @param candidate_labels
+    * @param model
+    */
    public async zeroShotImageClassification(image: File, candidate_labels: string[], model = ``) {
       const response: ZeroShotImageClassificationOutput = await this.hf.zeroShotImageClassification({
          model,

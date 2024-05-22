@@ -1,5 +1,8 @@
 import { useState } from "react";
 
+/**
+ * A re-usable hook for managing single file uploads.
+ */
 export function useSingleFileImagePreview() {
    const [inputFile, setInputFile] =
       useState<File>(null!);

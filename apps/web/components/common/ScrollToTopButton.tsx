@@ -11,6 +11,10 @@ export interface ScrollToTopButtonProps {
 
 const MotionButton = motion(Button);
 
+/**
+ * A reusable Scroll to Top button.
+ * @constructor
+ */
 const ScrollToTopButton = ({}: ScrollToTopButtonProps) => {
    const [{ y }] = useWindowScroll();
    const showButton = useMemo(() => y >= 300, [y]);

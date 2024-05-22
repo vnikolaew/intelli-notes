@@ -2,11 +2,23 @@ import { signIn } from "../auth";
 import { Button } from "../components/ui/button";
 //@ts-ignore
 import { UilGoogle } from "@iconscout/react-unicons";
-import { HeroSectionOne, FeaturesAndBenefits, TestimonialOne, PricingOne } from "@repo/ui/components";
-import { APP_NAME } from "lib/consts";
+import {
+   HeroSectionOne,
+   FeaturesAndBenefits,
+   TestimonialOne,
+   PricingOne,
+   FaqOne,
+   CtaSectionOne, TestimonialTwo,
+   HeroSectionTwo
+} from "@repo/ui/components";
+import { APP_NAME, STRIPE_PRICING_PLANS } from "lib/consts";
 import { ServerSignedIn, ServerSignedOut } from "../components/common/Auth.server";
-import userImage from "public/user-1.avif"
+import userImage from "public/user-1.avif";
 
+/**
+ * The site's main landing page.
+ * @constructor
+ */
 export default async function Page(): Promise<JSX.Element> {
    return (
       <section className={`flex flex-col items-center p-12 min-h-[70vh] gap-4`}>
@@ -24,15 +36,29 @@ export default async function Page(): Promise<JSX.Element> {
             </form>
          </ServerSignedOut>
          <ServerSignedIn>
-            <HeroSectionOne appName={APP_NAME} />
-            <FeaturesAndBenefits  />
+            <HeroSectionTwo appName={APP_NAME} />
+            <FeaturesAndBenefits />
             <section className={`mt-24 w-full`}>
                <TestimonialOne user={{
                   image: userImage,
-                  name: `John Doe`
+                  name: `John Doe`,
                }} />
             </section>
-            <PricingOne appName={APP_NAME} />
+            <PricingOne pricingPlans={STRIPE_PRICING_PLANS} appName={APP_NAME} />
+            <section className={`mt-24 w-full`}>
+               <TestimonialOne user={{
+                  image: userImage,
+                  name: `Jack Herrington`,
+               }} />
+            </section>
+            <FaqOne />
+            <CtaSectionOne appName={APP_NAME} />
+            <section className={`mt-24 w-full`}>
+               <TestimonialTwo appName={APP_NAME} user={{
+                  image: userImage,
+                  name: `Daniel Jones`,
+               }} />
+            </section>
          </ServerSignedIn>
       </section>
    );
