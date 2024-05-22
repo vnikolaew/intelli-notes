@@ -10,7 +10,6 @@ export interface FooterTwoProps {
    links: {
       email: string;
       twitter: string;
-      github: string;
       linkedIn: string;
    };
 }
@@ -42,16 +41,16 @@ export const FooterTwo = ({
                              appLogo,
                              appDescription,
                              appName,
-                             links: { linkedIn, github, email, twitter },
+                             links: { linkedIn, email, twitter },
                           }: FooterTwoProps) => {
    return (
       <footer className={`py-2 border-t border-border border-prose mt-24`}>
          <div className="my-8 grid grid-cols-4 mx-24">
             <div
                className="!mb-24 flex flex-col space-y-1 text-base text-muted-foreground items-start text-left h-full justify-center">
-               <span className={`inline-flex items-end gap-2`}>
-                  <Image className={`rounded-full shadow-sm w-6 h-6`} src={appLogo} alt={appName} />
-                  <span className={`text-base font-semibold !text-neutral-200`}>
+               <span className={`inline-flex items-center gap-2`}>
+                  <Image className={`rounded-full shadow-sm w-7 h-7`} src={appLogo} alt={appName} />
+                  <span className={`text-lg font-semibold dark:!text-neutral-200 text-neutral-800`}>
                      {appName}
                   </span>
                </span>
@@ -65,15 +64,16 @@ export const FooterTwo = ({
             <div>
                <h2 className={`uppercase text-muted-foreground text-base`}>Links</h2>
                <div className="mt-4 flex space-y-2 flex-col">
-                  <Link className={`hover:underline text-sm`} href={`/`}>Home</Link>
-                  <Link className={`hover:underline text-sm`} href={`mailto:${email}`}>Support</Link>
+                  <Link className={`hover:underline text-sm w-fit`} href={`/`}>Home</Link>
+                  <Link className={`hover:underline text-sm w-fit`} href={`/#pricing`}>Pricing</Link>
+                  <Link className={`hover:underline text-sm w-fit`} href={`mailto:${email}`}>Support</Link>
                </div>
             </div>
             <div>
                <h2 className={`uppercase text-muted-foreground text-base`}>Legal</h2>
                <div className="mt-4 flex space-y-2 flex-col">
-                  <Link className={`hover:underline text-sm`} href={`/tos`}>Terms of Service</Link>
-                  <Link className={`hover:underline text-sm`} href={`/privacy-policy`}>Privacy Policy</Link>
+                  <Link className={`hover:underline text-sm w-fit`} href={`/tos`}>Terms of Service</Link>
+                  <Link className={`hover:underline text-sm w-fit `} href={`/privacy-policy`}>Privacy Policy</Link>
                </div>
             </div>
             <div>
