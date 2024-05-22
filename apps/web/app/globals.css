@@ -2,9 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+html, * {
+    scroll-behavior: smooth;
+    scroll-margin-top: 6rem;
+}
+
 @layer base {
     :root {
-        --background: 0 0% 100%;
+        --background: 210 80% 99%;
+        /*--background: 0 0% 100%;*/
         --foreground: 222.2 84% 4.9%;
 
         --card: 0 0% 100%;
@@ -14,7 +20,7 @@
         --popover-foreground: 222.2 84% 4.9%;
 
         --primary: 222.2 47.4% 11.2%;
-        --primary-foreground: 210 40% 98%;
+        --primary-foreground: 210 80% 95%;
 
         --secondary: 210 40% 96.1%;
         --secondary-foreground: 222.2 47.4% 11.2%;
@@ -74,8 +80,8 @@
     body {
         @apply bg-background text-foreground;
     }
-}
 
-html {
-    scroll-behavior: smooth;
+    .test-gradient {
+        @apply bg-gradient-to-r from-blue-500 to-blue-900 inline-block text-transparent bg-clip-text;
+    }
 }

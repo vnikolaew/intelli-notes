@@ -4,6 +4,9 @@ import { createSafeActionClient, DEFAULT_SERVER_ERROR } from "next-safe-action";
 export class AuthError extends Error {
 }
 
+/**
+ * An authorized action that checks if the current user session is defined.
+ */
 export const authorizedAction = createSafeActionClient({
    middleware: async (parsedInput, data) => {
       const session = await auth();
@@ -16,6 +19,9 @@ export const authorizedAction = createSafeActionClient({
    },
 });
 
+/**
+ * A public action that is accessible by any user / page.
+ */
 export const publicAction = createSafeActionClient({
    middleware: async (parsedInput, data) => {
       const session = await auth();

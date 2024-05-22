@@ -6,7 +6,7 @@ export interface FeaturesAndBenefitsProps {
 
 export const FeaturesAndBenefits = ({}: FeaturesAndBenefitsProps) => {
    return (
-      <section className="w-full body-font mt-16 flex flex-col items-center">
+      <section className="w-full body-font mt-24 flex flex-col items-center">
          <h2 className={`text-3xl font-bold`}>
             Struggling with Inefficiency and Missed Opportunities?
          </h2>

@@ -12,6 +12,9 @@ export interface CookiePreferences {
    Marketing: boolean,
 }
 
+/**
+ * A public action for accepting all site cookies.
+ */
 export const acceptAllCookies = publicAction(z.any(), async (_, { userId }) => {
    await sleep(2000);
 
@@ -40,6 +43,9 @@ export const acceptAllCookies = publicAction(z.any(), async (_, { userId }) => {
    return { success: true };
 });
 
+/**
+ * A public action for declining all site cookies.
+ */
 export const declineCookieConsent = publicAction(z.any(), async (_, { userId }) => {
    await sleep(2000);
    const user = await xprisma.user.findFirst({
@@ -69,6 +75,9 @@ const cookiePreferencesSchema = z.object({
    Marketing: z.boolean(),
 });
 
+/**
+ * A public action for managing user's cookie preferences.
+ */
 export const updateCookiePreferences = authorizedAction(cookiePreferencesSchema, async (cookiePreferences: CookiePreferences, { userId }) => {
    await sleep(2000);
    const user = await xprisma.user.findUnique({
@@ -94,6 +103,9 @@ export const updateCookiePreferences = authorizedAction(cookiePreferencesSchema,
 
 const changeThemeSchema = z.union([z.literal(`light`), z.literal(`dark`), z.literal(`system`)]);
 
+/**
+ * An authorized action for changing the user's site color theme.
+ */
 export const changeUserTheme = authorizedAction(changeThemeSchema, async (theme, { userId }) => {
    await sleep(2000);
 

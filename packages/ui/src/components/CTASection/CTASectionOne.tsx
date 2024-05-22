@@ -16,7 +16,7 @@ export const CtaSectionOne = ({appName}: CtaSectionOneProps) => {
             Description
          </h3>
          <button
-            className="inline-flex text-white bg-cta-button border-0 !py-3 px-12 focus:outline-none hover:bg-blue-600 rounded-lg text-base mt-12 hover:shadow-xl transition-all duration-200 items-center gap-2 group mx-2">
+            className="inline-flex text-white bg-gradient-to-r from-blue-500 to-blue-900 border-0 !py-3 px-12 focus:outline-none hover:bg-blue-600 rounded-lg text-base mt-12 hover:shadow-xl transition-all duration-200 items-center gap-2 group mx-2">
             <Link className={`text-lg`} href={`#pricing`}>
                Get {appName}
             </Link>

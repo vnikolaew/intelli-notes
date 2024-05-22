@@ -1,6 +1,6 @@
 "use server";
 
-import { HuggingFaceAPI } from "@repo/ai";
+import { HuggingFaceAPI, OpenAiAPI } from "@repo/ai";
 import { publicAction } from "lib/actions";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
@@ -23,11 +23,31 @@ export const runImageClassification = publicAction(zfd.formData({ image: zfd.fil
 
 export type ImageClassificationResponse = Awaited<ReturnType<typeof runImageClassification>>["data"]
 
-export const runDocumentAnswering = publicAction(zfd.formData({ image: zfd.file(), question: zfd.text() }), async ({ image,question }) => {
+export const runDocumentAnswering = publicAction(zfd.formData({
+   image: zfd.file(),
+   question: zfd.text(),
+}), async ({ image, question }) => {
    const MODEL = `impira/layoutlm-document-qa`;
 
-   const res = await new HuggingFaceAPI().documentQuestionAnswering(image,question, MODEL);
+   const res = await new HuggingFaceAPI().documentQuestionAnswering(image, question, MODEL);
    return { ...res };
 });
 
 export type DocumentAnsweringResponse = Awaited<ReturnType<typeof runDocumentAnswering>>["data"]
+
+export const runObjectGeneration = publicAction(z.object({ prompt: z.string() }), async ({ prompt }) => {
+   const res = await new OpenAiAPI().generateObject(
+      `Retrieve the latest 10 hot sports news around the world`,
+      z.object({
+         news: z.array(z.object({
+            headline: z.string().min(1),
+            summary: z.string().min(1),
+            date: z.string(),
+            sport: z.string(),
+         })),
+      }));
+
+   return { ...res, success: true };
+});
+
+export type ObjectGenerationResponse = Awaited<ReturnType<typeof runObjectGeneration>>["data"]
