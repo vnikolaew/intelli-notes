@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 export function useSingleFileImagePreview() {
-   const [inputFiles, setInputFile] =
+   const [inputFile, setInputFile] =
       useState<File>(null!);
 
    const [imagePreview, setImagePreview] =
@@ -23,5 +23,5 @@ export function useSingleFileImagePreview() {
    };
 
 
-   return { inputFiles, imagePreview, addImage, removeImage } as const;
+   return { inputFile, imagePreview, addImage, removeImage } as const;
 }

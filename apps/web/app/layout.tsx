@@ -1,16 +1,17 @@
-import "./globals.css";
 import type { Metadata } from "next";
 import { Toaster } from "components/ui/sonner";
 import { Inter as FontSans } from "next/font/google";
 import { __IS_DEV__, APP_DESCRIPTION, APP_NAME, LINKS } from "lib/consts";
 import Providers from "../providers";
 import { cn } from "../lib/utils";
-import { Footer, FooterTwo } from "@repo/ui/components";
+import { FooterTwo } from "@repo/ui/components";
 import LoadingBar from "components/common/LoadingBar";
 import Header from "components/common/Header";
 import ScrollToTopButton from "components/common/ScrollToTopButton";
 import CookieConsentBanner from "components/common/CookieConsentBanner";
 import { Analytics } from "@vercel/analytics/react";
+
+import "./globals.css";
 import appLogo from "public/logo.png"
 
 const inter = FontSans({ subsets: ["latin"], variable: "--font-sans" });
@@ -41,8 +42,12 @@ export default function RootLayout({
          <Toaster />
          {!__IS_DEV__ && <Analytics />}
          <CookieConsentBanner />
-         {/*<Footer appName={APP_NAME} />*/}
-         <FooterTwo appDescription={APP_DESCRIPTION} appLogo={appLogo} appName={APP_NAME} links={LINKS}/>
+         <FooterTwo
+            appDescription={APP_DESCRIPTION}
+            appLogo={appLogo}
+            appName={APP_NAME}
+            links={LINKS}
+         />
          </body>
       </Providers>
       </html>

@@ -20,11 +20,16 @@ const Header = ({}: NavbarProps) => {
    return (
       <header
          className={`sticky top-0 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 !py-3 !z-10`}>
-         <div className={`container flex h-14 max-w-screen-2xl items-center !w-3/4`}>
-            <Link href={`/`} className={`flex items-center gap-4`}>
-               <Image className={`rounded-full`} height={40} width={40} alt={APP_NAME} src={appLogo} />
-               <span className={`font-semibold text-base`}>{APP_NAME}</span>
-            </Link>
+         <div className={`container flex h-14 max-w-screen-2xl items-center !w-3/4 justify-between`}>
+            <nav className={`flex flex-1 items-center space-x-4 lg:space-x-6`}>
+               <Link href={`/`} className={`flex items-center gap-4`}>
+                  <Image className={`rounded-full`} height={40} width={40} alt={APP_NAME} src={appLogo} />
+                  <span className={`font-semibold text-base`}>{APP_NAME}</span>
+               </Link>
+            </nav>
+            <div className={`flex-1 text-center`}>
+               <Link className={`hover:underline`} href={`/ai`}>AI playground</Link>
+            </div>
             <div className={`flex flex-1 items-center justify-end space-x-8`}>
                <ThemeSwitch />
                <SignedIn>
@@ -33,14 +38,19 @@ const Header = ({}: NavbarProps) => {
                         <AvatarFallback>{session?.data?.user?.name}</AvatarFallback>
                         <AvatarImage src={session?.data?.user?.image!} />
                      </Avatar>
-                     <Button className={`px-4 gap-2 rounded-lg`}  onClick={_ => signOut({ redirect: true, callbackUrl: `/` })} variant={"destructive"}>
+                     <Button className={`px-4 gap-2 rounded-lg`}
+                             onClick={_ => signOut({ redirect: true, callbackUrl: `/` })} variant={"destructive"}>
                         <LogOut size={14} />
                         Sign out
                      </Button>
                   </div>
                </SignedIn>
                <SignedOut>
-                  <Button onClick={_ => signIn()} className={`px-8 !py-2 rounded-lg`}>Login</Button>
+                  <Button
+                     onClick={_ => signIn()}
+                     className={`px-6 !py-0 rounded-lg`}>
+                     Login
+                  </Button>
                </SignedOut>
                <nav className={`flex items-center gap-3`}>
                   {/*<SocialLinks />*/}

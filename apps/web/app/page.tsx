@@ -1,23 +1,16 @@
-import { xprisma } from "@repo/db";
-import { auth, signIn } from "../auth";
-import { Avatar, AvatarFallback, AvatarImage } from "components/ui/avatar";
-import { Fragment } from "react";
-import { User } from "@prisma/client";
+import { signIn } from "../auth";
 import { Button } from "../components/ui/button";
 //@ts-ignore
 import { UilGoogle } from "@iconscout/react-unicons";
+import { HeroSectionOne, FeaturesAndBenefits, TestimonialOne, PricingOne } from "@repo/ui/components";
+import { APP_NAME } from "lib/consts";
+import { ServerSignedIn, ServerSignedOut } from "../components/common/Auth.server";
+import userImage from "public/user-1.avif"
 
 export default async function Page(): Promise<JSX.Element> {
-   const session = await auth();
-   let user: User;
-   if (session) {
-      user = await xprisma.user.findUnique({ where: { id: session.user.id } });
-      console.log({ user });
-   }
-
    return (
       <section className={`flex flex-col items-center p-12 min-h-[70vh] gap-4`}>
-         {!session ? (
+         <ServerSignedOut>
             <form
                action={async () => {
                   "use server";
@@ -28,22 +21,19 @@ export default async function Page(): Promise<JSX.Element> {
                   <UilGoogle className={`text-red-700`} size={18} />
                   Signin with Google
                </Button>
-
             </form>
-         ) : (
-            <Fragment>
-               <Avatar title={session.user.name} className={`w-12 h-12 !rounded-full shadow-md cursor-pointer`}>
-                  <AvatarImage className={`!w-12 !h-12 !object-cover`} src={session.user.image} />
-                  <AvatarFallback>VN</AvatarFallback>
-               </Avatar>
-               <span>Welcome back,{` `}
-                  <b>
-                     {session?.user?.name}
-                  </b>
-               </span>
-
-            </Fragment>
-         )}
+         </ServerSignedOut>
+         <ServerSignedIn>
+            <HeroSectionOne appName={APP_NAME} />
+            <FeaturesAndBenefits  />
+            <section className={`mt-24 w-full`}>
+               <TestimonialOne user={{
+                  image: userImage,
+                  name: `John Doe`
+               }} />
+            </section>
+            <PricingOne appName={APP_NAME} />
+         </ServerSignedIn>
       </section>
    );
 }

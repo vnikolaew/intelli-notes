@@ -51,33 +51,33 @@ export const FooterTwo = ({
                className="!mb-24 flex flex-col space-y-1 text-base text-muted-foreground items-start text-left h-full justify-center">
                <span className={`inline-flex items-end gap-2`}>
                   <Image className={`rounded-full shadow-sm w-6 h-6`} src={appLogo} alt={appName} />
-                  <span className={`text-lg font-semibold !text-neutral-200`}>
+                  <span className={`text-base font-semibold !text-neutral-200`}>
                      {appName}
                   </span>
                </span>
-               <span className={`!mt-2 text-base font-normal`}>
+               <span className={`!mt-2 text-sm font-normal`}>
                   {appDescription}
                </span>
-               <span className={`!mt-4`}>
+               <span className={`!mt-4 text-sm`}>
                   Copyright © {new Date().getFullYear()} - All rights reserved.
                </span>
             </div>
             <div>
-               <h2 className={`uppercase text-muted-foreground text-lg`}>Links</h2>
-               <div className="mt-4 flex space-y-3 flex-col">
-                  <Link className={`hover:underline`} href={`/`}>Home</Link>
-                  <Link className={`hover:underline`} href={`mailto:${email}`}>Support</Link>
+               <h2 className={`uppercase text-muted-foreground text-base`}>Links</h2>
+               <div className="mt-4 flex space-y-2 flex-col">
+                  <Link className={`hover:underline text-sm`} href={`/`}>Home</Link>
+                  <Link className={`hover:underline text-sm`} href={`mailto:${email}`}>Support</Link>
                </div>
             </div>
             <div>
-               <h2 className={`uppercase text-muted-foreground text-lg`}>Legal</h2>
-               <div className="mt-4 flex space-y-3 flex-col">
-                  <Link className={`hover:underline`} href={`/tos`}>Terms of Service</Link>
-                  <Link className={`hover:underline`} href={`/privacy-policy`}>Privacy Policy</Link>
+               <h2 className={`uppercase text-muted-foreground text-base`}>Legal</h2>
+               <div className="mt-4 flex space-y-2 flex-col">
+                  <Link className={`hover:underline text-sm`} href={`/tos`}>Terms of Service</Link>
+                  <Link className={`hover:underline text-sm`} href={`/privacy-policy`}>Privacy Policy</Link>
                </div>
             </div>
             <div>
-               <h2 className={`uppercase text-muted-foreground text-lg`}>Socials</h2>
+               <h2 className={`uppercase text-muted-foreground text-base`}>Socials</h2>
                <div className="mb-8 flex space-x-8 mt-4">
                   <Link title={`E-mail`} target="_blank" rel="noreferrer" href={`mailto:${email}`}>
                      <span className="sr-only">Mail</span>
@@ -86,10 +86,6 @@ export const FooterTwo = ({
                   <Link title={`Twitter`} target="_blank" rel="noreferrer" href={twitter}>
                      <span className="sr-only">Twitter</span>
                      <Icons.twitter className="h-6 w-6 dark:text-white dark:fill-white" />
-                  </Link>
-                  <Link title={`GitHub`} target="_blank" rel="noreferrer" href={github}>
-                     <span className="sr-only">GitHub</span>
-                     <Icons.github className="h-6 w-6" />
                   </Link>
                   <Link title={`LinkedIn`} target="_blank" rel="noreferrer" href={linkedIn}>
                      <span className="sr-only">GitHub</span>

@@ -5,7 +5,23 @@ module.exports = {
     disableClientWebpackPlugin: true,
   },
   experimental: {
-    typedRoutes: true
+    typedRoutes: true,
+    serverComponentsExternalPackages: [
+      "sharp", "onnxruntime-node",
+    ],
+  },
+  compiler: { removeConsole: true },
+  eslint: { ignoreDuringBuilds: true },
+  webpack: (config) => {
+    // See https://webpack.js.org/configuration/resolve/#resolvealias
+    config.externals = [...config.externals, "hnswlib-node"];
+    //
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      "sharp$": false,
+      "onnxruntime-node$": false,
+    };
+    return config;
   },
   images: {
     remotePatterns: [
@@ -19,6 +35,14 @@ module.exports = {
       },
       {
         hostname: 'files.stripe.com',
+        protocol: `https`,
+      },
+      {
+        hostname: 'dummyimage.com',
+        protocol: `https`,
+      },
+      {
+        hostname: 'dummyimage',
         protocol: `https`,
       },
     ]
