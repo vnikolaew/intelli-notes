@@ -41,7 +41,7 @@ export const HeroSectionOne = ({appName}: HeroSectionOneProps) => {
                </ul>
                <div className="flex justify-center">
                   <button
-                     className="inline-flex text-white bg-blue-500 border-0 !py-3 px-8 focus:outline-none hover:bg-blue-600 rounded-lg text-lg mt-12 hover:shadow-xl transition-all duration-200 items-center gap-2 group">
+                     className="inline-flex text-white bg-cta-button border-0 !py-3 px-8 focus:outline-none hover:bg-blue-600 rounded-lg text-lg mt-12 hover:shadow-xl transition-all duration-200 items-center gap-2 group">
                      <Link className={`text-base`} href={`#pricing`}>
                         Get {appName}
                      </Link>
