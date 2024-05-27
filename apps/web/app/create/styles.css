@@ -1,0 +1,19 @@
+.mdxeditor a {
+    @apply text-blue-500
+}
+
+.mdxeditor ol {
+    @apply list-decimal ml-3
+}
+
+.mdxeditor ul {
+    @apply list-disc ml-3
+}
+
+.mdxeditor {
+    @apply w-full !important;
+}
+
+.mdxeditor > div[role="toolbar"] {
+    @apply bg-neutral-200 shadow-md shadow-neutral-300 bg-opacity-50  !important;
+}

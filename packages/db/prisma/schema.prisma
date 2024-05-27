@@ -25,6 +25,7 @@ model User {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  notes     Note[]
 }
 
 model Account {
@@ -65,4 +66,18 @@ model VerificationToken {
   expires    DateTime
 
   @@id([identifier, token])
+}
+
+model Note {
+  id       String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  title    String?
+  metadata Json?    @default("null") @db.JsonB
+  raw_text String   @db.VarChar(5000)
+  tags     String[]
+
+  authorId String
+  author   User   @relation(fields: [authorId], references: [id])
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
 }

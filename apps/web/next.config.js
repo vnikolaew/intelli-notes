@@ -10,7 +10,7 @@ module.exports = {
          "sharp", "onnxruntime-node",
       ],
    },
-   compiler: { removeConsole: true },
+   compiler: { },
    eslint: { ignoreDuringBuilds: true },
    webpack: (config) => {
       // See https://webpack.js.org/configuration/resolve/#resolvealias

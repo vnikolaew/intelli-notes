@@ -1,4 +1,4 @@
-import { Prisma, PrismaClient, User } from "@prisma/client";
+import { Note, Prisma, PrismaClient, User } from "@prisma/client";
 import { InternalArgs } from "@prisma/client/runtime/library";
 import bcrypt from "bcryptjs";
 
@@ -49,7 +49,7 @@ export let xprisma = prisma.$extends({
          cookiePreferences: {
             needs: { metadata: true },
             compute({ metadata }) {
-               return (metadata as any)?.[`cookie-preferences`] ?? { };
+               return (metadata as any)?.[`cookie-preferences`] ?? {};
             },
          },
          updatePassword: {
@@ -77,6 +77,12 @@ export let xprisma = prisma.$extends({
    },
    model: {
       user: {
+         async notes({ userId }: { userId: string }) {
+            return await xprisma.note.findMany({
+               where: { authorId: userId },
+               orderBy: { createdAt: `desc` },
+            });
+         },
          async signIn({ email, password, username }: {
             email: string;
             password: string,

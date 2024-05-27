@@ -1,5 +1,5 @@
 import React from "react";
-import { APP_HOST_NAME, APP_NAME } from "config/site";
+import { APP_HOST_NAME, APP_NAME, LINKS } from "config/site";
 import moment from "moment/moment";
 import Link from "next/link";
 
@@ -150,8 +150,8 @@ const Page = ({}: PageProps) => {
                If you have any questions about this Privacy Policy, please contact us:
                <ul className={`list-disc`}>
                   <li className={`ml-4 mt-2`}>
-                     By email: <Link className={`!text-blue-500`} href={`mailto:support@next-saas-template.com`}>
-                     support@next-saas-template.com
+                     By email: <Link className={`!text-blue-500`} href={`mailto:${LINKS.supportEmail}`}>
+                     {LINKS.supportEmail}
                   </Link>
                   </li>
                   <li className={`ml-4 mt-2`}>

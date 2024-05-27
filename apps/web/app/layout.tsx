@@ -12,7 +12,7 @@ import CookieConsentBanner from "components/common/CookieConsentBanner";
 import { Analytics } from "@vercel/analytics/react";
 
 import "./globals.css";
-import appLogo from "public/logo.png";
+import appLogo from "public/logo.jpg";
 import { __IS_DEV__ } from "lib/consts";
 
 const inter = FontSans({ subsets: ["latin"], variable: "--font-sans" });
