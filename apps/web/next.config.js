@@ -15,6 +15,7 @@ module.exports = {
    webpack: (config) => {
       // See https://webpack.js.org/configuration/resolve/#resolvealias
       config.externals = [...config.externals, "hnswlib-node"];
+      config.experiments = { ...config.experiments, topLevelAwait: true };
       //
       config.resolve.alias = {
          ...config.resolve.alias,
@@ -47,5 +48,5 @@ module.exports = {
          },
       ],
    },
-   transpilePackages: ["@repo/ui", "@repo/db", "@repo/emails", "@repo/ai"],
+   transpilePackages: ["@repo/ui", "@repo/db", "@repo/emails", "@repo/ai", "@mdxeditor/editor"],
 };

@@ -8,7 +8,9 @@ import {
    SentenceSimilarityOutput,
    TextClassificationOutput, TextToSpeechOutput,
    ZeroShotImageClassificationOutput,
+   QuestionAnsweringOutput, TextGenerationOutput,
 } from "@huggingface/inference";
+import { dot } from "@xenova/transformers";
 
 /**
  * A HuggingFace API that can be used for different AI tasks.
@@ -76,6 +78,13 @@ export class HuggingFaceAPI {
       });
 
       return { success: true, output: response as number[][] };
+   }
+
+   /**
+    * Calculates the dot product of two arrays.
+    */
+   public getSimilarityScore(e1 : number[], e2: number[]) {
+      return dot(e1, e2);
    }
 
    /**
@@ -168,11 +177,25 @@ export class HuggingFaceAPI {
       return { success: true, output: response };
    }
 
-   // public async textToSpeechPipeline(text: string) {
-   //    const pipeline_ = await pipeline(`text-to-speech`, `Xenova/speecht5_tts`, { quantized: false });
-   //    const speaker_embeddings = "https://huggingface.co/datasets/Xenova/transformers.js-docs/resolve/main/speaker_embeddings.bin";
-   //    const response = await pipeline_._call(text, { speaker_embeddings });
-   //
-   //    return { success: true, output: response };
-   // }
+   public async questionAnswering(question: string, context: string, model: string) {
+      const response: QuestionAnsweringOutput = await this.hf.questionAnswering({
+         model,
+         inputs: {
+            question, context,
+         },
+      });
+
+      return { success: true, output: response };
+   }
+
+
+   public async textGeneration(prompt: string, model: string) {
+      const response: TextGenerationOutput = await this.hf.textGeneration({
+         model,
+         inputs: prompt,
+         parameters: { temperature: 0.6 },
+      });
+
+      return { success: true, output: response };
+   }
 }
