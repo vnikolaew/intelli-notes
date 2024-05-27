@@ -4,6 +4,9 @@ import { HuggingFaceAPI, OpenAiAPI } from "@repo/ai";
 import { publicAction } from "lib/actions";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
+import * as fs from "node:fs";
+import * as path from "node:path";
+import * as process from "node:process";
 
 const MODEL = `Snowflake/snowflake-arctic-embed-s`;
 
@@ -51,3 +54,20 @@ export const runObjectGeneration = publicAction(z.object({ prompt: z.string() })
 });
 
 export type ObjectGenerationResponse = Awaited<ReturnType<typeof runObjectGeneration>>["data"]
+
+
+export const runTextToSpeech = publicAction(z.any(), async ({ prompt }) => {
+   const res = await new HuggingFaceAPI().textToSpeech(prompt, `espnet/kan-bayashi_ljspeech_vits`);
+
+   const ab = (await res.output.arrayBuffer());
+   fs.writeFileSync(
+      path.join(process.cwd(), `audio`, `audio.wav`),
+      Buffer.from(new Uint8Array(ab)),
+      { encoding: `binary` });
+
+
+   console.log({ res, size: res.output.size, cwd: process.cwd() });
+   return { blob: ab, success: true };
+});
+
+export type TextToSpeechResponse = Awaited<ReturnType<typeof runTextToSpeech>>["data"]

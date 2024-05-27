@@ -11,7 +11,7 @@ export const FeaturesAndBenefits = ({}: FeaturesAndBenefitsProps) => {
             Struggling with Inefficiency and Missed Opportunities?
          </h2>
          <div className={`grid grid-cols-1 md:grid-cols-2 w-2/3 gap-12 mt-16`}>
-            <div className={`bg-red-200 rounded-md p-8 text-red-700 shadow-sm opacity-80 max-w-[600px]`}>
+            <div className={`bg-red-200 dark:brightness-90 rounded-md p-8 text-red-700 shadow-sm opacity-80 max-w-[600px]`}>
                <h2 className={`font-bold text-base`}>
                   Pain points
                </h2>
@@ -33,7 +33,7 @@ export const FeaturesAndBenefits = ({}: FeaturesAndBenefitsProps) => {
                   </li>
                </ul>
             </div>
-            <div className={`bg-green-200 rounded-md p-8 text-green-700 shadow-sm opacity-80 max-w-[600px]`}>
+            <div className={`bg-green-200 rounded-md p-8 text-green-700 shadow-sm opacity-80 max-w-[600px] dark:brightness-90`}>
                <h2 className={`font-bold text-base`}>
                   Benefits
                </h2>

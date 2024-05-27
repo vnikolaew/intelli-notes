@@ -1,9 +1,8 @@
-import { signIn } from "../auth";
-import { Button } from "../components/ui/button";
+import { signIn } from "auth";
+import { Button } from "components/ui/button";
 //@ts-ignore
 import { UilGoogle } from "@iconscout/react-unicons";
 import {
-   HeroSectionOne,
    FeaturesAndBenefits,
    TestimonialOne,
    PricingOne,
@@ -11,9 +10,10 @@ import {
    CtaSectionOne, TestimonialTwo,
    HeroSectionTwo
 } from "@repo/ui/components";
-import { APP_NAME, STRIPE_PRICING_PLANS } from "lib/consts";
-import { ServerSignedIn, ServerSignedOut } from "../components/common/Auth.server";
+import { STRIPE_PRICING_PLANS } from "lib/consts";
+import { ServerSignedIn, ServerSignedOut } from "components/common/Auth.server";
 import userImage from "public/user-1.avif";
+import { APP_NAME } from "config/site";
 
 /**
  * The site's main landing page.

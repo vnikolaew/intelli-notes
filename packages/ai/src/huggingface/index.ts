@@ -6,10 +6,9 @@ import {
    ImageToTextOutput,
    sentenceSimilarity,
    SentenceSimilarityOutput,
-   TextClassificationOutput,
+   TextClassificationOutput, TextToSpeechOutput,
    ZeroShotImageClassificationOutput,
 } from "@huggingface/inference";
-import { dot } from "@xenova/transformers";
 
 /**
  * A HuggingFace API that can be used for different AI tasks.
@@ -128,7 +127,7 @@ export class HuggingFaceAPI {
    }
 
    /**
-    * Usually used for sentiment-analysis this will output the likelihood of classes of an input.
+    * Used for sentiment-analysis this will output the likelihood of classes of an input.
     * Recommended model: distilbert-base-uncased-finetuned-sst-2-english
     * @param text
     * @param model
@@ -159,4 +158,21 @@ export class HuggingFaceAPI {
 
       return { success: true, output: response };
    }
+
+   public async textToSpeech(text: string, model: string) {
+      const response: TextToSpeechOutput = await this.hf.textToSpeech({
+         model,
+         inputs: text,
+      });
+
+      return { success: true, output: response };
+   }
+
+   // public async textToSpeechPipeline(text: string) {
+   //    const pipeline_ = await pipeline(`text-to-speech`, `Xenova/speecht5_tts`, { quantized: false });
+   //    const speaker_embeddings = "https://huggingface.co/datasets/Xenova/transformers.js-docs/resolve/main/speaker_embeddings.bin";
+   //    const response = await pipeline_._call(text, { speaker_embeddings });
+   //
+   //    return { success: true, output: response };
+   // }
 }

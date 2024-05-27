@@ -5,11 +5,11 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import { ThemeSwitch } from "./ThemeSwitch";
 import Image from "next/image";
 import appLogo from "public/logo.png";
-import { APP_NAME } from "../../lib/consts";
 import { SignedIn, SignedOut } from "./Auth";
 import { Avatar, AvatarFallback, AvatarImage } from "components/ui/avatar";
 import { Button } from "components/ui/button";
 import { LogOut } from "lucide-react";
+import { APP_NAME } from "config/site";
 
 export interface NavbarProps {
 }

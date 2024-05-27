@@ -1,5 +1,5 @@
 import React from "react";
-import { APP_HOST_NAME, APP_NAME } from "../../lib/consts";
+import { APP_HOST_NAME, APP_NAME } from "config/site";
 import moment from "moment";
 import Link from "next/link";
 

@@ -5,12 +5,12 @@ import { globalForPrisma, xprisma } from "@repo/db";
 import { PrismaClient, User } from "@prisma/client";
 import ResendProvider from "next-auth/providers/resend";
 import Credentials from "next-auth/providers/credentials";
-import { session } from "./lib/session";
-import { getGravatarImageUrl } from "./lib/utils";
+import { session } from "lib/session";
+import { getGravatarImageUrl } from "lib/utils";
 import { Adapter, AdapterUser } from "@auth/core/adapters";
 import { Awaitable } from "@auth/core/types";
 import { EmailService, WelcomeEmail } from "@repo/emails";
-import { APP_NAME } from "./lib/consts";
+import { APP_NAME } from "config/site";
 
 globalForPrisma.prisma ??= new PrismaClient();
 

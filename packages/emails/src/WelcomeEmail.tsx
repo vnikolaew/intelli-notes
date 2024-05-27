@@ -52,19 +52,11 @@ const WelcomeEmail = ({ username, appName, introduction, description }: WelcomeE
 
                <Text className={`text-base`}>
                   <ol>
-                     <li>
-                        Upload your favorite photos and create albums to organize them.
-                     </li>
-                     <li>
-                        Explore the diverse range of photos shared by other users and connect with fellow
-                        enthusiasts.
-                     </li>
-                     <li>
-                        Engage with the community by liking, commenting, and sharing photos that resonate with you.
-                     </li>
-                     <li>
-                        Customize your profile to reflect your unique style and interests.
-                     </li>
+                     {Array.from({ length: 4 }).map((_, i) => (
+                        <li key={i}>
+                           Feature {i + 1}
+                        </li>
+                     ))}
                   </ol>
                </Text>
                <Text className={`text-base`}>

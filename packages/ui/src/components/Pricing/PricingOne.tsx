@@ -28,7 +28,7 @@ interface PricingCardProps {
 
 const PricingCard = ({ price, paymentLink, appName, features, planName, isBestBuy }: PricingCardProps) => {
    return (
-      <div className={cn(`rounded-lg p-8 flex flex-col items-start shadow-md bg-neutral-100/60 relative`,
+      <div className={cn(`rounded-lg p-8 flex flex-col items-start shadow-md bg-neutral-100/60 relative dark:bg-neutral-700/50`,
          isBestBuy && `border-[1.5px] border-blue-500`)}>
          {isBestBuy && (
             <div
@@ -36,8 +36,8 @@ const PricingCard = ({ price, paymentLink, appName, features, planName, isBestBu
                Best Option
             </div>
          )}
-         <h2 className={`uppercase text-lg text-neutral-500 font-semibold`}>{planName}</h2>
-         <h3 className={`text-neutral-700 text-4xl mt-2 font-semibold`}>
+         <h2 className={`uppercase text-lg text-neutral-500 font-semibold dark:text-neutral-300`}>{planName}</h2>
+         <h3 className={`text-neutral-700 text-4xl mt-2 font-semibold dark:text-neutral-500`}>
             {price}
          </h3>
 
@@ -45,7 +45,7 @@ const PricingCard = ({ price, paymentLink, appName, features, planName, isBestBu
             {features.map((feature, i) => (
                <li key={feature + i}
                    className={`inline-flex gap-1 items-center dark:text-neutral-300 text-neutral-500 text-base`}>
-                  <Check className={`text-green-500`} size={18} />
+                  <Check className={`text-green-500 shadow-md`} size={18} />
                   {feature}
                </li>
             ))}
@@ -85,8 +85,8 @@ export const PricingOne = ({ appName, pricingPlans }: PricingOneProps) => {
                isBestBuy
                price={
                   <div className={`flex items-center gap-1`}>
-                     <h3 className={`text-neutral-700 text-4xl mt-2 font-semibold`}>$19</h3>
-                     <span className={`text-muted-foreground text-base`}>/mo</span>
+                     <h3 className={`text-neutral-700 text-4xl mt-2 font-semibold dark:text-neutral-300`}>$19</h3>
+                     <span className={`text-muted-foreground text-base dark:text-neutral-500`}>/mo</span>
                   </div>
                }
                features={Array.from({ length: 4 }).map((_, i) => `Feature ${i + 1}`)} />
@@ -97,8 +97,8 @@ export const PricingOne = ({ appName, pricingPlans }: PricingOneProps) => {
                appName={appName}
                price={
                   <div className={`flex items-center gap-1`}>
-                     <h3 className={`text-neutral-700 text-4xl mt-2 font-semibold`}>$39</h3>
-                     <span className={`text-muted-foreground text-base`}>/mo</span>
+                     <h3 className={`text-neutral-700 text-4xl mt-2 font-semibold dark:text-neutral-300`}>$39</h3>
+                     <span className={`text-muted-foreground text-base dark:text-neutral-500`}>/mo</span>
                   </div>
                }
                features={Array.from({ length: 5 }).map((_, i) => `Feature ${i + 1}`)} />
