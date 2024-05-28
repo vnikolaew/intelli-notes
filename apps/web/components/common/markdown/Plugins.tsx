@@ -67,7 +67,10 @@ export const plugins = [
    linkPlugin(),
    linkDialogPlugin(),
    diffSourcePlugin({ diffMarkdown: `An older version`, viewMode: `rich-text`, readOnlyDiff: true }),
-   imagePlugin(),
+   imagePlugin({
+      disableImageSettingsButton: false,
+      imagePreviewHandler: async src => src,
+   }),
    codeBlockPlugin({ defaultCodeBlockLanguage: `js` }),
    directivesPlugin({ directiveDescriptors: [CalloutDirectiveDescriptor, AdmonitionDirectiveDescriptor, YTDescriptor] }),
    sandpackPlugin({

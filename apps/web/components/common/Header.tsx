@@ -10,6 +10,7 @@ import { Button } from "components/ui/button";
 import { LogOut, PenLine } from "lucide-react";
 import { APP_NAME } from "config/site";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
+import { InteractiveLink } from "@repo/ui/components";
 
 export interface NavbarProps {
 }
@@ -32,6 +33,9 @@ const Header = ({}: NavbarProps) => {
                </Link>
             </nav>
             <div className={`flex-1 text-center flex items-center gap-8 justify-center`}>
+              <InteractiveLink underlineClassname={`bg-black`} href={`/notes`}>
+                 My notes
+              </InteractiveLink>
             </div>
             <div className={`flex flex-1 items-center justify-end space-x-8`}>
                <SignedIn>
@@ -44,14 +48,14 @@ const Header = ({}: NavbarProps) => {
                         <TooltipProvider>
                            <Tooltip>
                               <TooltipTrigger asChild>
-                                 <Button title={`Create a note`} asChild className={`rounded-md p-2`} variant={`ghost`} size={"icon"}>
-                                    <Link href={`/create`}>
+                                 <Button asChild className={`rounded-md p-2`} variant={`ghost`} size={"icon"}>
+                                    <Link href={`/write`}>
                                        <PenLine size={18} />
                                     </Link>
                                  </Button>
                               </TooltipTrigger>
                               <TooltipContent side={`top`} className={`bg-black text-white rounded-md text-xs`}>
-                                 Create a new note
+                                 Create a note
                               </TooltipContent>
                            </Tooltip>
                         </TooltipProvider>
@@ -67,8 +71,8 @@ const Header = ({}: NavbarProps) => {
                <SignedOut>
                   <Button
                      onClick={_ => signIn()}
-                     className={`px-6 !py-0 rounded-lg test-gradient`}>
-                     Get Started
+                     className={`px-6 !py-0 rounded-lg cta-button`}>
+                     Sign in
                   </Button>
                </SignedOut>
                <nav className={`flex items-center gap-3`}>

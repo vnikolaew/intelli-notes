@@ -9,7 +9,7 @@ export interface InteractiveLinkProps extends React.HTMLAttributes<HTMLAnchorEle
    underlineClassname?: string;
 }
 
-const InteractiveLink = ({ href, underlineClassname, className, children, ...props }: InteractiveLinkProps) => {
+export const InteractiveLink = ({ href, underlineClassname, className, children, ...props }: InteractiveLinkProps) => {
    return (
       <Link
          className={cn(`group relative`, className)} href={href} {...props}>
@@ -20,5 +20,3 @@ const InteractiveLink = ({ href, underlineClassname, className, children, ...pro
       </Link>
    );
 };
-
-export default InteractiveLink;

@@ -81,6 +81,7 @@ export let xprisma = prisma.$extends({
             return await xprisma.note.findMany({
                where: { authorId: userId },
                orderBy: { createdAt: `desc` },
+               take: 20,
             });
          },
          async signIn({ email, password, username }: {

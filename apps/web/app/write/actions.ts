@@ -2,7 +2,7 @@
 
 import { authorizedAction } from "lib/actions";
 import { z } from "zod";
-import { xprisma } from "@repo/db";
+import { Note, xprisma } from "@repo/db";
 import { sleep } from "../../lib/utils";
 
 const actionSchema = z.object({
@@ -13,6 +13,7 @@ const actionSchema = z.object({
    tags: z.array(z.string()).nullable(),
 });
 
+export type CreateOrUpdateResponse = { success: false } | { success: true, note: Note }
 /**
  * A server action for upserting a single note.
  */
@@ -24,7 +25,7 @@ export const createOrUpdateNote = authorizedAction(
              tags,
              metadata,
              note_id,
-          }, { userId }) => {
+          }, { userId }): Promise<CreateOrUpdateResponse> => {
       await sleep(2_000);
 
       // We have a created note already:

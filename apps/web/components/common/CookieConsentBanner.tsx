@@ -19,8 +19,8 @@ const CookieConsentBanner = async ({}: CookieConsentBannerProps) => {
       select: { metadata: true, cookieConsent: true, cookiePreferences: true },
    }))
 
-   const cookieConsentGranted = user.cookieConsent
-   const cookiePreferences = user.cookiePreferences;
+   const cookieConsentGranted = user?.cookieConsent
+   const cookiePreferences = user?.cookiePreferences;
 
    // if (cookieConsentGranted) return null;
    return <CookieConsentBannerClient cookieConsent={cookieConsentGranted} cookiePreferences={cookiePreferences} />;

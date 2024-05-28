@@ -77,10 +77,15 @@ html, * {
     }
 
     body {
-        @apply bg-background text-foreground;
+        /*@apply bg-background text-foreground;*/
+        @apply bg-gradient-to-br from-neutral-100 to-neutral-200;
     }
 
     .test-gradient {
         @apply bg-gradient-to-r from-blue-500 to-blue-900 inline-block text-transparent bg-clip-text;
+    }
+
+    .cta-button {
+        @apply bg-gradient-to-r from-blue-500 to-blue-900
     }
 }

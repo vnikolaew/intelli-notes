@@ -127,10 +127,10 @@ export interface CookiePreferences {
 
 const CustomizePreferencesModal = ({ open, onBack, cookiePreferences, hideBanner }: CustomizePreferencesModalProps) => {
    const [preferences, setPreferences] = useState<CookiePreferences>({
-      Necessary: cookiePreferences[`Necessary`] === true,
-      Statistics: cookiePreferences[`Statistics`] === true,
-      Functionality: cookiePreferences[`Functionality`] === true,
-      Marketing: cookiePreferences[`Marketing`] === true,
+      Necessary: cookiePreferences?.[`Necessary`] === true,
+      Statistics: cookiePreferences?.[`Statistics`] === true,
+      Functionality: cookiePreferences?.[`Functionality`] === true,
+      Marketing: cookiePreferences?.[`Marketing`] === true,
    });
    const { status, execute: handleSavePreferencesAction } = useAction(updateCookiePreferences, {
       onSuccess: res => {

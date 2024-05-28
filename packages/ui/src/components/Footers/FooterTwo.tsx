@@ -45,7 +45,7 @@ export const FooterTwo = ({
                           }: FooterTwoProps) => {
    return (
       <footer className={`py-2 border-t border-border border-prose mt-24 bg-neutral-100/50 dark:bg-transparent`}>
-         <div className="my-8 grid grid-cols-4 mx-24">
+         <div className="my-8 grid grid-cols-4 mx-24 gap-8">
             <div
                className="!mb-24 flex flex-col space-y-1 text-base text-muted-foreground items-start text-left h-full justify-center">
                <span className={`inline-flex items-center gap-2`}>

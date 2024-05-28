@@ -31,3 +31,15 @@ export const publicAction = createSafeActionClient({
       return e instanceof Error ? e?.message : DEFAULT_SERVER_ERROR;
    },
 });
+
+/**
+ * A helper method for wrapping actions in a try / catch.
+ */
+export const safeExecute = async (action: <T>() => Promise<T>) => {
+   try {
+      const result = await action();
+      return { success: true, result };
+   } catch (error) {
+      return { success: false, error };
+   }
+};

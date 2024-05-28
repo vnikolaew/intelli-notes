@@ -1,11 +1,8 @@
 "use client";
 import React, { useState } from "react";
 import {
-   activeEditor$,
-   currentSelection$,
    DirectiveDescriptor,
-   insertDirective$, useCellValue,
-   useCellValues,
+   insertDirective$,
    usePublisher,
 } from "@mdxeditor/editor";
 import { Button } from "components/ui/button";
@@ -32,24 +29,18 @@ import {
 import { Input } from "components/ui/input";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "components/ui/tooltip";
 
-export interface YoutubeComponentProps {
-}
 
 export const YTDescriptor: DirectiveDescriptor = {
    name: "yt",
    testNode(node) {
       return node.name === "yt";
    },
-   // set some attribute names to have the editor display a property editor popup.
-   attributes: [`attribute`, `key`, `videoId`],
+   attributes: [`attribute`, `videoId`],
    type: "containerDirective",
-   // used by the generic editor to determine whether or not to render a nested editor.
    hasChildren: true,
    Editor: (props) => {
       const [videoId, setVideoId] = useState(props.mdastNode.attributes.videoId);
       const [dialogOpen, setDialogOpen] = useState(false);
-      const [currentSelection, activeEditor] = useCellValues(currentSelection$, activeEditor$);
-      const value = useCellValue(currentSelection$);
 
       const form = useForm<FormValues>({
          resolver: zodResolver(formSchema),
@@ -61,17 +52,13 @@ export const YTDescriptor: DirectiveDescriptor = {
       function onSubmit({ videoId }: FormValues) {
          setVideoId(videoId);
          setDialogOpen(false);
-         console.log(`Hi!`, activeEditor._nodes, { value });
       }
 
       return (
          <div
             id={`yt-video-${videoId}`}
             className={`border-[1px] border-neutral-300 rounded-lg p-2 m-2 w-fit relative`} {...props} {...props.mdastNode.attributes}>
-            <iframe
-               width="560" height="315" src={`https://www.youtube.com/embed/${videoId}`}
-               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-               allowFullScreen></iframe>
+            <YoutubeVideo videoId={videoId} />
             <div className={`flex items-center gap-2 bg-transparent absolute -top-2 -right-2`}>
                <TooltipProvider>
                   <Tooltip>
@@ -79,7 +66,7 @@ export const YTDescriptor: DirectiveDescriptor = {
                         e => {
                            e.preventDefault();
                            const element = document.getElementById(`yt-video-${videoId}`);
-                           if(element) element.parentElement.removeChild(element)
+                           if (element) element.parentElement.removeChild(element);
                            console.log({ element });
                         }
                      } asChild>
@@ -216,12 +203,17 @@ export const InsertYoutube = () => {
    );
 };
 
-const YoutubeComponent = ({}: YoutubeComponentProps) => {
-   return (
-      <div>
+export interface YoutubeVideoProps {
+   videoId: string;
+}
 
-      </div>
+const YoutubeVideo = ({ videoId }: YoutubeVideoProps) => {
+   return (
+      <iframe
+         width="560" height="315" src={`https://www.youtube.com/embed/${videoId}`}
+         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+         allowFullScreen></iframe>
    );
 };
 
-export default YoutubeComponent;
+export default YoutubeVideo;

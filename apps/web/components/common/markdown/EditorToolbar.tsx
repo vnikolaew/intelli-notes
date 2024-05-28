@@ -10,7 +10,7 @@ import {
 } from "@mdxeditor/editor";
 import { Separator } from "components/ui/separator";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "components/ui/select";
-import "../styles.css"
+import "./styles.css"
 
 export interface EditorToolbarProps {
 }
@@ -27,10 +27,10 @@ const InsertAdmonitions = () => {
             children: [],
          } as LeafDirective);
       }}>
-         <SelectTrigger className="w-[180px]">
+         <SelectTrigger className="w-[180px] ml-4">
             <SelectValue placeholder="Insert an alert" />
          </SelectTrigger>
-         <SelectContent>
+         <SelectContent side={`bottom`}>
             {[`info`, `danger`, `warning`, `caution`, `tip`, `note`].map((item, i) => (
                <SelectItem key={i} onClick={console.log} value={item}>
                   {item[0].toUpperCase()}{item.slice(1).toLowerCase()}

@@ -17,3 +17,7 @@
 .mdxeditor > div[role="toolbar"] {
     @apply bg-neutral-200 shadow-md shadow-neutral-300 bg-opacity-50  !important;
 }
+
+.mdxeditor div[data-editor-block-type="image"] {
+    max-width: 400px !important;
+}
