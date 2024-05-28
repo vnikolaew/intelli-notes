@@ -3,7 +3,8 @@
 import { authorizedAction, safeExecute } from "lib/actions";
 import { z } from "zod";
 import { HuggingFaceAPI } from "@repo/ai";
-import { xprisma } from "@repo/db";
+import { Note, xprisma } from "@repo/db";
+import { createStreamableValue, StreamableValue } from "ai/rsc";
 
 const askSchema = z.object({
       question: z.string().min(3).max(500),
@@ -14,8 +15,15 @@ const EMBEDDINGS_MODEL = `BAAI/bge-large-en-v1.5`;
 const QUESTION_ANSWERING_MODEL = `deepset/roberta-base-squad2`;
 const SEPARATOR = `-----`;
 
+export type Response = {
+   answer: StreamableValue<string, any>,
+   response: {
+      answer: string; end: number; score: number; start: number;
+   }, note: Note
+}
+
 export const askAi = authorizedAction(askSchema, async ({ question }, { userId }) => {
-   return await safeExecute(async () => {
+   return await safeExecute<Response>(async () => {
       const hf = new HuggingFaceAPI();
 
       // First find the embeddings of user notes:
@@ -58,6 +66,14 @@ export const askAi = authorizedAction(askSchema, async ({ question }, { userId }
       let note = userNotes.find(n => n.id === noteId);
       console.log({ response, note });
 
-      return { response: response.output, note };
+      const streamableValue = createStreamableValue(``);
+
+      setTimeout(() => {
+         const parts = response.output.answer.trim().split(` `);
+         parts.forEach(part => streamableValue.update(part));
+         streamableValue.done(``);
+      }, 1000);
+
+      return { response: response.output, note, answer: streamableValue.value };
    });
 });

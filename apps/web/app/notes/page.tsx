@@ -5,8 +5,9 @@ import { xprisma } from "@repo/db";
 import { Separator } from "components/ui/separator";
 import NotesGrid from "./_components/NotesGrid";
 import { Button } from "components/ui/button";
-import { Sparkles } from "lucide-react";
+import { PenLine, Sparkles } from "lucide-react";
 import Link from "next/link";
+import NotesSearchInput from "./_components/NotesSearchInput";
 
 export interface PageProps {
 }
@@ -21,8 +22,15 @@ const Page = async ({}: PageProps) => {
       <section className="flex flex-col items-start gap-4 mt-24 w-3/4 px-12 mx-auto">
          <div className={`w-full flex items-center justify-between`}>
             <h2 className={`text-3xl font-semibold`}>All notes ({myNotes.length})</h2>
-            <div className={`flex items-center gap-2`}>
-               <Button asChild className={``} variant={"ghost"} size={`default`}>
+            <div className={`flex items-center gap-6`}>
+               <NotesSearchInput />
+               <Button asChild className={`shadow-md`} variant={"default"} size={`default`}>
+                  <Link className={`flex gap-2`} href={`/write`}>
+                     <PenLine size={18} />
+                     <span className={`font-normal text-base`}>Write a new note</span>
+                  </Link>
+               </Button>
+               <Button asChild className={`shadow-md`} variant={"ghost"} size={`default`}>
                  <Link className={`flex gap-2`} href={`/notes/ask`}>
                     <Sparkles className={`text-blue-500`} size={18} />
                     <span className={`test-gradient font-semibold text-lg`}>Ask AI</span>

@@ -7,13 +7,13 @@ import { NotebookPen } from "lucide-react";
 import { motion } from "framer-motion";
 
 export interface HeroSectionTwoProps {
-   appName: string;
    appDescription: string | ReactNode;
+   heroLogo?: ReactNode;
 }
 
 const AnimatedLottie = motion(Lottie);
 
-export const HeroSectionTwo = ({ appName, appDescription }: HeroSectionTwoProps) => {
+export const HeroSectionTwo = ({ appDescription, heroLogo }: HeroSectionTwoProps) => {
    return (
       <section className="text-gray-400 body-font">
          <div className="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center">
@@ -44,14 +44,19 @@ export const HeroSectionTwo = ({ appName, appDescription }: HeroSectionTwoProps)
                </div>
             </div>
             <motion.div
-               initial={{ translateY: 80, opacity: 0 }}
+               initial={{ translateY: 120, opacity: 0 }}
                animate={{ translateY: 0, opacity: 100 }}
-               transition={{ duration: 0.6, delay: 2 , type: `spring` }}
-               className="lg:max-w-lg lg:w-full md:w-1/2 w-5/6">
-               <AnimatedLottie
-                  className={`!max-w-[500px]`}
-                  aria-labelledby={`Hero Section animation`}
-                  animationData={animation} loop />
+               transition={{ duration: 1, delay: 2, type: `spring` }}
+               className="lg:max-w-lg lg:w-full md:w-1/2 w-5/6 flex items-center justify-center">
+               {heroLogo ? (
+                  heroLogo
+               ) : (
+                  <AnimatedLottie
+                     className={`!max-w-[500px]`}
+                     aria-labelledby={`Hero Section animation`}
+                     animationData={animation}
+                     loop />
+               )}
             </motion.div>
          </div>
       </section>

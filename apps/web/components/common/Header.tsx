@@ -33,8 +33,8 @@ const Header = ({}: NavbarProps) => {
                </Link>
             </nav>
             <div className={`flex-1 text-center flex items-center gap-8 justify-center`}>
-              <InteractiveLink underlineClassname={`bg-black`} href={`/notes`}>
-                 My notes
+              <InteractiveLink className={`text-lg`} underlineClassname={`bg-black`} href={`/notes`}>
+                 All notes
               </InteractiveLink>
             </div>
             <div className={`flex flex-1 items-center justify-end space-x-8`}>
@@ -45,8 +45,7 @@ const Header = ({}: NavbarProps) => {
                         <AvatarImage src={session?.data?.user?.image!} />
                      </Avatar>
                      <div>
-                        <TooltipProvider>
-                           <Tooltip>
+                        <TooltipProvider> <Tooltip>
                               <TooltipTrigger asChild>
                                  <Button asChild className={`rounded-md p-2`} variant={`ghost`} size={"icon"}>
                                     <Link href={`/write`}>

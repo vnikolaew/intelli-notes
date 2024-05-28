@@ -9,7 +9,7 @@ export interface PageProps {
 
 const Page = ({}: PageProps) => {
    return (
-      <section className="flex flex-col items-start gap-4 mt-24 w-3/4 px-12 mx-auto">
+      <section className="flex flex-col items-start gap-4 mt-24 w-3/4 max-w-[1200px] px-12 mx-auto">
          <h2 className={`text-3xl font-semibold drop-shadow-md flex items-center gap-3`}>
             <Sparkles className={`text-blue-500`} size={22} />
             <span>

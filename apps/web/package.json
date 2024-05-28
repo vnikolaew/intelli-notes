@@ -32,6 +32,7 @@
     "@repo/ui": "workspace:*",
     "@uidotdev/usehooks": "2.4.1-experimental.1",
     "@vercel/analytics": "^1.2.2",
+    "ai": "^3.1.12",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "framer-motion": "^11.2.0",

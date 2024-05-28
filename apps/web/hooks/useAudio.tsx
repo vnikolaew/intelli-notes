@@ -23,7 +23,6 @@ export function useAudio() {
       setPlaying(true);
 
       invisAudioRef.current.addEventListener("ended", _ => {
-         console.log(`Audio Ended!`);
          setPlaying(false);
       }, { once: true });
       await invisAudioRef.current.play();

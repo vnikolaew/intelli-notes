@@ -19,9 +19,12 @@ import {
    DialogTitle,
    DialogTrigger,
 } from "components/ui/dialog";
+import { ScrollAreaProps } from "@radix-ui/react-scroll-area";
+import { cn } from "lib/utils";
 
-export interface NoteCardProps {
+export interface NoteCardProps extends React.HTMLAttributes<HTMLDivElement> {
    note: Note;
+   markdownProps?: ScrollAreaProps;
 }
 
 /**
@@ -29,7 +32,7 @@ export interface NoteCardProps {
  * @param note The input user note.
  * @constructor
  */
-const NoteCard = ({ note }: NoteCardProps) => {
+const NoteCard = ({ note, markdownProps, className, ...props }: NoteCardProps) => {
    const { execute, status } = useAction(deleteNote, {
       onSuccess: res => {
          if (res.success) {
@@ -39,7 +42,8 @@ const NoteCard = ({ note }: NoteCardProps) => {
    });
 
    return (
-      <Card className={`rounded-lg shadow-lg group hover:scale-[101%] transition-transform duration-200`}>
+      <Card
+         className={cn(`rounded-lg shadow-lg group hover:scale-[101%] transition-transform duration-200`, className)} {...props}>
          <CardHeader>
             <CardTitle className={`flex items-center justify-between`}>
                <h2 className={`text-2xl`}>
@@ -72,7 +76,7 @@ const NoteCard = ({ note }: NoteCardProps) => {
             </CardDescription>
          </CardHeader>
          <CardContent>
-            <Markdown value={note.raw_text} />
+            <Markdown value={note.raw_text} {...markdownProps} />
          </CardContent>
          <CardFooter className={`flex items-center justify-end`}>
             <DeleteNoteModal
