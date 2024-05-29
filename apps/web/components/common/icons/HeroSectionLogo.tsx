@@ -5,7 +5,7 @@ export interface HeroSectionLogoProps extends SVGProps<SVGSVGElement> {
 
 const HeroSectionLogo = (props: HeroSectionLogoProps) => {
    return (
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="writing" {...props}>
+      <svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="writing" {...props}>
          <defs>
             <linearGradient id="grad1" x1="0%" x2="100%" y1="0%" y2="100%">
                <stop offset="0%" stopColor="#3b82f6" />

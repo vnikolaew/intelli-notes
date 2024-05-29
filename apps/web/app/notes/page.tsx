@@ -10,6 +10,7 @@ import Link from "next/link";
 import NotesSearchInput from "./_components/NotesSearchInput";
 import { NotesHeader } from "./_components/NotesHeader";
 import { NotesTagsFilter } from "./_components/NotesTagsFilter";
+import BulkExportNotesButton from "./_components/BulkExportNotesButton";
 
 export interface PageProps {
 }
@@ -41,7 +42,12 @@ const Page = async ({}: PageProps) => {
             </div>
          </div>
          <Separator orientation={`horizontal`} className={`w-2/5 mt-0 text-neutral-700 bg-neutral-300 shadow-lg`} />
-         <NotesTagsFilter tags={[...new Set(myNotes.flatMap(n => n.tags))]} />
+         <div className="w-full flex items-center justify-between gap-4">
+            <NotesTagsFilter tags={[...new Set(myNotes.flatMap(n => n.tags))]} />
+            <div>
+               <BulkExportNotesButton notes={myNotes} />
+            </div>
+         </div>
          <NotesGrid notes={myNotes} />
       </section>
    );

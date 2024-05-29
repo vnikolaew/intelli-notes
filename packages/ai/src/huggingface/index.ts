@@ -12,6 +12,28 @@ import {
 } from "@huggingface/inference";
 import { dot } from "@xenova/transformers";
 
+export type ChatCompletionOutput = {
+   id: string
+   object: string
+   created: number
+   model: string
+   system_fingerprint: string
+   choices: Array<{
+      index: number
+      message: {
+         role: string
+         content: string
+      }
+      logprobs: any
+      finish_reason: string
+   }>
+   usage: {
+      prompt_tokens: number
+      completion_tokens: number
+      total_tokens: number
+   }
+}
+
 /**
  * A HuggingFace API that can be used for different AI tasks.
  */
@@ -83,7 +105,7 @@ export class HuggingFaceAPI {
    /**
     * Calculates the dot product of two arrays.
     */
-   public getSimilarityScore(e1 : number[], e2: number[]) {
+   public getSimilarityScore(e1: number[], e2: number[]) {
       return dot(e1, e2);
    }
 
@@ -209,6 +231,28 @@ export class HuggingFaceAPI {
       const response: TextGenerationOutput = await this.hf.textGeneration({
          model,
          inputs: prompt,
+         parameters: { temperature: 0.6 },
+      });
+
+      return { success: true, output: response };
+   }
+
+   /**
+    * Use to continue text from a prompt. This is a very generic task. Recommended model: gpt2 (it’s a simple model, but fun to play with).
+    * @param prompt
+    * @param model
+    */
+   public async chatCompletionSimple(prompt: string, model: string) {
+      const response: ChatCompletionOutput = await this.hf.chatCompletion({
+         model,
+         messages: [
+            {
+               role: `user`,
+               content: `Complete the following sentence: ${prompt}`,
+            },
+         ],
+         max_tokens: 500,
+
          parameters: { temperature: 0.6 },
       });
 

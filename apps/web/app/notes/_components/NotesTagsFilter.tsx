@@ -3,6 +3,7 @@
 import { MultiSelect, Item } from "./MultiSelect";
 import { createParser, parseAsArrayOf, parseAsString, useQueryState } from "nuqs";
 import { useCallback } from "react";
+import BulkExportNotesButton from "./BulkExportNotesButton";
 
 export interface NotesTagsFilterProps {
    tags: string[];
@@ -26,13 +27,11 @@ export function NotesTagsFilter({ tags }: NotesTagsFilterProps) {
    }, [selectedTags, setSelectedTags]);
 
    return (
-      <div className="w-full flex items-center gap-4">
-         <div className={`w-1/3`}>
-            <MultiSelect
-               selected={selectedTags ?? []}
-               setSelected={setSelectedItems}
-               placeholder={`Filter by tags ...`}
-               items={tags.map(t => ({ label: t, value: t }))} />
-         </div>
+      <div className={`w-1/3`}>
+         <MultiSelect
+            selected={selectedTags ?? []}
+            setSelected={setSelectedItems}
+            placeholder={`Filter by tags ...`}
+            items={tags.map(t => ({ label: t, value: t }))} />
       </div>);
 }

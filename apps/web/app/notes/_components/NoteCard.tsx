@@ -72,9 +72,13 @@ const NoteCard = ({ note, markdownProps, className, ...props }: NoteCardProps) =
                            {moment(note.updatedAt).fromNow()}
                         </time>
                      </div>
-                     <NoteTags tags={note.tags} />
+                     <div className={`mt-2`}>
+                        <NoteTags tags={note.tags} />
+                     </div>
                   </DialogDescription>
-                  <Markdown value={note.raw_text} {...markdownProps} />
+                  <div className={`!mt-4`}>
+                     <Markdown className={`!px-0`} value={note.raw_text} {...markdownProps} />
+                  </div>
                </DialogHeader>
                <DialogFooter>
                   <DialogClose>

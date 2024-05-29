@@ -24,7 +24,7 @@ export default async function Page(): Promise<JSX.Element> {
                <div className={`relative !h-full !w-full flex items-center justify-center`}>
                   <div className={`relative w-[200px]`}>
                      <Image className={`absolute w-32 h-32 top-0 right-0 -translate-y-1/2 translate-x-1/3`} src={aiAnimation} alt={`ai-animation`} />
-                     <HeroSectionLogo className={`w-full`} />
+                     <HeroSectionLogo className={`w-full !stroke-2`} />
                   </div>
                </div>
             )}
