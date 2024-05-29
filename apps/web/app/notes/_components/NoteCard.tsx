@@ -1,6 +1,6 @@
 "use client";
 import { Note } from "@repo/db";
-import React, { PropsWithChildren } from "react";
+import React, { Fragment, PropsWithChildren } from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "components/ui/card";
 import moment from "moment";
 import { Markdown } from "components/common/markdown";
@@ -12,7 +12,7 @@ import { useAction } from "next-safe-action/hooks";
 import { deleteNote } from "../actions";
 import { isExecuting } from "next-safe-action/status";
 import {
-   Dialog,
+   Dialog, DialogClose,
    DialogContent,
    DialogDescription, DialogFooter,
    DialogHeader,
@@ -21,15 +21,24 @@ import {
 } from "components/ui/dialog";
 import { ScrollAreaProps } from "@radix-ui/react-scroll-area";
 import { cn } from "lib/utils";
+import { Badge } from "components/ui/badge";
+import { useBoolean } from "hooks/useBoolean";
+import { useQueryState } from "nuqs";
+import { motion } from "framer-motion";
 
 export interface NoteCardProps extends React.HTMLAttributes<HTMLDivElement> {
    note: Note;
    markdownProps?: ScrollAreaProps;
 }
 
+const MotionCard = motion(Card);
+
 /**
  * A Note preview card component.
  * @param note The input user note.
+ * @param markdownProps Optional props to pass down to the Markdown component.
+ * @param className
+ * @param props Additional Card props.
  * @constructor
  */
 const NoteCard = ({ note, markdownProps, className, ...props }: NoteCardProps) => {
@@ -40,69 +49,129 @@ const NoteCard = ({ note, markdownProps, className, ...props }: NoteCardProps) =
          }
       },
    });
+   const [previewNoteId, setPreviewNoteId] = useQueryState(`previewId`);
+   const [previewOpen, setPreviewOpen] = useBoolean(!!previewNoteId?.length && previewNoteId === note.id);
 
    return (
-      <Card
-         className={cn(`rounded-lg shadow-lg group hover:scale-[101%] transition-transform duration-200`, className)} {...props}>
-         <CardHeader>
-            <CardTitle className={`flex items-center justify-between`}>
-               <h2 className={`text-2xl`}>
-                  {note.title?.length ? note.title : `Untitled`}
-               </h2>
-               <TooltipProvider>
-                  <Tooltip delayDuration={200}>
-                     <TooltipTrigger asChild>
-                        <Button
-                           variant={`ghost`}
-                           asChild
-                           className={`rounded-md invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-opacity duration-200`}
-                           size={`icon`}>
-                           <Link href={`/write?id=${encodeURIComponent(note.id)}`}>
-                              <PencilLine size={18} />
-                           </Link>
-                        </Button>
-                     </TooltipTrigger>
-                     <TooltipContent side={`bottom`} className={`bg-black text-white rounded-md text-xs`}>
-                        Edit
-                     </TooltipContent>
-                  </Tooltip>
-               </TooltipProvider>
-            </CardTitle>
-            <CardDescription className={`text-xs`}>
-               Last updated: {` `}
-               <time className={`font-semibold text-neutral-500`}>
-                  {moment(note.updatedAt).fromNow()}
-               </time>
-            </CardDescription>
-         </CardHeader>
-         <CardContent>
-            <Markdown value={note.raw_text} {...markdownProps} />
-         </CardContent>
-         <CardFooter className={`flex items-center justify-end`}>
-            <DeleteNoteModal
-               loading={isExecuting(status)} onDelete={() => execute({ noteId: note.id })}>
-               <TooltipProvider>
-                  <Tooltip>
-                     <TooltipTrigger asChild>
-                        <Button
-                           disabled={isExecuting(status)}
-                           variant={`destructive`}
-                           className={`rounded-md invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-opacity duration-200`}
-                           size={`icon`}>
-                           {isExecuting(status) ? (
-                              <Loader2 className={`animate-spin`} size={18} />
-                           ) : <Trash size={18} />}
-                        </Button>
-                     </TooltipTrigger>
-                     <TooltipContent side={`bottom`} className={`bg-black text-white rounded-md text-xs`}>
-                        Delete
-                     </TooltipContent>
-                  </Tooltip>
-               </TooltipProvider>
+      <Fragment>
+         <Dialog modal onOpenChange={async value => {
+            setPreviewOpen(value);
 
-            </DeleteNoteModal>
-         </CardFooter>
-      </Card>
+            if (value) await setPreviewNoteId(note.id);
+            else await setPreviewNoteId(null);
+         }} open={previewOpen}>
+            <DialogContent className={`min-h-[70vh]`}>
+               <DialogHeader>
+                  <DialogTitle>
+                     {note.title?.length ? note.title : `Untitled`}
+                  </DialogTitle>
+                  <DialogDescription className="flex flex-col gap-2 mt-2">
+                     <div className={`text-xs`}>
+                        Last updated: {` `}
+                        <time className={`font-semibold text-neutral-500`}>
+                           {moment(note.updatedAt).fromNow()}
+                        </time>
+                     </div>
+                     <NoteTags tags={note.tags} />
+                  </DialogDescription>
+                  <Markdown value={note.raw_text} {...markdownProps} />
+               </DialogHeader>
+               <DialogFooter>
+                  <DialogClose>
+                     <Button className={`shadow-md`} variant={"destructive"}>Close</Button>
+                  </DialogClose>
+               </DialogFooter>
+            </DialogContent>
+         </Dialog>
+         <MotionCard
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 100 }}
+            transition={{ duration: 0.2 }}
+            exit={{ opacity: 0 }}
+            onClick={async e => {
+               e.preventDefault();
+               setPreviewOpen(true);
+               await setPreviewNoteId(note.id);
+            }}
+            className={cn(`rounded-lg shadow-lg group hover:scale-[101%] transition-transform duration-200 flex flex-col cursor-pointer`, className)} {...props}>
+            <CardHeader>
+               <CardTitle className={`flex items-center justify-between`}>
+                  <h2 className={`text-2xl`}>
+                     {note.title?.length ? note.title : `Untitled`}
+                  </h2>
+                  <TooltipProvider>
+                     <Tooltip delayDuration={200}>
+                        <TooltipTrigger asChild>
+                           <Button
+                              variant={`ghost`}
+                              asChild
+                              className={`rounded-md invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-opacity duration-200`}
+                              size={`icon`}>
+                              <Link onClick={e => e.stopPropagation()}
+                                    href={`/write?id=${encodeURIComponent(note.id)}`}>
+                                 <PencilLine size={18} />
+                              </Link>
+                           </Button>
+                        </TooltipTrigger>
+                        <TooltipContent side={`bottom`} className={`bg-black text-white rounded-md text-xs`}>
+                           Edit
+                        </TooltipContent>
+                     </Tooltip>
+                  </TooltipProvider>
+               </CardTitle>
+               <CardDescription className={`text-xs`}>
+                  Last updated: {` `}
+                  <time className={`font-semibold text-neutral-500`}>
+                     {moment(note.updatedAt).fromNow()}
+                  </time>
+               </CardDescription>
+            </CardHeader>
+            <CardContent className={``}>
+               <Markdown value={note.raw_text} {...markdownProps} />
+            </CardContent>
+            <CardFooter className={`flex items-center justify-between mt-auto justify-self-end`}>
+               <div
+                  className={`hidden group-hover:block opacity-0 group-hover:opacity-100 transition-opacity duration-200`}>
+                  <NoteTags tags={note.tags} />
+               </div>
+               <DeleteNoteModal
+                  loading={isExecuting(status)} onDelete={() => execute({ noteId: note.id })}>
+                  <TooltipProvider>
+                     <Tooltip>
+                        <TooltipTrigger asChild>
+                           <Button
+                              onClick={e => e.stopPropagation()}
+                              disabled={isExecuting(status)}
+                              variant={`destructive`}
+                              className={`rounded-md invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-opacity duration-200`}
+                              size={`icon`}>
+                              {isExecuting(status) ? (
+                                 <Loader2 className={`animate-spin`} size={18} />
+                              ) : <Trash size={18} />}
+                           </Button>
+                        </TooltipTrigger>
+                        <TooltipContent side={`bottom`} className={`bg-black text-white rounded-md text-xs`}>
+                           Delete
+                        </TooltipContent>
+                     </Tooltip>
+                  </TooltipProvider>
+               </DeleteNoteModal>
+            </CardFooter>
+         </MotionCard></Fragment>
+   );
+};
+
+const NoteTags = ({ tags }: { tags: string[] }) => {
+   return (
+      <div
+         className={`flex items-center gap-1`}>
+         {tags?.slice(0, 3).map((tag, index) => (
+            <Badge key={index}>{tag.toLowerCase()}</Badge>
+         ))}
+         {tags.length > 3 && (
+            <Badge variant={"outline"} key={`more`}>{tags.length - 3} more</Badge>
+         )}
+      </div>
    );
 };
 

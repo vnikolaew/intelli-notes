@@ -7,6 +7,10 @@ import { APP_NAME } from "config/site";
 import HeroSectionLogo from "components/common/icons/HeroSectionLogo";
 import Image from "next/image";
 import aiAnimation from "public/ai-animation.gif"
+import { Inter as FontSans } from "next/font/google";
+import { cn } from "lib/utils";
+
+const inter = FontSans({ subsets: ["latin"], variable: "--font-sans" });
 
 /**
  * The site's main landing page.
@@ -14,7 +18,7 @@ import aiAnimation from "public/ai-animation.gif"
  */
 export default async function Page(): Promise<JSX.Element> {
    return (
-      <section className={`flex flex-col items-center p-12 min-h-[70vh] gap-4`}>
+      <section className={cn(`flex flex-col items-center p-12 min-h-[70vh] gap-4 font-sans`, inter.variable)}>
          <HeroSectionTwo
             heroLogo={(
                <div className={`relative !h-full !w-full flex items-center justify-center`}>

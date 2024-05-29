@@ -168,6 +168,11 @@ export class HuggingFaceAPI {
       return { success: true, output: response };
    }
 
+   /**
+    * This task synthesize an audio of a voice pronouncing a given text. Recommended model: espnet/ kan-bayashi_ljspeech_vits
+    * @param text
+    * @param model
+    */
    public async textToSpeech(text: string, model: string) {
       const response: TextToSpeechOutput = await this.hf.textToSpeech({
          model,
@@ -177,6 +182,12 @@ export class HuggingFaceAPI {
       return { success: true, output: response };
    }
 
+   /**
+    * Want to have a nice know-it-all bot that can answer any question?. Recommended model: deepset/ roberta-base-squad2
+    * @param question
+    * @param context
+    * @param model
+    */
    public async questionAnswering(question: string, context: string, model: string) {
       const response: QuestionAnsweringOutput = await this.hf.questionAnswering({
          model,
@@ -189,6 +200,11 @@ export class HuggingFaceAPI {
    }
 
 
+   /**
+    * Use to continue text from a prompt. This is a very generic task. Recommended model: gpt2 (it’s a simple model, but fun to play with).
+    * @param prompt
+    * @param model
+    */
    public async textGeneration(prompt: string, model: string) {
       const response: TextGenerationOutput = await this.hf.textGeneration({
          model,

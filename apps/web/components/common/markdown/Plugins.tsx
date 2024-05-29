@@ -6,7 +6,7 @@ import {
    headingsPlugin, imagePlugin, jsxPlugin, linkDialogPlugin, linkPlugin,
    listsPlugin,
    markdownShortcutPlugin, NestedLexicalEditor,
-   quotePlugin, sandpackPlugin,
+   quotePlugin, realmPlugin, sandpackPlugin,
    tablePlugin, thematicBreakPlugin,
    toolbarPlugin,
 } from "@mdxeditor/editor";
@@ -59,9 +59,16 @@ export const plugins = [
          toolbarContents: () => <EditorToolbar />,
       },
    ),
+   realmPlugin({
+      init: (realm, params) => {
+      },
+      update: (realm, params) => console.log({ realm, params }),
+      postInit: (realm, params) => console.log({ realm, params })
+   }),
    tablePlugin(),
    headingsPlugin(),
-   markdownShortcutPlugin(),
+   markdownShortcutPlugin({
+   }),
    listsPlugin(),
    quotePlugin(),
    linkPlugin(),

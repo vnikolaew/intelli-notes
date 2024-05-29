@@ -64,21 +64,23 @@ const systemGeneratingMessage = () => {
    } as TSystemMessage;
 };
 
+const START_MESSAGES: ChatMessage[] = [
+   {
+      id: crypto.randomUUID(),
+      role: `user`,
+      message: `A user message`,
+      timestamp: new Date(),
+   },
+   {
+      id: crypto.randomUUID(),
+      role: `system`,
+      message: `A system message`,
+      timestamp: new Date(),
+   }
+]
+
 const AiChat = ({}: AiChatProps) => {
-   const [messages, setMessages] = useState<ChatMessage[]>([
-      {
-         id: crypto.randomUUID(),
-         role: `user`,
-         message: `A user message`,
-         timestamp: new Date(),
-      },
-      {
-         id: crypto.randomUUID(),
-         role: `system`,
-         message: `A system message`,
-         timestamp: new Date(),
-      },
-   ]);
+   const [messages, setMessages] = useState<ChatMessage[]>(START_MESSAGES);
    const [message, setMessage] = useState(``);
    const showEmptyState = useMemo(() => messages.length === 0, [messages]);
 

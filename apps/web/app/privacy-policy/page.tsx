@@ -2,6 +2,7 @@ import React from "react";
 import { APP_HOST_NAME, APP_NAME, LINKS } from "config/site";
 import moment from "moment";
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 
 export interface PageProps {
 }
@@ -170,7 +171,7 @@ const Page = ({}: PageProps) => {
                </ul></p>
          </div>
          <div className={`mt-8 flex items-center justify-end w-2/5`}>
-            <Link href={`/`}>Go Home {"->"}</Link>
+            <Link className={`inline-flex items-center gap-1`} href={`/`}>Go Home <ArrowRight size={14} /></Link>
          </div>
       </section>
    );

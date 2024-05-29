@@ -8,6 +8,8 @@ import { Button } from "components/ui/button";
 import { PenLine, Sparkles } from "lucide-react";
 import Link from "next/link";
 import NotesSearchInput from "./_components/NotesSearchInput";
+import { NotesHeader } from "./_components/NotesHeader";
+import { NotesTagsFilter } from "./_components/NotesTagsFilter";
 
 export interface PageProps {
 }
@@ -21,24 +23,25 @@ const Page = async ({}: PageProps) => {
    return (
       <section className="flex flex-col items-start gap-4 mt-24 w-3/4 px-12 mx-auto">
          <div className={`w-full flex items-center justify-between`}>
-            <h2 className={`text-3xl font-semibold`}>All notes ({myNotes.length})</h2>
+            <NotesHeader notes={myNotes} />
             <div className={`flex items-center gap-6`}>
                <NotesSearchInput />
-               <Button asChild className={`shadow-md`} variant={"default"} size={`default`}>
+               <Button asChild className={`shadow-md`} variant={"default"} size={`sm`}>
                   <Link className={`flex gap-2`} href={`/write`}>
-                     <PenLine size={18} />
-                     <span className={`font-normal text-base`}>Write a new note</span>
+                     <PenLine size={16} />
+                     <span className={`font-normal text-base`}>New note</span>
                   </Link>
                </Button>
-               <Button asChild className={`shadow-md`} variant={"ghost"} size={`default`}>
-                 <Link className={`flex gap-2`} href={`/notes/ask`}>
-                    <Sparkles className={`text-blue-500`} size={18} />
-                    <span className={`test-gradient font-semibold text-lg`}>Ask AI</span>
-                 </Link>
+               <Button asChild className={`shadow-md`} variant={"ghost"} size={`sm`}>
+                  <Link className={`flex gap-2`} href={`/notes/ask`}>
+                     <Sparkles className={`text-blue-500`} size={16} />
+                     <span className={`test-gradient font-semibold text-base`}>Ask AI</span>
+                  </Link>
                </Button>
             </div>
          </div>
          <Separator orientation={`horizontal`} className={`w-2/5 mt-0 text-neutral-700 bg-neutral-300 shadow-lg`} />
+         <NotesTagsFilter tags={[...new Set(myNotes.flatMap(n => n.tags))]} />
          <NotesGrid notes={myNotes} />
       </section>
    );

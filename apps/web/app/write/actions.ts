@@ -4,6 +4,8 @@ import { authorizedAction } from "lib/actions";
 import { z } from "zod";
 import { Note, xprisma } from "@repo/db";
 import { sleep } from "../../lib/utils";
+import { revalidatePath, revalidateTag } from "next/cache";
+import { HuggingFaceAPI } from "@repo/ai";
 
 const actionSchema = z.object({
    note_id: z.optional(z.string()).nullable(),
@@ -14,6 +16,7 @@ const actionSchema = z.object({
 });
 
 export type CreateOrUpdateResponse = { success: false } | { success: true, note: Note }
+
 /**
  * A server action for upserting a single note.
  */
@@ -26,7 +29,7 @@ export const createOrUpdateNote = authorizedAction(
              metadata,
              note_id,
           }, { userId }): Promise<CreateOrUpdateResponse> => {
-      await sleep(2_000);
+      await sleep(1_000);
 
       // We have a created note already:
       if (!!note_id?.length) {
@@ -36,8 +39,10 @@ export const createOrUpdateNote = authorizedAction(
                metadata,
                raw_text,
                ...(title && { title }),
+               ...(tags && { tags }),
             },
          });
+         if (tags) revalidatePath(`/write?id=${newNote.id}`);
          return newNote ? { success: true, note: newNote } : { success: false };
       }
 
@@ -53,3 +58,29 @@ export const createOrUpdateNote = authorizedAction(
 
       return note ? { success: true, note } : { success: false };
    });
+
+const aiGenerateTextSchema = z.object({
+   title: z.optional(z.string()).nullable(),
+   raw_text: z.string(),
+});
+
+/**
+ * A server action for upserting a single note.
+ */
+export const aiGenerateText = authorizedAction(aiGenerateTextSchema,
+   async ({
+             raw_text,
+             title,
+          }, { userId }): Promise<any> => {
+      await sleep(1_000);
+
+      const MODEL = `gpt2`;
+      const hf = new HuggingFaceAPI();
+      const prompt = `Note title: ${title}\n\nNote content: \n${raw_text}`;
+      const prompt2 = `${raw_text}`;
+
+      const response = await hf.textGeneration(prompt2, MODEL);
+      return response;
+   });
+
+export type AiGenerateTextResponse = Awaited<ReturnType<typeof aiGenerateText>>["data"]

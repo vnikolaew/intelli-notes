@@ -13,7 +13,7 @@ export interface EditorComponentWrapperProps {
 const Editor = dynamic(() => import("./InitializedMDXEditor"), {
    // Make sure we turn SSR off
    ssr: false,
-   loading: (props) => (
+   loading: _ => (
       <div className={`flex items-center gap-2`}>
          <Loader2 className={`animate-spin`} size={18} />
          Loading editor ...

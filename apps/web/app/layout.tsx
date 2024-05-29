@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Toaster } from "components/ui/sonner";
 import { Inter as FontSans } from "next/font/google";
+import localFont from "next/font/local";
 import { APP_DESCRIPTION, APP_NAME, LINKS } from "config/site";
 import Providers from "providers";
 import { cn } from "lib/utils";
@@ -14,6 +15,7 @@ import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 import appLogo from "public/logo.jpg";
 import { __IS_DEV__ } from "lib/consts";
+import { sfMono } from "assets/fonts";
 
 const inter = FontSans({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -33,7 +35,7 @@ export default function RootLayout({
          <title>{APP_NAME}</title>
       </head>
       <Providers>
-         <body className={cn(`min-h-screen font-sans antialiased`, inter.variable)}>
+         <body className={cn(`min-h-screen font-mono antialiased`, sfMono.variable)}>
          <LoadingBar />
          <Header />
          <main className={cn(`flex-1 min-h-[70vh]`)}>
