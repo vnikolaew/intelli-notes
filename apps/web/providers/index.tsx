@@ -8,7 +8,7 @@ const Providers = ({ children }: PropsWithChildren) => {
          <ThemeProvider
             enableSystem
             disableTransitionOnChange
-            defaultTheme={`system`}
+            defaultTheme={`light`}
             attribute={`class`}>
             {children}
          </ThemeProvider>

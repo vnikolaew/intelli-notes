@@ -36,6 +36,9 @@ const Header = ({}: NavbarProps) => {
               <InteractiveLink className={`text-lg`} underlineClassname={`bg-black`} href={`/notes`}>
                  All notes
               </InteractiveLink>
+               <InteractiveLink className={`text-lg`} underlineClassname={`bg-black`} href={`/explore`}>
+                  Explore
+               </InteractiveLink>
             </div>
             <div className={`flex flex-1 items-center justify-end space-x-8`}>
                <SignedIn>

@@ -6,29 +6,57 @@ import {
    DropdownMenuSeparator,
    DropdownMenuTrigger,
 } from "components/ui/dropdown-menu";
-import { Check, FolderUp, Loader2 } from "lucide-react";
+import {
+   ArrowUp,
+   Braces,
+   Code,
+   DiamondMinus,
+   FileCode2,
+   FolderUp,
+   Loader2,
+} from "lucide-react";
 import React, { Fragment } from "react";
 import { Note } from "@repo/db";
 import { useBoolean } from "hooks/useBoolean";
 import { downloadFile } from "lib/utils";
-import { toast } from "sonner";
+import { toast, TOASTS } from "config/toasts";
 
 export interface BulkExportNotesButtonProps {
    notes: Note[];
 }
 
 const EXPORT_FORMATS = [
-   `CSV`,
-   `JSON`,
-   `Markdown`,
-   `HTML`,
-   `XML`,
+   {
+      value:
+         `CSV`,
+      icon: <ArrowUp size={14} />,
+   },
+   {
+      value:
+         `JSON`,
+      icon: <Braces size={14} />,
+   },
+   {
+      value:
+         `Markdown`,
+      icon: <DiamondMinus size={14} />,
+   },
+   {
+      value:
+         `HTML`,
+      icon: <FileCode2 size={14} />,
+   },
+   {
+      value:
+         `XML`,
+      icon: <Code size={14} />,
+   },
 ] as const;
 
-const BulkExportNotesButton = ({ notes }: BulkExportNotesButtonProps ) => {
+const BulkExportNotesButton = ({ notes }: BulkExportNotesButtonProps) => {
    const [pending, setPending] = useBoolean();
 
-   function handleExport(dataValue: (typeof EXPORT_FORMATS)[number]) {
+   function handleExport(dataValue: (typeof EXPORT_FORMATS)[number]["value"]) {
       console.log(dataValue);
       setPending(true);
       fetch(`/api/notes/export`, {
@@ -43,14 +71,7 @@ const BulkExportNotesButton = ({ notes }: BulkExportNotesButtonProps ) => {
          const text = await res.text();
 
          downloadFile(text, fileName, res.headers.get(`Content-Type`));
-         toast(<div className={`flex items-center gap-2`}>
-            <Check className={`fill-green-600`} size={18} />
-            <span>
-            Export successful
-            </span>
-         </div>, {
-            className: `text-lg`,
-         });
+         toast(TOASTS.EXPORT_SUCCESS);
       }).catch(console.error).finally(() => setPending(false));
    }
 
@@ -70,16 +91,20 @@ const BulkExportNotesButton = ({ notes }: BulkExportNotesButtonProps ) => {
          </DropdownMenuTrigger>
          <DropdownMenuContent>
             <DropdownMenuSeparator />
-            {EXPORT_FORMATS.map((item, index) => (
+            {EXPORT_FORMATS.map(({ value, icon }, index) => (
                <DropdownMenuItem
-                  data-value={item} key={item}
+                  className={`items-center gap-2`}
+                  data-value={value} key={value}
                   onClick={e => {
-                     handleExport(e.currentTarget.attributes.getNamedItem(`data-value`).value as (typeof EXPORT_FORMATS)[number]);
-                  }}>{item}</DropdownMenuItem>
+                     handleExport(e.currentTarget.attributes.getNamedItem(`data-value`).value as (typeof EXPORT_FORMATS)[number]["value"]);
+                  }}>
+                  {icon}
+                  {value}
+               </DropdownMenuItem>
             ))}
          </DropdownMenuContent>
       </DropdownMenu>
    );
 };
 
-export default BulkExportNotesButton
+export default BulkExportNotesButton;

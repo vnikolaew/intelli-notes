@@ -9,15 +9,17 @@ export interface EditorComponentWrapperProps {
    note?: Note;
 }
 
+const Loading = () => (
+   <div className={`flex items-center gap-2 mt-4`}>
+      <Loader2 className={`animate-spin`} size={18} />
+      Loading editor ...
+   </div>);
+
 // This is the only place InitializedMDXEditor is imported directly.
 const Editor = dynamic(() => import("./InitializedMDXEditor"), {
    // Make sure we turn SSR off
    ssr: false,
-   loading: _ => (
-      <div className={`flex items-center gap-2`}>
-         <Loader2 className={`animate-spin`} size={18} />
-         Loading editor ...
-      </div>),
+   loading: _ => <Loading />,
 });
 
 export const ForwardRefEditor = forwardRef<MDXEditorMethods, MDXEditorProps & { note?: Note }>((props, ref) =>
@@ -28,11 +30,7 @@ const EditorComponentWrapper = ({ note }: EditorComponentWrapperProps) => {
 
    return (
       <div>
-         <Suspense fallback={(
-            <div className={`flex items-center gap-2`}>
-               <Loader2 className={`animate-spin`} size={18} />
-               Loading editor ...
-            </div>)}>
+         <Suspense fallback={<Loading />}>
             <ForwardRefEditor ref={editorRef} note={note} />
          </Suspense>
       </div>

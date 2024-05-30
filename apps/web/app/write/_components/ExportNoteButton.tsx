@@ -6,12 +6,12 @@ import {
    DropdownMenuSeparator,
    DropdownMenuTrigger,
 } from "components/ui/dropdown-menu";
-import { Check, FolderUp, Loader2 } from "lucide-react";
+import { FolderUp, Loader2 } from "lucide-react";
 import React, { Fragment } from "react";
 import { Note } from "@repo/db";
 import { useBoolean } from "hooks/useBoolean";
 import { downloadFile } from "lib/utils";
-import { toast } from "sonner";
+import { toast, TOASTS } from "config/toasts";
 
 export interface ExportNoteButtonProps {
    note?: Note;
@@ -43,14 +43,7 @@ const ExportNoteButton = ({ note }: ExportNoteButtonProps) => {
          const text = await res.text();
 
          downloadFile(text, fileName, res.headers.get(`Content-Type`));
-         toast(<div className={`flex items-center gap-2`}>
-            <Check className={`fill-green-600`} size={18} />
-            <span>
-            Export successful
-            </span>
-         </div>, {
-            className: `text-lg`,
-         });
+         toast(TOASTS.EXPORT_SUCCESS);
       }).catch(console.error).finally(() => setPending(false));
    }
 

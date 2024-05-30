@@ -4,9 +4,11 @@ import { useEffect } from "react";
 export function useKeyPress(key: string, handler: (e: KeyboardEvent) => void, deps?: any[]) {
    useEffect(() => {
       const realHandler = (e: KeyboardEvent) => {
-         e.preventDefault();
-         e.stopPropagation();
-         if (e.key === key) handler(e);
+         if (e.key === key) {
+            e.preventDefault();
+            e.stopPropagation();
+            handler(e);
+         }
       };
 
       document.addEventListener(`keypress`, realHandler);

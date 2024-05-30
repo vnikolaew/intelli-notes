@@ -14,7 +14,9 @@ const NotesGrid = ({ notes }: NotesGridProps) => {
    return (
       <div className={`grid grid-cols-3 w-full gap-8 mt-8`}>
          {filteredNotes.map((note, index) => (
-            <NoteCard markdownProps={{ className: `h-[160px]` }} key={note.id + index} note={note} />
+            <NoteCard
+               markdownProps={{ className: `h-[160px] !px-0` }}
+               key={note.id + index} note={note} />
          ))}
       </div>
    );

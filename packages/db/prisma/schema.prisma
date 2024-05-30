@@ -76,7 +76,8 @@ model Note {
   tags     String[]
 
   authorId String
-  author   User   @relation(fields: [authorId], references: [id])
+  author   User    @relation(fields: [authorId], references: [id])
+  public   Boolean @default(false)
 
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt

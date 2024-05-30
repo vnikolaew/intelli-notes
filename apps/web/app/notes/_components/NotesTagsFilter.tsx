@@ -27,7 +27,7 @@ export function NotesTagsFilter({ tags }: NotesTagsFilterProps) {
    }, [selectedTags, setSelectedTags]);
 
    return (
-      <div className={`w-1/3`}>
+      <div className={`flex-1`}>
          <MultiSelect
             selected={selectedTags ?? []}
             setSelected={setSelectedItems}

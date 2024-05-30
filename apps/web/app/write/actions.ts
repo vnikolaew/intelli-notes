@@ -15,6 +15,7 @@ const actionSchema = z.object({
    raw_text: z.string(),
    metadata: z.any(),
    tags: z.array(z.string()).nullable(),
+   isPublic: z.boolean().nullable().optional(),
 });
 
 export type CreateOrUpdateResponse = { success: false } | { success: true, note: Note }
@@ -29,6 +30,7 @@ export const createOrUpdateNote = authorizedAction(
              title,
              tags,
              metadata,
+             isPublic,
              note_id,
           }, { userId }): Promise<CreateOrUpdateResponse> => {
       await sleep(1_000);
@@ -42,6 +44,7 @@ export const createOrUpdateNote = authorizedAction(
                raw_text,
                ...(title && { title }),
                ...(tags && { tags }),
+               ...(typeof isPublic === `boolean` && { public: isPublic }),
             },
          });
          if (tags) revalidatePath(`/write?id=${newNote.id}`);
@@ -55,6 +58,7 @@ export const createOrUpdateNote = authorizedAction(
             raw_text,
             title,
             tags: tags ?? [],
+            ...(isPublic && { public: isPublic }),
          },
       });
 
@@ -134,3 +138,31 @@ function longestCommonSubstring(str1: string, str2: string) {
 
    return str1.substring(endIndex - maxLength, endIndex);
 }
+
+
+const changeVisibilitySchema = z.object({
+   note_id: z.optional(z.string()).nullable(),
+});
+
+/**
+ * A server action for changing a note's visibility (either public or private).
+ */
+export const changeNoteVisibility = authorizedAction(
+   changeVisibilitySchema,
+   async ({
+             note_id,
+          }, { userId }): Promise<CreateOrUpdateResponse> => {
+      await sleep(1_000);
+
+      const note = await xprisma.note.findUnique({
+         where: { id: note_id, authorId: userId },
+      });
+      if (!note) return { success: false };
+
+      const newNote = await xprisma.note.update({
+         where: { id: note.id },
+         data: { public: !note.public },
+      });
+
+      return newNote ? { success: true, note: newNote } : { success: false };
+   });

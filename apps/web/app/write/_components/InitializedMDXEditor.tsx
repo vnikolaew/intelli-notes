@@ -5,9 +5,9 @@ import { useDebounce } from "@uidotdev/usehooks";
 
 import { plugins } from "components/common/markdown/Plugins";
 import { useAction } from "next-safe-action/hooks";
-import { aiGenerateText, AiGenerateTextResponse, createOrUpdateNote } from "../actions";
+import { aiGenerateText, AiGenerateTextResponse, changeNoteVisibility, createOrUpdateNote } from "../actions";
 import { Input } from "components/ui/input";
-import { FolderUp, X } from "lucide-react";
+import { Eye, EyeOff, Loader2, LockKeyhole, Sparkles, X } from "lucide-react";
 import { cn } from "lib/utils";
 import { isExecuting } from "next-safe-action/status";
 import { useRouter } from "next/navigation";
@@ -24,15 +24,9 @@ import { AiTip } from "./AiTip";
 import { GeneratingWithAi } from "./GeneratingWithAi";
 import { KeepAiTextPrompt } from "./KeepAiTextPrompt";
 import { Saving } from "./Saving";
-import {
-   DropdownMenu,
-   DropdownMenuContent, DropdownMenuItem,
-   DropdownMenuLabel,
-   DropdownMenuSeparator,
-   DropdownMenuTrigger,
-} from "components/ui/dropdown-menu";
-import { Button } from "components/ui/button";
 import ExportNoteButton from "./ExportNoteButton";
+import { Button } from "components/ui/button";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "components/ui/tooltip";
 
 export interface InitializedMdxEditorProps extends MDXEditorProps {
    editorRef: MutableRefObject<MDXEditorMethods> | null;
@@ -54,7 +48,16 @@ const InitializedMdxEditor = ({ editorRef, note, onChange, markdown, ...props }:
 
    const debouncedTitle = useDebounce(noteTitle, 2000);
 
-   const { result, execute, status } = useAction(createOrUpdateNote, {
+   const { execute: changeVisibilityAction, status: changeVisibilityStatus } = useAction(changeNoteVisibility, {
+      onSuccess: res => {
+         if (res.success) {
+            setCurrentNote(note => ({ ...note, public: res.note.public }));
+         }
+      },
+      onError: console.error,
+   });
+
+   const { execute, status } = useAction(createOrUpdateNote, {
       onSuccess: res => {
          if (res.success) {
             router.push(`?id=${res.note.id}`);
@@ -113,16 +116,45 @@ const InitializedMdxEditor = ({ editorRef, note, onChange, markdown, ...props }:
       });
    }, [debouncedValue, debouncedTitle, noteTags]);
 
+   const handleGenerateAiText = useCallback(() => {
+      const raw_text = document.querySelector(`.mdxeditor-rich-text-editor`)?.innerText ?? markdownValue;
+      aiGenerateTextAction({ title: noteTitle, raw_text });
+   }, [markdownValue, noteTitle]);
+
    useKeyPress(`I`, e => {
       if (e.shiftKey && !isExecuting(aiGenerateTextStatus)) {
-         const raw_text = document.querySelector(`.mdxeditor-rich-text-editor`)?.innerText ?? markdownValue;
-         aiGenerateTextAction({ title: noteTitle, raw_text });
+         handleGenerateAiText();
       }
    }, [markdownValue, noteTitle]);
 
    return (
-      <div className={`flex flex-col items-start gap-2`}>
+      <div className={`flex flex-col items-start gap-2 mt-4`}>
          <div className={`flex items-center justify-between w-full gap-4`}>
+            <div>
+               <TooltipProvider>
+                  <Tooltip delayDuration={200}>
+                     <TooltipTrigger
+                        onClick={_ => {
+                           changeVisibilityAction({ note_id: currentNote.id });
+                        }} asChild>
+                        {isExecuting(changeVisibilityStatus) ? (
+                           <Loader2 size={18} className={`animate-spin`} />
+                        ) : currentNote?.public ? (
+                           <Eye className={`cursor-pointer`} size={18} />
+                        ) : (
+                           <LockKeyhole className={`cursor-pointer`} size={18} />
+                        )}
+                     </TooltipTrigger>
+                     <TooltipContent side={`bottom`} className={`bg-black text-white rounded-md text-xs max-w-[240px]`}>
+                        {currentNote?.public ? (
+                           `Public.`
+                        ) : (
+                           `Private.`
+                        )} {`Click to make this note `} {currentNote?.public ? `private.` : `public.`}
+                     </TooltipContent>
+                  </Tooltip>
+               </TooltipProvider>
+            </div>
             <Input
                placeholder={`Untitled`}
                className={`border-none !px-5 !py-2 !h-fit flex-1 text-xl outline-none ring-0 focus:!outline-none focus:!border-none shadow-none !bg-transparent text-neutral-700 border-b-[1px] !border-b-neutral-300 focus:!ring-0 focus:!bg-neutral-100 transition-colors duration-300`}
@@ -136,9 +168,11 @@ const InitializedMdxEditor = ({ editorRef, note, onChange, markdown, ...props }:
                   </b>
                </div>
             )}
+            <div>
+               <Saving show={isExecuting(status)} />
+               <GeneratingWithAi show={isExecuting(aiGenerateTextStatus)} />
+            </div>
          </div>
-         <Saving show={isExecuting(status)} />
-         <GeneratingWithAi show={isExecuting(aiGenerateTextStatus)} />
          <KeepAiTextPrompt
             show={showConfirmAiTextPrompt}
             onAnswer={value => {
@@ -174,14 +208,39 @@ const InitializedMdxEditor = ({ editorRef, note, onChange, markdown, ...props }:
             />
          </div>
          <AiTip />
-         <MDXEditor
-            className={cn(`min-h-[300px] !font-mono mt-2`, sfMono.variable)}
-            ref={editorRef}
-            markdown={markdownValue ?? currentNote?.raw_text ?? ``}
-            onChange={setMarkdownValue}
-            toMarkdownOptions={{ listItemIndent: `tab` }}
-            plugins={plugins}
-            {...props} />
+         <div className={`relative`}>
+            <div className={`absolute bottom-2 right-2`}>
+               <TooltipProvider>
+                  <Tooltip delayDuration={200}>
+                     <TooltipTrigger asChild>
+                        <Button
+                           disabled={isExecuting(aiGenerateTextStatus)}
+                           onClick={_ => {
+                              handleGenerateAiText();
+                           }} className={`rounded-full shadow-sm`} variant={`outline`} size={`icon`}>
+                           <Sparkles
+                              className={cn(`text-amber-600`, isExecuting(aiGenerateTextStatus) && `animate-pulse`)}
+                              size={14} />
+                        </Button>
+                     </TooltipTrigger>
+                     <TooltipContent side={`bottom`} className={`bg-black text-white rounded-md text-xs max-w-[240px]`}>
+                        <span className={`text-sm block`}>Ask AI</span>
+                        <span className={`text-xs text-muted-foreground text-wrap`}>
+                           Use AI to suggest completions for your note.
+                        </span>
+                     </TooltipContent>
+                  </Tooltip>
+               </TooltipProvider>
+            </div>
+            <MDXEditor
+               className={cn(`min-h-[300px] !font-mono mt-2 `, sfMono.variable)}
+               ref={editorRef}
+               markdown={markdownValue ?? currentNote?.raw_text ?? ``}
+               onChange={setMarkdownValue}
+               toMarkdownOptions={{ listItemIndent: `tab` }}
+               plugins={plugins}
+               {...props} />
+         </div>
          <div className={`w-full mt-12 flex items-center justify-end`}>
             <ExportNoteButton note={currentNote} />
          </div>

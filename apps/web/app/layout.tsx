@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Toaster } from "components/ui/sonner";
 import { Inter as FontSans } from "next/font/google";
-import localFont from "next/font/local";
 import { APP_DESCRIPTION, APP_NAME, LINKS } from "config/site";
 import Providers from "providers";
 import { cn } from "lib/utils";
@@ -30,12 +29,12 @@ export default function RootLayout({
    children: React.ReactNode;
 }): JSX.Element {
    return (
-      <html suppressContentEditableWarning lang="en">
+      <html className={`light`} suppressContentEditableWarning lang="en" style={{ colorScheme: `light`}}>
       <head>
          <title>{APP_NAME}</title>
       </head>
       <Providers>
-         <body className={cn(`min-h-screen font-mono antialiased`, sfMono.variable)}>
+         <body className={cn(`min-h-screen font-mono antialiased light`, sfMono.variable)}>
          <LoadingBar />
          <Header />
          <main className={cn(`flex-1 min-h-[70vh]`)}>

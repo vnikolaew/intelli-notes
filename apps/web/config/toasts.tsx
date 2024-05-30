@@ -1,6 +1,11 @@
-import { ExternalToast } from "sonner";
+"use client"
 
-export const TOASTS: Record<string, ExternalToast & { message: string }> = {
+import { ExternalToast } from "sonner";
+import React, { ReactNode } from "react";
+import { toast as sonnerToast } from "sonner";
+import { Check } from "lucide-react";
+
+export const TOASTS: Record<string, ExternalToast & { message: ReactNode }> = {
    FORGOT_PASSWORD: {
       message: `Password reset successful`,
       description: `You've successfully reset your password.`,
@@ -153,4 +158,16 @@ export const TOASTS: Record<string, ExternalToast & { message: string }> = {
       },
       duration: 10_000,
    },
+   EXPORT_SUCCESS: {
+      message:
+         (<div className={`flex items-center gap-2`}>
+            <Check className={`text-green-600`} size={18} />
+            <span>
+Export successful
+</span>
+         </div>),
+      className: `text-lg font-semibold`,
+   },
 } as const;
+
+export const toast = ({ message, ...config }: ExternalToast & { message: ReactNode }) => sonnerToast(message, config);

@@ -5,6 +5,7 @@ import { plugins } from ".";
 import { ScrollArea } from "components/ui/scroll-area";
 import { ScrollAreaProps } from "@radix-ui/react-scroll-area";
 import { cn } from "lib/utils";
+import { sfMono } from "assets/fonts";
 
 export interface MarkdownProps extends ScrollAreaProps {
    value: string;
@@ -14,8 +15,11 @@ export const Markdown = ({ value, className, ...props }: MarkdownProps) => {
    return (
       <ScrollArea className={cn(`h-[200px] px-4`, className)} {...props}>
          <MDXEditor
+            className={cn(`!font-mono `, sfMono.variable)}
             toMarkdownOptions={{ listItemIndent: `tab` }}
-            readOnly plugins={plugins.slice(1)} markdown={value} />
+            readOnly
+            plugins={plugins.slice(1)}
+            markdown={value} />
       </ScrollArea>
    );
 };

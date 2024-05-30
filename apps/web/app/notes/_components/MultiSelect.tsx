@@ -67,7 +67,7 @@ export function MultiSelect({ items, placeholder, setSelected, selected }: Fancy
             <div className="flex flex-wrap gap-1">
                {selected.map((framework) => {
                   return (
-                     <Badge key={framework.value} variant="secondary">
+                     <Badge key={framework.value} variant="default">
                         {framework.label}
                         <button
                            className="ml-1 rounded-full outline-none ring-offset-background focus:ring-2 focus:ring-ring focus:ring-offset-2"
