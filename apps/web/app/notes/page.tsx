@@ -13,8 +13,17 @@ import { NotesTagsFilter } from "./_components/NotesTagsFilter";
 import BulkExportNotesButton from "./_components/BulkExportNotesButton";
 import { NotesVisibilityFilter } from "./_components/NotesVisibilityFilter";
 import { Row } from "@repo/ui/components";
+import { ImportNotesButton } from "./_components/ImportNotesButton";
+import {
+   Pagination,
+   PaginationContent, PaginationEllipsis,
+   PaginationItem,
+   PaginationLink, PaginationNext,
+   PaginationPrevious,
+} from "components/ui/pagination";
 
 export interface PageProps {
+   searchParams: { page?: number };
 }
 
 function NotesEmptyState() {
@@ -26,11 +35,20 @@ function NotesEmptyState() {
    </div>;
 }
 
-const Page = async ({}: PageProps) => {
+
+const Page = async ({ searchParams }: PageProps) => {
    const session = await auth();
    if (!session) redirect(`/`);
 
-   const myNotes = await xprisma.user.notes({ userId: session.user?.id });
+   const page = Math.max(Number(searchParams.page ?? 0),1)
+   console.log({ page });
+
+   const { notes: myNotes, total } = await xprisma.user.notes({
+         userId: session.user?.id,
+         take: 10000,
+      },
+   );
+
    const allTags = [...new Set(myNotes.flatMap(n => n.tags))];
 
    return (
@@ -56,18 +74,38 @@ const Page = async ({}: PageProps) => {
          <Separator orientation={`horizontal`} className={`w-2/5 mt-0 text-neutral-700 bg-neutral-300 shadow-lg`} />
          <div className="w-full flex items-center justify-between gap-4">
             <Row className={`!w-1/3`}>
-               <NotesVisibilityFilter  />
-               <NotesTagsFilter tags={allTags}/>
+               <NotesVisibilityFilter />
+               <NotesTagsFilter tags={allTags} />
             </Row>
-            <div>
+            <Row className={`gap-4 !w-fit`}>
+               <ImportNotesButton />
                <BulkExportNotesButton notes={myNotes} />
-            </div>
+            </Row>
          </div>
          {myNotes.length === 0 ? (
             <NotesEmptyState />
          ) : (
             <NotesGrid notes={myNotes} />
          )}
+         <div className={`w-full flex justify-center items-center mt-4`}>
+            <div>Total: { total}</div>
+            <Pagination>
+               <PaginationContent>
+                  <PaginationItem>
+                     <PaginationPrevious href={page === 1 ? `#` : `?page=${page - 1}`} />
+                  </PaginationItem>
+                  <PaginationItem>
+                     <PaginationLink href="#">1</PaginationLink>
+                  </PaginationItem>
+                  <PaginationItem>
+                     <PaginationEllipsis />
+                  </PaginationItem>
+                  <PaginationItem>
+                     <PaginationNext href={`?page=${page + 1}`} />
+                  </PaginationItem>
+               </PaginationContent>
+            </Pagination>
+         </div>
       </section>
    );
 };

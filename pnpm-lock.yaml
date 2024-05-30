@@ -104,6 +104,9 @@ importers:
       cmdk:
         specifier: ^1.0.0
         version: 1.0.0(@types/react-dom@18.2.19)(@types/react@18.2.61)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      csv-to-js-parser:
+        specifier: ^2.3.5
+        version: 2.3.5
       framer-motion:
         specifier: ^11.2.0
         version: 11.2.4(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
@@ -2954,6 +2957,9 @@ packages:
 
   csv-stringify@5.6.5:
     resolution: {integrity: sha512-PjiQ659aQ+fUTQqSrd1XEDnOr52jh30RBurfzkscaE2tPaFsDH5wOAHJiw8XAHphRknCwMUE9KRayc4K/NbO8A==}
+
+  csv-to-js-parser@2.3.5:
+    resolution: {integrity: sha512-g9gDA+2h+DfqrOc2ob1J1OEwmoHkNMY+/LkTC+4E6b/Wjrjd4DHWiPzR+5cehLClJoO6JeNrL/F8HxkkWB2nMg==}
 
   csv@5.5.3:
     resolution: {integrity: sha512-QTaY0XjjhTQOdguARF0lGKm5/mEq9PD9/VhZZegHDIBq2tQwgNpHc3dneD4mGo2iJs+fTKv5Bp0fZ+BRuY3Z0g==}
@@ -9463,6 +9469,8 @@ snapshots:
   csv-parse@4.16.3: {}
 
   csv-stringify@5.6.5: {}
+
+  csv-to-js-parser@2.3.5: {}
 
   csv@5.5.3:
     dependencies:

@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import moment from "moment";
 import { Markdown } from "components/common/markdown";
 import { Button } from "components/ui/button";
-import { Loader2, PencilLine, Trash } from "lucide-react";
+import { Eye, Loader2, LockKeyhole, PencilLine, Trash } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "components/ui/tooltip";
 import Link from "next/link";
 import { useAction } from "next-safe-action/hooks";
@@ -32,6 +32,7 @@ export interface NoteCardProps extends React.HTMLAttributes<HTMLDivElement> {
    note: Note;
    markdownProps?: ScrollAreaProps;
    showButtons?: boolean;
+   showPublicity?: boolean;
 }
 
 const MotionCard = motion(Card);
@@ -45,7 +46,14 @@ const MotionCard = motion(Card);
  * @param props Additional Card props.
  * @constructor
  */
-const NoteCard = ({ note, markdownProps, className, showButtons = true, ...props }: NoteCardProps) => {
+const NoteCard = ({
+                     note,
+                     markdownProps,
+                     className,
+                     showButtons = true,
+                     showPublicity = false,
+                     ...props
+                  }: NoteCardProps) => {
    const { execute, status } = useAction(deleteNote, {
       onSuccess: res => {
          if (res.success) {
@@ -55,6 +63,8 @@ const NoteCard = ({ note, markdownProps, className, showButtons = true, ...props
    });
    const [previewNoteId, setPreviewNoteId] = useQueryState(`previewId`);
    const [previewOpen, setPreviewOpen] = useBoolean(!!previewNoteId?.length && previewNoteId === note.id);
+
+   const [deleteModalOpen, setDeleteModalOpen] = useBoolean(false);
 
    return (
       <Fragment>
@@ -66,7 +76,19 @@ const NoteCard = ({ note, markdownProps, className, showButtons = true, ...props
          }} open={previewOpen}>
             <DialogContent className={`min-h-[70vh]`}>
                <DialogHeader>
-                  <DialogTitle>
+                  <DialogTitle className={`inline-flex items-center gap-3`}>
+                     {showPublicity && (
+                        <TooltipProvider>
+                           <Tooltip delayDuration={200}>
+                              <TooltipTrigger asChild>
+                                 {note.public ? <Eye size={18} /> : <LockKeyhole size={18} />}
+                              </TooltipTrigger>
+                              <TooltipContent side={`bottom`} className={`bg-black text-white rounded-md text-xs`}>
+                                 {note.public ? `Public` : `Private`}
+                              </TooltipContent>
+                           </Tooltip>
+                        </TooltipProvider>
+                     )}
                      {note.title?.length ? note.title : `Untitled`}
                   </DialogTitle>
                   <DialogDescription className="flex flex-col gap-2 mt-2">
@@ -85,7 +107,7 @@ const NoteCard = ({ note, markdownProps, className, showButtons = true, ...props
                   </div>
                </DialogHeader>
                <DialogFooter>
-                  <DialogClose>
+                  <DialogClose className={`flex items-end`}>
                      <Button className={`shadow-md`} variant={"destructive"}>Close</Button>
                   </DialogClose>
                </DialogFooter>
@@ -96,15 +118,22 @@ const NoteCard = ({ note, markdownProps, className, showButtons = true, ...props
             animate={{ opacity: 100 }}
             transition={{ duration: 0.2 }}
             exit={{ opacity: 0 }}
-            onClick={async e => {
-               e.preventDefault();
-               setPreviewOpen(true);
-               await setPreviewNoteId(note.id);
-            }}
             className={cn(`rounded-lg shadow-lg group hover:scale-[101%] transition-transform duration-200 flex flex-col cursor-pointer`, className)} {...props}>
             <CardHeader>
                <CardTitle className={`flex items-center justify-between`}>
-                  <h2 className={`text-2xl`}>
+                  <h2 className={`text-2xl inline-flex items-center gap-4`}>
+                     {showPublicity && (
+                        <TooltipProvider>
+                           <Tooltip delayDuration={200}>
+                              <TooltipTrigger asChild>
+                                 {note.public ? <Eye size={18} /> : <LockKeyhole size={18} />}
+                              </TooltipTrigger>
+                              <TooltipContent side={`bottom`} className={`bg-black text-white rounded-md text-xs`}>
+                                 {note.public ? `Public` : `Private`}
+                              </TooltipContent>
+                           </Tooltip>
+                        </TooltipProvider>
+                     )}
                      {note.title?.length ? note.title : `Untitled`}
                   </h2>
                   {showButtons && (
@@ -114,7 +143,7 @@ const NoteCard = ({ note, markdownProps, className, showButtons = true, ...props
                               <Button
                                  variant={`ghost`}
                                  asChild
-                                 className={`rounded-md invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-opacity duration-200`}
+                                 className={`rounded-md invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-opacity duration-200 !z-30`}
                                  size={`icon`}>
                                  <Link onClick={e => e.stopPropagation()}
                                        href={`/write?id=${encodeURIComponent(note.id)}`}>
@@ -136,22 +165,38 @@ const NoteCard = ({ note, markdownProps, className, showButtons = true, ...props
                   </time>
                </CardDescription>
             </CardHeader>
-            <CardContent className={``}>
+            <CardContent
+               onClick={async e => {
+                  e.preventDefault();
+                  setPreviewOpen(true);
+                  await setPreviewNoteId(note.id);
+               }}
+               className={``}>
                <Markdown className={`!px-0`} value={note.raw_text} {...markdownProps} />
             </CardContent>
             <CardFooter className={`flex items-center justify-between mt-auto justify-self-end`}>
                <div
-                  className={`hidden group-hover:block opacity-0 group-hover:opacity-100 transition-opacity duration-200`}>
+                  className={`invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-opacity duration-200`}>
                   <NoteTags tags={note.tags} />
                </div>
                {showButtons && (
                   <DeleteNoteModal
+                     open={deleteModalOpen}
+                     setOpen={setDeleteModalOpen}
                      loading={isExecuting(status)} onDelete={() => execute({ noteId: note.id })}>
                      <TooltipProvider>
                         <Tooltip>
                            <TooltipTrigger asChild>
                               <Button
-                                 onClick={e => e.stopPropagation()}
+                                 id={`delete-btn`}
+                                 onClick={e => {
+                                    setDeleteModalOpen(true);
+
+                                    e.preventDefault();
+                                    e.stopPropagation();
+
+                                    setPreviewOpen(false);
+                                 }}
                                  disabled={isExecuting(status)}
                                  variant={`destructive`}
                                  className={`rounded-md invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-opacity duration-200`}
@@ -202,6 +247,8 @@ const NoteTags = ({ tags }: { tags: string[] }) => {
 interface DeleteNoteModalProps extends PropsWithChildren {
    onDelete: () => void;
    loading: boolean;
+   open: boolean;
+   setOpen: (open: boolean) => void;
 }
 
 /**
@@ -211,10 +258,10 @@ interface DeleteNoteModalProps extends PropsWithChildren {
  * @param loading A loading flag.
  * @constructor
  */
-const DeleteNoteModal = ({ children, onDelete, loading }: DeleteNoteModalProps) => {
+const DeleteNoteModal = ({ children, onDelete, loading, open, setOpen }: DeleteNoteModalProps) => {
    return (
-      <Dialog>
-         <DialogTrigger>{children}</DialogTrigger>
+      <Dialog onOpenChange={setOpen} modal open={open}>
+         <DialogTrigger asChild>{children}</DialogTrigger>
          <DialogContent>
             <DialogHeader>
                <DialogTitle>Are you absolutely sure?</DialogTitle>
@@ -226,7 +273,7 @@ const DeleteNoteModal = ({ children, onDelete, loading }: DeleteNoteModalProps) 
             <DialogFooter>
                <Button
                   disabled={loading}
-                  className={`shadow-md`}
+                  className={`shadow-md gap-2 items-center`}
                   onClick={_ => onDelete()}
                   variant={`destructive`}
                   type="submit">

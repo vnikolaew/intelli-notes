@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider        = "prisma-client-js"
   previewFeatures = ["postgresqlExtensions", "views", "fullTextSearch", "driverAdapters", "relationJoins"]
@@ -23,9 +20,10 @@ model User {
   accounts      Account[]
   sessions      Session[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
   notes     Note[]
+  NoteLike  NoteLike[]
 }
 
 model Account {
@@ -78,6 +76,20 @@ model Note {
   authorId String
   author   User    @relation(fields: [authorId], references: [id])
   public   Boolean @default(false)
+
+  createdAt DateTime   @default(now())
+  updatedAt DateTime?  @updatedAt
+  likes     NoteLike[]
+}
+
+model NoteLike {
+  id     String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  noteId String @db.Uuid
+  note   Note   @relation(fields: [noteId], references: [id])
+
+  userId   String
+  user     User   @relation(fields: [userId], references: [id])
+  metadata Json?  @default("null") @db.JsonB
 
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt

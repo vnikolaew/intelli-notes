@@ -1,16 +1,20 @@
-"use client"
+"use client";
 
 import { Note } from "@repo/db";
 import { useSearchParam } from "hooks/useSearchParam";
 import { useMemo } from "react";
-import { parseAsBoolean, useQueryState } from "nuqs";
+import { parseAsBoolean, parseAsInteger, useQueryState } from "nuqs";
 import { Item } from "../_components/MultiSelect";
 import { parseAsItems } from "../_components/NotesTagsFilter";
+
+const PAGE_SIZE = 12;
 
 export function useFilteredNotes(notes: Note[]) {
    const q = useSearchParam(`q`);
    const [showPublic] = useQueryState(`public`, parseAsBoolean);
    const [selectedTags] = useQueryState<Item[]>(`tags`, parseAsItems);
+   const [page, setPage] = useQueryState(`page`, parseAsInteger);
+   console.log({ page });
 
    const filteredNotes = useMemo(() => {
       let filtered = notes;
@@ -22,7 +26,7 @@ export function useFilteredNotes(notes: Note[]) {
                   selectedTags.map(t => t.value).includes(t)));
       }
 
-      if(showPublic !== null) {
+      if (showPublic !== null) {
          filtered = filtered.filter(n => n.public === showPublic);
       }
 
@@ -34,5 +38,7 @@ export function useFilteredNotes(notes: Note[]) {
          || n.tags.includes(q.toLowerCase()));
    }, [q, notes, selectedTags, showPublic]);
 
-   return filteredNotes;
+   const pagedNotes = useMemo(() => filteredNotes.slice(((page ?? 1) - 1) * PAGE_SIZE, (page ?? 1) * PAGE_SIZE), [filteredNotes, page]);
+
+   return { filteredNotes, pagedNotes };
 }

@@ -11,7 +11,7 @@ export interface NotesHeaderProps {
 
 export function NotesHeader({ notes }: NotesHeaderProps) {
    const q = useSearchParam(`q`);
-   const filteredNotes = useFilteredNotes(notes);
+   const {filteredNotes} = useFilteredNotes(notes);
    const [showPublic] = useQueryState(`public`, parseAsBoolean);
 
    return (

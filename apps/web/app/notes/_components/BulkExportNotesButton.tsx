@@ -25,7 +25,9 @@ export interface BulkExportNotesButtonProps {
    notes: Note[];
 }
 
-const EXPORT_FORMATS = [
+export type ExportFormat = (typeof EXPORT_FORMATS)[number]["value"]
+
+export const EXPORT_FORMATS = [
    {
       value:
          `CSV`,

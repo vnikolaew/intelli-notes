@@ -8,6 +8,8 @@ const Providers = ({ children }: PropsWithChildren) => {
          <ThemeProvider
             enableSystem
             disableTransitionOnChange
+            themes={[`light`]}
+            storageKey={crypto.randomUUID()}
             defaultTheme={`light`}
             attribute={`class`}>
             {children}

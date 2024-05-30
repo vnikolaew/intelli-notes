@@ -5,12 +5,14 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import appLogo from "public/logo.jpg";
 import { SignedIn, SignedOut } from "./Auth";
-import { Avatar, AvatarFallback, AvatarImage } from "components/ui/avatar";
 import { Button } from "components/ui/button";
-import { LogOut, PenLine } from "lucide-react";
+import { LogOut, Notebook, PenLine, Telescope } from "lucide-react";
 import { APP_NAME } from "config/site";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
 import { InteractiveLink } from "@repo/ui/components";
+import UserAvatar from "./UserAvatar";
+import { useBoolean } from "../../hooks/useBoolean";
+import SignInModal from "../modals/SignInModal";
 
 export interface NavbarProps {
 }
@@ -21,6 +23,7 @@ export interface NavbarProps {
  */
 const Header = ({}: NavbarProps) => {
    const session = useSession();
+   const [signInModalOpen, setSignInModalOpen] = useBoolean();
 
    return (
       <header
@@ -33,33 +36,35 @@ const Header = ({}: NavbarProps) => {
                </Link>
             </nav>
             <div className={`flex-1 text-center flex items-center gap-8 justify-center`}>
-              <InteractiveLink className={`text-lg`} underlineClassname={`bg-black`} href={`/notes`}>
-                 All notes
-              </InteractiveLink>
-               <InteractiveLink className={`text-lg`} underlineClassname={`bg-black`} href={`/explore`}>
+               <InteractiveLink className={`text-lg inline-flex gap-2 items-center`} underlineClassname={`bg-black`}
+                                href={`/notes`}>
+                  <Notebook size={14} />
+                  My notes
+               </InteractiveLink>
+               <InteractiveLink className={`text-lg inline-flex gap-2 items-center`} underlineClassname={`bg-black`}
+                                href={`/explore`}>
+                  <Telescope size={14} />
                   Explore
                </InteractiveLink>
             </div>
             <div className={`flex flex-1 items-center justify-end space-x-8`}>
                <SignedIn>
                   <div className={`flex items-center gap-6`}>
-                     <Avatar className={`cursor-pointer`}>
-                        <AvatarFallback>{session?.data?.user?.name}</AvatarFallback>
-                        <AvatarImage src={session?.data?.user?.image!} />
-                     </Avatar>
+                     <UserAvatar title={session?.data?.user?.name} className={`cursor-pointer`}
+                                 imageSrc={session?.data?.user?.image} />
                      <div>
                         <TooltipProvider> <Tooltip>
-                              <TooltipTrigger asChild>
-                                 <Button asChild className={`rounded-md p-2`} variant={`ghost`} size={"icon"}>
-                                    <Link href={`/write`}>
-                                       <PenLine size={18} />
-                                    </Link>
-                                 </Button>
-                              </TooltipTrigger>
-                              <TooltipContent side={`top`} className={`bg-black text-white rounded-md text-xs`}>
-                                 Create a note
-                              </TooltipContent>
-                           </Tooltip>
+                           <TooltipTrigger asChild>
+                              <Button asChild className={`rounded-md p-2`} variant={`ghost`} size={"icon"}>
+                                 <Link href={`/write`}>
+                                    <PenLine size={18} />
+                                 </Link>
+                              </Button>
+                           </TooltipTrigger>
+                           <TooltipContent side={`top`} className={`bg-black text-white rounded-md text-xs`}>
+                              Create a note
+                           </TooltipContent>
+                        </Tooltip>
                         </TooltipProvider>
                      </div>
                      <Button
@@ -72,10 +77,11 @@ const Header = ({}: NavbarProps) => {
                </SignedIn>
                <SignedOut>
                   <Button
-                     onClick={_ => signIn()}
+                     onClick={_ => setSignInModalOpen(true)}
                      className={`px-6 !py-0 rounded-lg cta-button`}>
                      Sign in
                   </Button>
+                  <SignInModal open={signInModalOpen} setOpen={setSignInModalOpen} />
                </SignedOut>
                <nav className={`flex items-center gap-3`}>
                </nav>

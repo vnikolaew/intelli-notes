@@ -23,6 +23,7 @@ const CookieConsentBanner = async ({}: CookieConsentBannerProps) => {
    const cookiePreferences = user?.cookiePreferences;
 
    // if (cookieConsentGranted) return null;
+   return null;
    return <CookieConsentBannerClient cookieConsent={cookieConsentGranted} cookiePreferences={cookiePreferences} />;
 };
 

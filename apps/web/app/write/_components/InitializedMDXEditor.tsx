@@ -7,7 +7,7 @@ import { plugins } from "components/common/markdown/Plugins";
 import { useAction } from "next-safe-action/hooks";
 import { aiGenerateText, AiGenerateTextResponse, changeNoteVisibility, createOrUpdateNote } from "../actions";
 import { Input } from "components/ui/input";
-import { Eye, EyeOff, Loader2, LockKeyhole, Sparkles, X } from "lucide-react";
+import { Eye, Loader2, LockKeyhole, Sparkles, X } from "lucide-react";
 import { cn } from "lib/utils";
 import { isExecuting } from "next-safe-action/status";
 import { useRouter } from "next/navigation";
@@ -102,7 +102,7 @@ const InitializedMdxEditor = ({ editorRef, note, onChange, markdown, ...props }:
          raw_text: debouncedValue ?? ``,
          tags: noteTags,
       });
-   }, [debouncedTitle, noteTags]);
+   }, [noteTags]);
 
    useEffect(() => {
       if (!debouncedValue?.length || debouncedValue?.length < 3) return;
@@ -208,7 +208,7 @@ const InitializedMdxEditor = ({ editorRef, note, onChange, markdown, ...props }:
             />
          </div>
          <AiTip />
-         <div className={`relative`}>
+         <div className={`relative w-full`}>
             <div className={`absolute bottom-2 right-2`}>
                <TooltipProvider>
                   <Tooltip delayDuration={200}>

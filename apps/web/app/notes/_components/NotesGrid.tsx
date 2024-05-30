@@ -9,12 +9,14 @@ export interface NotesGridProps {
 }
 
 const NotesGrid = ({ notes }: NotesGridProps) => {
-   const filteredNotes = useFilteredNotes(notes);
+   const {pagedNotes, filteredNotes} = useFilteredNotes(notes);
 
    return (
       <div className={`grid grid-cols-3 w-full gap-8 mt-8`}>
-         {filteredNotes.map((note, index) => (
+         {pagedNotes.map((note, index) => (
             <NoteCard
+               showButtons
+               showPublicity
                markdownProps={{ className: `h-[160px] !px-0` }}
                key={note.id + index} note={note} />
          ))}

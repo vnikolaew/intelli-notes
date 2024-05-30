@@ -34,7 +34,7 @@ export default function RootLayout({
          <title>{APP_NAME}</title>
       </head>
       <Providers>
-         <body className={cn(`min-h-screen font-mono antialiased light`, sfMono.variable)}>
+         <body className={cn(`min-h-screen font-mono antialiased `, sfMono.variable)}>
          <LoadingBar />
          <Header />
          <main className={cn(`flex-1 min-h-[70vh]`)}>

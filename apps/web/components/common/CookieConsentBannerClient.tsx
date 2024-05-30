@@ -54,13 +54,15 @@ const CookieConsentBannerClient = ({ cookiePreferences, cookieConsent }: CookieC
    return (
       <Fragment>
          <MotionCookieConsent
+            layoutId={`cookie-consent`}
+            customContainerAttributes={{ id: `cookie-consent` }}
             acceptOnOverlayClick
             overlayClasses={hideBanner ? `hidden` : ``}
             enableDeclineButton
             flipButtons
             location="bottom"
             buttonText={isExecuting(status) ? <LoadingSpinner text={`Loading ...`} /> :
-               <div className={`flex items-center gap-2 text-sm`}>
+               <div id={`accept-btn`} className={`flex items-center gap-2 text-sm`}>
                   <Cookie className={`text-orange-800 group-hover:text-white`} size={16} />
                   {ACCEPT_ALL}
                </div>}
@@ -71,7 +73,7 @@ const CookieConsentBannerClient = ({ cookiePreferences, cookieConsent }: CookieC
                </div>}
             buttonStyle={{}}
             cookieName="CookieConsent"
-            contentClasses={`!h-fit !text-black !w-full !mx-auto !flex-[1_0_60px] !mb-0`}
+            contentClasses={`!h-fit !text-black !w-full !mx-auto !flex-[1_0_60px] !mb-0 !bg-red-500`}
             hideOnAccept={false}
             containerClasses={cn(`!bg-white !z-10 !text-black !w-3/5 !max-w-[800px] !bottom-8 !left-[50%] !-translate-x-[50%] !mx-auto !shadow-xl flex flex-col gap-2 p-4 !pb-2 !rounded-xl`)}
             buttonClasses={cn(
@@ -90,14 +92,14 @@ const CookieConsentBannerClient = ({ cookiePreferences, cookieConsent }: CookieC
                setHideBanner(true);
                setShowManagePrefsBanner(true);
             }}
-            expires={450}
+            // expires={450}
          >
             <div className={`absolute right-4 top-3`}>
                <X onClick={_ => setHideBanner(true)}
                   className={`cursor-pointer rounded-full hover:bg-neutral-500 !p-1 transition-colors duration-200`}
                   size={22} />
             </div>
-            <p dangerouslySetInnerHTML={{ __html: BANNER_COPY }}
+            <p id={`cookie-consent-copy`} dangerouslySetInnerHTML={{ __html: BANNER_COPY }}
                className={`text-left w-full leading-tight font-normal !mb-0 !text-sm`}></p>
          </MotionCookieConsent>
          <CustomizePreferencesModal
@@ -106,7 +108,8 @@ const CookieConsentBannerClient = ({ cookiePreferences, cookieConsent }: CookieC
             onBack={() => {
                setShowManagePrefsBanner(false);
                setHideBanner(false);
-            }} open={showManagePrefsBanner} />
+            }}
+            open={showManagePrefsBanner} />
       </Fragment>
    );
 };
