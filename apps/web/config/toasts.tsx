@@ -166,7 +166,23 @@ export const TOASTS: Record<string, ExternalToast & { message: ReactNode }> = {
 Export successful
 </span>
          </div>),
-      className: `text-lg font-semibold`,
+      className: `text-base font-normal`,
+   },
+   CREATE_CATEGORY_SUCCESS: {
+      message:
+         (<div className={`flex items-center gap-2`}>
+            <Check className={`text-green-600`} size={18} />
+            <span>Category successfully created!</span>
+         </div>),
+      className: `text-base font-normal`,
+   },
+   CHANGE_CATEGORY_SUCCESS: {
+      message:
+         (<div className={`flex items-center gap-2`}>
+            <Check className={`text-green-600`} size={18} />
+            <span>Note category successfully changed!</span>
+         </div>),
+      className: `text-base font-normal`,
    },
 } as const;
 

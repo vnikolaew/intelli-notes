@@ -3,7 +3,6 @@ import { auth } from "auth";
 import { redirect } from "next/navigation";
 import { xprisma } from "@repo/db";
 import { Separator } from "components/ui/separator";
-import NotesGrid from "./_components/NotesGrid";
 import { Button } from "components/ui/button";
 import { PenLine, Sparkles, StickyNote } from "lucide-react";
 import Link from "next/link";
@@ -21,6 +20,7 @@ import {
    PaginationLink, PaginationNext,
    PaginationPrevious,
 } from "components/ui/pagination";
+import NotesSection from "./_components/NotesSection";
 
 export interface PageProps {
    searchParams: { page?: number };
@@ -40,7 +40,7 @@ const Page = async ({ searchParams }: PageProps) => {
    const session = await auth();
    if (!session) redirect(`/`);
 
-   const page = Math.max(Number(searchParams.page ?? 0),1)
+   const page = Math.max(Number(searchParams.page ?? 0), 1);
    console.log({ page });
 
    const { notes: myNotes, total } = await xprisma.user.notes({
@@ -49,6 +49,11 @@ const Page = async ({ searchParams }: PageProps) => {
       },
    );
 
+   const categories = await xprisma.noteCategory.findMany({
+      where: {
+         userId: session?.user?.id,
+      },
+   });
    const allTags = [...new Set(myNotes.flatMap(n => n.tags))];
 
    return (
@@ -85,10 +90,10 @@ const Page = async ({ searchParams }: PageProps) => {
          {myNotes.length === 0 ? (
             <NotesEmptyState />
          ) : (
-            <NotesGrid notes={myNotes} />
+            <NotesSection categories={categories} notes={myNotes} />
          )}
          <div className={`w-full flex justify-center items-center mt-4`}>
-            <div>Total: { total}</div>
+            <div>Total: {total}</div>
             <Pagination>
                <PaginationContent>
                   <PaginationItem>

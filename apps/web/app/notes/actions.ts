@@ -80,14 +80,43 @@ export const importNotes = authorizedAction(importSchema!, async ({ notes_raw, i
             createdAt: new Date(note.createdAt),
             updatedAt: new Date(note.updatedAt),
             raw_text: note.raw_text ?? ``,
-         }))
+         })),
       });
 
       revalidatePath(`/notes`);
-      return { notes: newNotes, ok: true  };
+      return { notes: newNotes, ok: true };
    }
 
    if (format === `XML`) {
       return { ok: true };
    }
+});
+
+
+const createSchema = z.object({
+   title: z.string().min(3).max(100),
+});
+
+/**
+ * An authorized server action for creating a new notes' category.
+ */
+export const createCategory = authorizedAction(createSchema!, async ({ title }, { userId }) => {
+   await sleep(1_000);
+
+   const existing = await xprisma.noteCategory.findFirst({
+      where: { title },
+   });
+   if (existing) return { success: false, error: `A category with this name already exists!` };
+
+
+   const category = await xprisma.noteCategory.create({
+      data: {
+         userId,
+         title,
+         metadata: {},
+      },
+   });
+
+   revalidatePath(`/notes`)
+   return { success: true, category };
 });

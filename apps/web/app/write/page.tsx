@@ -43,6 +43,9 @@ const Page = async (props: PageProps) => {
          where: { id: params.id, authorId: session?.user?.id },
       });
    }
+   const categories = await xprisma.noteCategory.findMany({
+      where: { userId: session.user.id },
+   });
 
    return (
       <section className="w-full m-12 flex flex-col items-center gap-4">
@@ -66,7 +69,7 @@ const Page = async (props: PageProps) => {
                   className={`w-3/5 mt-3 text-neutral-700 bg-neutral-300 shadow-lg`} />
             </div>
             <div className={`w-full`}>
-               <EditorComponentWrapper note={note} />
+               <EditorComponentWrapper categories={categories} note={note} />
             </div>
          </div>
       </section>

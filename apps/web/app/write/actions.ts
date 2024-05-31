@@ -166,3 +166,33 @@ export const changeNoteVisibility = authorizedAction(
 
       return newNote ? { success: true, note: newNote } : { success: false };
    });
+
+
+const changeCategorySchema = z.object({
+   noteId: z.string(),
+   categoryId: z.string().nullable(),
+});
+
+/**
+ * A server action for changing a note's visibility (either public or private).
+ */
+export const changeNoteCategory = authorizedAction(
+   changeCategorySchema,
+   async ({
+             noteId, categoryId,
+          }, { userId }): Promise<CreateOrUpdateResponse> => {
+      await sleep(1_000);
+
+      const note = await xprisma.note.findUnique({
+         where: { id: noteId },
+         include: { category: true },
+      });
+      if (!note || note.categoryId === categoryId) return { success: false };
+
+      const newNote = await xprisma.note.update({
+         where: { id: note.id },
+         data: { categoryId },
+      });
+
+      return newNote ? { success: true, note: newNote } : { success: false };
+   });

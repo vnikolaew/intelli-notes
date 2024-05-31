@@ -20,10 +20,11 @@ model User {
   accounts      Account[]
   sessions      Session[]
 
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  notes     Note[]
-  NoteLike  NoteLike[]
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
+  notes      Note[]
+  noteLikes  NoteLike[]
+  categories NoteCategory[]
 }
 
 model Account {
@@ -73,6 +74,9 @@ model Note {
   raw_text String   @db.VarChar(5000)
   tags     String[]
 
+  categoryId String?       @db.Uuid
+  category   NoteCategory? @relation(fields: [categoryId], references: [id])
+
   authorId String
   author   User    @relation(fields: [authorId], references: [id])
   public   Boolean @default(false)
@@ -93,4 +97,17 @@ model NoteLike {
 
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
+}
+
+model NoteCategory {
+  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+
+  title    String
+  userId   String
+  user     User   @relation(fields: [userId], references: [id])
+  metadata Json?  @default("null") @db.JsonB
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+  notes     Note[]
 }

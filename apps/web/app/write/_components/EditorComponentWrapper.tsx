@@ -3,10 +3,11 @@ import React, { Suspense, forwardRef, useRef } from "react";
 import dynamic from "next/dynamic";
 import { MDXEditorMethods, MDXEditorProps } from "@mdxeditor/editor";
 import { Loader2 } from "lucide-react";
-import { Note } from "@repo/db";
+import { Note, NoteCategory } from "@repo/db";
 
 export interface EditorComponentWrapperProps {
-   note?: Note;
+   note?: Note,
+   categories: NoteCategory[]
 }
 
 const Loading = () => (
@@ -22,16 +23,19 @@ const Editor = dynamic(() => import("./InitializedMDXEditor"), {
    loading: _ => <Loading />,
 });
 
-export const ForwardRefEditor = forwardRef<MDXEditorMethods, MDXEditorProps & { note?: Note }>((props, ref) =>
+export const ForwardRefEditor = forwardRef<MDXEditorMethods, MDXEditorProps & {
+   note?: Note,
+   categories: NoteCategory[]
+}>((props, ref) =>
    <Editor {...props} editorRef={ref} />);
 
-const EditorComponentWrapper = ({ note }: EditorComponentWrapperProps) => {
+const EditorComponentWrapper = ({ note, categories }: EditorComponentWrapperProps) => {
    const editorRef = useRef<MDXEditorMethods>();
 
    return (
       <div>
          <Suspense fallback={<Loading />}>
-            <ForwardRefEditor ref={editorRef} note={note} />
+            <ForwardRefEditor categories={categories} ref={editorRef} note={note} />
          </Suspense>
       </div>
    );

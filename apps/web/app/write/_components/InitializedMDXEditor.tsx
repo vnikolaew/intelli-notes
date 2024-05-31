@@ -11,7 +11,7 @@ import { Eye, Loader2, LockKeyhole, Sparkles, X } from "lucide-react";
 import { cn } from "lib/utils";
 import { isExecuting } from "next-safe-action/status";
 import { useRouter } from "next/navigation";
-import { Note } from "@repo/db";
+import { Note, NoteCategory } from "@repo/db";
 
 import "@mdxeditor/editor/style.css";
 import { Badge } from "components/ui/badge";
@@ -27,16 +27,34 @@ import { Saving } from "./Saving";
 import ExportNoteButton from "./ExportNoteButton";
 import { Button } from "components/ui/button";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "components/ui/tooltip";
+import {
+   Select,
+   SelectContent,
+   SelectGroup,
+   SelectItem,
+   SelectLabel,
+   SelectTrigger,
+   SelectValue,
+} from "components/ui/select";
+import NotesCategorySelect from "./NotesCategorySelect";
 
 export interface InitializedMdxEditorProps extends MDXEditorProps {
    editorRef: MutableRefObject<MDXEditorMethods> | null;
    onChange?: (value: string) => void | Promise<void>;
    note?: Note;
+   categories: NoteCategory[];
 }
 
 const SPACE = `&#x20;`;
 
-const InitializedMdxEditor = ({ editorRef, note, onChange, markdown, ...props }: InitializedMdxEditorProps) => {
+const InitializedMdxEditor = ({
+                                 editorRef,
+                                 categories,
+                                 note,
+                                 onChange,
+                                 markdown,
+                                 ...props
+                              }: InitializedMdxEditorProps) => {
    const [markdownValue, setMarkdownValue] = useState(() => note?.raw_text ?? markdown);
    const debouncedValue = useDebounce(markdownValue, 2000);
    const [currentNote, setCurrentNote] = useState(note);
@@ -129,6 +147,7 @@ const InitializedMdxEditor = ({ editorRef, note, onChange, markdown, ...props }:
 
    return (
       <div className={`flex flex-col items-start gap-2 mt-4`}>
+         <NotesCategorySelect note={note} categories={categories} />
          <div className={`flex items-center justify-between w-full gap-4`}>
             <div>
                <TooltipProvider>
