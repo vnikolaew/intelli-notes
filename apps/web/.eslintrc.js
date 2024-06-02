@@ -6,4 +6,10 @@ module.exports = {
   parserOptions: {
     project: true,
   },
+  plugins: [
+    'eslint-plugin-react-compiler',
+  ],
+  rules: {
+    'react-compiler/react-compiler': "error",
+  },
 };
