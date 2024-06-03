@@ -27,15 +27,6 @@ import { Saving } from "./Saving";
 import ExportNoteButton from "./ExportNoteButton";
 import { Button } from "components/ui/button";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "components/ui/tooltip";
-import {
-   Select,
-   SelectContent,
-   SelectGroup,
-   SelectItem,
-   SelectLabel,
-   SelectTrigger,
-   SelectValue,
-} from "components/ui/select";
 import NotesCategorySelect from "./NotesCategorySelect";
 
 export interface InitializedMdxEditorProps extends MDXEditorProps {

@@ -13,7 +13,7 @@ import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
 import { Switch } from "components/ui/switch";
 import { isExecuting } from "next-safe-action/status";
-import { motion } from "framer-motion";
+import { motion, MotionProps } from "framer-motion";
 import { TOASTS } from "config/toasts";
 import { APP_HOST_NAME } from "config/site";
 
@@ -114,7 +114,7 @@ const CookieConsentBannerClient = ({ cookiePreferences, cookieConsent }: CookieC
    );
 };
 
-interface CustomizePreferencesModalProps {
+interface CustomizePreferencesModalProps extends MotionProps {
    onBack: () => void,
    hideBanner: () => void,
    open: boolean,
@@ -128,7 +128,13 @@ export interface CookiePreferences {
    Marketing: boolean,
 }
 
-const CustomizePreferencesModal = ({ open, onBack, cookiePreferences, hideBanner }: CustomizePreferencesModalProps) => {
+export const CustomizePreferencesModal = ({
+                                             open,
+                                             onBack,
+                                             cookiePreferences,
+                                             hideBanner,
+                                             ...props
+                                          }: CustomizePreferencesModalProps) => {
    const [preferences, setPreferences] = useState<CookiePreferences>({
       Necessary: cookiePreferences?.[`Necessary`] === true,
       Statistics: cookiePreferences?.[`Statistics`] === true,
@@ -148,10 +154,10 @@ const CustomizePreferencesModal = ({ open, onBack, cookiePreferences, hideBanner
    });
 
    return (
-      <div
+      <motion.div
          className={
             cn(`bg-red-500 fixed hidden !z-20 gap-2 items-center justify-between !w-2/5 !mx-auto !bottom-8 !left-[30%] rounded-xl shadow-md`,
-               open && `!flex !flex-col`)}>
+               open && `!flex !flex-col`)} {...props}>
          <Card className={`w-full p-4 !bg-white !text-black`}>
             <CardHeader className={`p-0 flex !flex-row items-center gap-2`}>
                <Button onClick={_ => {
@@ -159,7 +165,7 @@ const CustomizePreferencesModal = ({ open, onBack, cookiePreferences, hideBanner
                }} variant={`ghost`} className={`rounded-full !w-fit !h-fit p-2`}>
                   <ArrowLeft size={18} />
                </Button>
-               <h2 className={`!mt-0 text-md font-semibold`}>Customize your preferences</h2>
+               <h2 className={`!mt-0 text-base font-semibold`}>Customize your preferences</h2>
             </CardHeader>
             <Separator className={`w-full mx-auto my-2 !bg-neutral-300`} />
             <CardContent className={`mt-4`}>
@@ -186,7 +192,7 @@ const CustomizePreferencesModal = ({ open, onBack, cookiePreferences, hideBanner
                </div>
             </CardContent>
             <CardFooter className={`bg-neutral-100 mt-2 p-2 px-4 flex items-center justify-between !-mx-4 !-mb-4`}>
-               <Button asChild className={`!text-neutral-400`} variant={`link`}>
+               <Button asChild className={`!text-neutral-400 !text-sm gap-1 items-center`} variant={`link`}>
                   <Link href={`/service/privacy`}>
                      Learn more <ExternalLink className={`ml-1 text-neutral-400 `} size={12} />
                   </Link>
@@ -204,7 +210,7 @@ const CustomizePreferencesModal = ({ open, onBack, cookiePreferences, hideBanner
                </Button>
             </CardFooter>
          </Card>
-      </div>
+      </motion.div>
    );
 };
 
@@ -218,7 +224,7 @@ interface PreferenceSwitchProps {
 const PreferenceSwitch = ({ label, onCheckedChange, checked }: PreferenceSwitchProps) => {
    return (
       <div className={`flex items-center justify-between`}>
-         <h2 className={`font-semibold text-base`}>{label}</h2>
+         <h2 className={`font-semibold text-sm`}>{label}</h2>
          <Switch
             checked={checked}
             onCheckedChange={onCheckedChange}

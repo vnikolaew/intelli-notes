@@ -50,7 +50,7 @@ export function isErrorMessage(message: ChatMessage): message is TSystemErrorMes
 
 export const SCORE_THRESHOLD = 0.2;
 
-export const AI_NO_RESPONSE_MESSAGE = `AI could not generate an appropriate response to your question!`
+export const NO_RESPONSE_MESSAGE = `AI could not generate an appropriate response to your question!`;
 
 const systemGeneratingMessage = () => {
    return {
@@ -102,7 +102,6 @@ const AiChat = ({}: AiChatProps) => {
             });
 
             for await (let value of readStreamableValue(res.result.answer)) {
-               console.log({ value });
                setMessages((messages) => {
                   const last = messages.at(-1)!;
                   return [...messages.slice(0, messages.length - 1), { ...last, message: last.message + value }];
@@ -124,7 +123,7 @@ const AiChat = ({}: AiChatProps) => {
                const last = messages.at(-1)!;
                return [...messages.slice(0, messages.length - 1), {
                   ...last,
-                  message: AI_NO_RESPONSE_MESSAGE
+                  message: NO_RESPONSE_MESSAGE
                }];
             });
          }

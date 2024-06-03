@@ -4,11 +4,9 @@ module.exports = {
       disableServerWebpackPlugin: true,
       disableClientWebpackPlugin: true,
    },
+   serverExternalPackages: ["sharp", "onnxruntime-node"],
    experimental: {
       typedRoutes: true,
-      serverComponentsExternalPackages: [
-         "sharp", "onnxruntime-node",
-      ],
    },
    compiler: { },
    eslint: { ignoreDuringBuilds: true },

@@ -11,15 +11,15 @@
     "lint": "echo 'Add lint script here'"
   },
   "dependencies": {
-    "resend": "^3.2.0",
-    "react": "^18.2.0",
     "@react-email/components": "0.0.16",
-    "@react-email/tailwind": "0.0.15"
+    "@react-email/tailwind": "0.0.15",
+    "react-email": "2.1.4",
+    "resend": "^3.2.0"
   },
   "devDependencies": {
-    "@types/react": "^18.2.61",
     "@repo/eslint-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
     "@types/node": "^20.12.7",
-    "@repo/typescript-config": "workspace:*"
+    "@types/react": "latest"
   }
 }

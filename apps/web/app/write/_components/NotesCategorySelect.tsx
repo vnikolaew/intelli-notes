@@ -44,7 +44,9 @@ const NotesCategorySelect = ({ note, categories }: NotesCategorySelectProps) => 
             defaultValue={note?.categoryId ?? UNCATEGORIZED}
             onValueChange={value => {
                setOpen(true);
-               execute({ categoryId: value === UNCATEGORIZED ? null : value, noteId: note.id });
+               if(!note?.id) return;
+
+               execute({ categoryId: value === UNCATEGORIZED ? null : value, noteId: note?.id });
             }}>
             <SelectTrigger className="w-[180px]">
                <SelectValue placeholder="Choose a category" />
@@ -72,7 +74,7 @@ const NotesCategorySelect = ({ note, categories }: NotesCategorySelectProps) => 
                         }} checkedIcon={loading ? <Loader2 className={`animate-spin`} size={14} /> :
                         <Check
                            className="h-4 w-4" />} key={category.id}
-                        value={category.id}>{category.title}</SelectItem>
+                        value={category.id}>{category.name}</SelectItem>
                   ))}
                </SelectGroup>
             </SelectContent>

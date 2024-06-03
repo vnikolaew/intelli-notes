@@ -1,6 +1,7 @@
 {
   "name": "@repo/storage",
   "version": "0.0.0",
+  "packageManager": "pnpm@9.1.4",
   "private": true,
   "exports": {
     ".": "./src/index.ts"
@@ -19,6 +20,8 @@
     "@aws-sdk/client-s3": "latest",
     "@aws-sdk/s3-request-presigner": "^3.583.0",
     "file-type": "^19.0.0",
+    "google-auth-library": "^9.10.0",
+    "googleapis": "^137.1.0",
     "mime": "^4.0.3"
   }
 }

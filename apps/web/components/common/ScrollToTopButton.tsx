@@ -37,8 +37,7 @@ const ScrollToTopButton = ({}: ScrollToTopButtonProps) => {
                }}
                animate={{ height: `auto`, opacity: 100 }} exit={{ height: 0, opacity: 0 }}
             >
-               <TooltipProvider>
-                  <Tooltip>
+               <TooltipProvider> <Tooltip>
                      <TooltipTrigger asChild>
                         <MotionButton
                            variant={`secondary`}

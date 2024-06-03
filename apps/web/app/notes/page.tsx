@@ -21,6 +21,7 @@ import {
    PaginationPrevious,
 } from "components/ui/pagination";
 import NotesSection from "./_components/NotesSection";
+import UploadToGoogleDriveButton from "./_components/UploadToGoogleDriveButton";
 
 export interface PageProps {
    searchParams: { page?: number };
@@ -41,7 +42,6 @@ const Page = async ({ searchParams }: PageProps) => {
    if (!session) redirect(`/`);
 
    const page = Math.max(Number(searchParams.page ?? 0), 1);
-   console.log({ page });
 
    const { notes: myNotes, total } = await xprisma.user.notes({
          userId: session.user?.id,
@@ -55,6 +55,7 @@ const Page = async ({ searchParams }: PageProps) => {
       },
    });
    const allTags = [...new Set(myNotes.flatMap(n => n.tags))];
+   const showGoogleDriveUploadFeature = !!session.accessToken && !!session.refreshToken;
 
    return (
       <section className="flex flex-col items-start gap-4 mt-24 w-3/4 px-12 mx-auto">
@@ -85,6 +86,9 @@ const Page = async ({ searchParams }: PageProps) => {
             <Row className={`gap-4 !w-fit`}>
                <ImportNotesButton />
                <BulkExportNotesButton notes={myNotes} />
+               {showGoogleDriveUploadFeature && (
+                  <UploadToGoogleDriveButton notes={myNotes} />
+               )}
             </Row>
          </div>
          {myNotes.length === 0 ? (

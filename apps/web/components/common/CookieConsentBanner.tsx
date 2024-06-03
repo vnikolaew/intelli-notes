@@ -1,7 +1,7 @@
 import React from "react";
-import CookieConsentBannerClient from "./CookieConsentBannerClient";
 import { xprisma } from "@repo/db";
 import { auth } from "auth";
+import CookieConsentBannerClientTwo from "./CookieConsentBannerClientTwo";
 
 export interface CookieConsentBannerProps {
 }
@@ -22,9 +22,8 @@ const CookieConsentBanner = async ({}: CookieConsentBannerProps) => {
    const cookieConsentGranted = user?.cookieConsent
    const cookiePreferences = user?.cookiePreferences;
 
-   // if (cookieConsentGranted) return null;
-   return null;
-   return <CookieConsentBannerClient cookieConsent={cookieConsentGranted} cookiePreferences={cookiePreferences} />;
+   if (cookieConsentGranted) return null;
+   return <CookieConsentBannerClientTwo cookiePreferences={cookiePreferences} />;
 };
 
 export default CookieConsentBanner;

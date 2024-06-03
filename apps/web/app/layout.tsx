@@ -15,6 +15,7 @@ import "./globals.css";
 import appLogo from "public/logo.jpg";
 import { __IS_DEV__ } from "lib/consts";
 import { sfMono } from "assets/fonts";
+import CookieConsentBannerClientTwo from "../components/common/CookieConsentBannerClientTwo";
 
 const inter = FontSans({ subsets: ["latin"], variable: "--font-sans" });
 

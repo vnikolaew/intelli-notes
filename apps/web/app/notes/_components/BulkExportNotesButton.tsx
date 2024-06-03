@@ -58,7 +58,7 @@ export const EXPORT_FORMATS = [
 const BulkExportNotesButton = ({ notes }: BulkExportNotesButtonProps) => {
    const [pending, setPending] = useBoolean();
 
-   function handleExport(dataValue: (typeof EXPORT_FORMATS)[number]["value"]) {
+   function handleExport(dataValue: ExportFormat) {
       console.log(dataValue);
       setPending(true);
       fetch(`/api/notes/export`, {

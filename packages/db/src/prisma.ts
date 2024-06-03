@@ -84,8 +84,9 @@ export let xprisma = prisma.$extends({
             const notes = await xprisma.note.findMany({
                where: { authorId: userId },
                orderBy: { createdAt: `desc` },
+               include: { category: true },
                skip,
-               take
+               take,
             });
 
             return { notes, total };

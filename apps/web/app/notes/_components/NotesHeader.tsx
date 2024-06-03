@@ -25,22 +25,24 @@ export function NotesHeader({ notes }: NotesHeaderProps) {
 
    return (
       <div className={`!w-fit flex items-center gap-2`}>
-         <TooltipProvider> <Tooltip>
-            <TooltipTrigger asChild>
-               <Button
-                  onClick={_ => setView(view === NOTES_VIEW_OPTIONS.ALL ? NOTES_VIEW_OPTIONS.BY_CATEGORY : NOTES_VIEW_OPTIONS.ALL)}
-                  className={`rounded-md p-2`}
-                  variant={`ghost`} size={"icon"}>
-                  {view === NOTES_VIEW_OPTIONS.ALL ? (<Notebook size={18} />
-                  ) : (
-                     <BookCopy size={18} />
-                  )}
-               </Button>
-            </TooltipTrigger>
-            <TooltipContent side={`top`} className={`bg-black text-white rounded-md text-xs`}>
-               {view === NOTES_VIEW_OPTIONS.ALL ? `Showing all notes.` : `Showing notes by category.`}
-            </TooltipContent>
-         </Tooltip>
+         <TooltipProvider>
+            <Tooltip>
+               <TooltipTrigger asChild>
+                  <Button
+                     onClick={_ => setView(view === NOTES_VIEW_OPTIONS.ALL ? NOTES_VIEW_OPTIONS.BY_CATEGORY : NOTES_VIEW_OPTIONS.ALL)}
+                     className={`rounded-md p-2`}
+                     variant={`ghost`} size={"icon"}>
+                     {view === NOTES_VIEW_OPTIONS.ALL
+                        ? (<Notebook size={18} />
+                        ) : (
+                           <BookCopy size={18} />
+                        )}
+                  </Button>
+               </TooltipTrigger>
+               <TooltipContent side={`top`} className={`bg-black text-white rounded-md text-xs`}>
+                  {view === NOTES_VIEW_OPTIONS.ALL ? `Showing all notes.` : `Showing notes by category.`}
+               </TooltipContent>
+            </Tooltip>
          </TooltipProvider>
          <h2 className={`text-3xl font-semibold`}>
             {(q?.length || showPublic !== null) ? `Filtered` : `All notes`} ({filteredNotes.length})

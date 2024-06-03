@@ -16,6 +16,10 @@ export const session = async ({ session, token, user, ...rest }: ({
          //@ts-ignore
          (session.user as any).id = token.id;
       }
+      session.accessToken = token.accessToken;
+      session.idToken = token.idToken;
+      session.refreshToken = token.refreshToken;
+
       return session;
    }
 ;

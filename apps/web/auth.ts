@@ -65,13 +65,27 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
       async jwt({ token, user, session, profile, account }) {
          if (user?.id) token.id = user.id;
+         console.log({ account });
+         if(account) {
+            token.accessToken = account.access_token
+            token.refreshToken = account.refresh_token
+            token.idToken = account.id_token
+         }
 
          return token;
       },
    },
    session: { strategy: `jwt` },
    secret: process.env.AUTH_SECRET ?? `sdfsdfdsfwerwe`,
-   providers: [Google({}), ResendProvider({
+   providers: [Google({
+      authorization: {
+         params: {
+            scope: `openid email profile https://www.googleapis.com/auth/drive`,
+            access_type: `offline`,
+            response_type: `code`
+         }
+      }
+   }), ResendProvider({
       from: RESEND_ONBOARDING_EMAIL,
       generateVerificationToken() {
          return crypto.randomUUID();

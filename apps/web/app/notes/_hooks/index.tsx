@@ -14,7 +14,6 @@ export function useFilteredNotes(notes: Note[]) {
    const [showPublic] = useQueryState(`public`, parseAsBoolean);
    const [selectedTags] = useQueryState<Item[]>(`tags`, parseAsItems);
    const [page, setPage] = useQueryState(`page`, parseAsInteger);
-   console.log({ page });
 
    const filteredNotes = useMemo(() => {
       let filtered = notes;

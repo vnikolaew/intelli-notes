@@ -5,6 +5,8 @@ import { z } from "zod";
 import { xprisma } from "@repo/db";
 import { sleep } from "lib/utils";
 import { revalidatePath } from "next/cache";
+import { GoogleDriveStorage } from "@repo/storage";
+import { auth } from "../../auth";
 
 const deleteSchema = z.object({
    noteId: z.string(),
@@ -117,6 +119,43 @@ export const createCategory = authorizedAction(createSchema!, async ({ title }, 
       },
    });
 
-   revalidatePath(`/notes`)
+   revalidatePath(`/notes`);
    return { success: true, category };
+});
+
+
+/**
+ * An authorized server action for creating a new Google Drive folder
+ */
+export const createFolder = authorizedAction(createSchema!, async ({ title }, { userId }) => {
+   await sleep(1_000);
+   const session = await auth();
+
+   const file = await new GoogleDriveStorage(session?.accessToken, session?.refreshToken)
+      .createFolder(title);
+
+   console.log({ file });
+   return { file, success: true }
+});
+
+const commentSchema = z.object({
+   noteId: z.string(),
+   raw_text: z.string().min(1).max(500),
+});
+
+/**
+ * An authorized server action for commenting on a note.
+ */
+export const commentOnNote = authorizedAction(commentSchema!, async ({ noteId, raw_text   }, { userId }) => {
+   await sleep(1_000);
+
+   const comment  =await xprisma.noteComment.create({
+      data: {
+         userId,
+         noteId,
+         raw_text,
+      }
+   })
+
+   return { success: true, comment }
 });

@@ -63,7 +63,10 @@ export function MultiSelect({ items, placeholder, setSelected, selected }: Fancy
          className="overflow-visible bg-transparent"
       >
          <div
-            className="group rounded-md border border-input px-3 py-2 text-sm ring-offset-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2">
+            className="group rounded-md border border-input px-3 py-2 text-sm ring-offset-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 relative">
+            <div title={`Clear`} onClick={_ => setSelected([])} className={`absolute right-2 top-1/2 -translate-y-1/2`}>
+               <X className={`cursor-pointer hover:opacity-60 transition-opacity duration-200`} size={14} />
+            </div>
             <div className="flex flex-wrap gap-1">
                {selected.map((framework) => {
                   return (
