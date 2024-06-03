@@ -5,8 +5,6 @@ export function useKeyPress(key: string, handler: (e: KeyboardEvent) => void, de
    useEffect(() => {
       const realHandler = (e: KeyboardEvent) => {
          if (e.key === key) {
-            e.preventDefault();
-            e.stopPropagation();
             handler(e);
          }
       };

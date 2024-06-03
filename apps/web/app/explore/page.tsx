@@ -5,8 +5,10 @@ import { Separator } from "components/ui/separator";
 import { Row } from "@repo/ui/components";
 import NoteCard from "../notes/_components/NoteCard";
 import UserAvatar from "components/common/UserAvatar";
-import { ThumbsUp } from "lucide-react";
 import NoteLikeButton from "./_components/NoteLikeButton";
+import NoteCommentsCount from "./_components/NoteCommentsCount";
+import ExploreNotesGrid from "./_components/ExploreNotesGrid";
+import { late } from "zod";
 
 export interface PageProps {
 }
@@ -40,11 +42,23 @@ const Page = async ({}: PageProps) => {
          public: true,
       },
       orderBy: { createdAt: `desc` },
-      include: { author: true, likes: { select: { id: true, noteId: true, userId: true } } },
+      include: {
+         author: true, likes: { select: { id: true, noteId: true, userId: true } }, comments: {
+            include: { user: true },
+         },
+      },
       take: 10,
    });
 
-   console.log({ latestUsersNotes });
+   latestUsersNotes.forEach(note =>  {
+      note.author.updatePassword=  undefined ;
+      note.author.verifyPassword = undefined ;
+
+      note.comments.forEach(comment => {
+        comment.user.updatePassword = undefined
+         comment.user.verifyPassword = undefined
+      })
+   })
 
    return (
       <section className="flex flex-col items-start gap-4 mt-24 w-3/4 px-12 mx-auto">
@@ -52,21 +66,7 @@ const Page = async ({}: PageProps) => {
             {EXPLORE_HEADINGS.at(Math.floor(Math.random() * EXPLORE_HEADINGS.length))}
          </h2>
          <Separator orientation={`horizontal`} className={`w-2/5 mt-0 text-neutral-700 bg-neutral-300 shadow-lg`} />
-         <div className={`mt-4 grid grid-cols-3`}>
-            {latestUsersNotes.map(({ author, ...note }, index) => (
-               <div className={`flex flex-col items-start gap-4`} key={note.id}>
-                  <Row className={`justify-start`}>
-                     <UserAvatar alt={author.name} imageSrc={author.image} />
-                     <span className={`text-muted-foreground`}>{author.name}</span>
-                  </Row>
-                  <NoteCard showButtons={false} note={note} />
-                  <NoteLikeButton
-                     note={note}
-                     total={note.likes.length}
-                     hasUserLiked={note.likes.some(l => l.userId === session.user.id)} />
-               </div>
-            ))}
-         </div>
+         <ExploreNotesGrid notes={latestUsersNotes} />
       </section>
    );
 };

@@ -6,13 +6,15 @@ import Image from "next/image";
 import appLogo from "public/logo.jpg";
 import { SignedIn, SignedOut } from "./Auth";
 import { Button } from "components/ui/button";
-import { LogOut, Notebook, PenLine, Telescope } from "lucide-react";
+import { LogOut, Notebook, PenLine, Sparkles, Telescope } from "lucide-react";
 import { APP_NAME } from "config/site";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
 import { InteractiveLink } from "@repo/ui/components";
 import UserAvatar from "./UserAvatar";
 import { useBoolean } from "../../hooks/useBoolean";
 import SignInModal from "../modals/SignInModal";
+import { usePathname } from "next/navigation";
+import { cn } from "lib/utils";
 
 export interface NavbarProps {
 }
@@ -23,6 +25,7 @@ export interface NavbarProps {
  */
 const Header = ({}: NavbarProps) => {
    const session = useSession();
+   const pathname = usePathname();
    const [signInModalOpen, setSignInModalOpen] = useBoolean();
 
    return (
@@ -36,15 +39,35 @@ const Header = ({}: NavbarProps) => {
                </Link>
             </nav>
             <div className={`flex-1 text-center flex items-center gap-8 justify-center`}>
-               <InteractiveLink className={`text-lg inline-flex gap-2 items-center`} underlineClassname={`bg-black`}
-                                href={`/notes`}>
+               <InteractiveLink
+                  className={cn(`text-lg inline-flex gap-2 items-center`,
+                     pathname === `/notes` && `text-blue-600`)}
+                  underlineClassname={cn(`bg-black`,
+                     pathname === `/notes` && `bg-blue-600`)
+                  }
+                  href={`/notes`}>
                   <Notebook size={14} />
                   My notes
                </InteractiveLink>
-               <InteractiveLink className={`text-lg inline-flex gap-2 items-center`} underlineClassname={`bg-black`}
-                                href={`/explore`}>
-                  <Telescope size={14} />
+               <InteractiveLink
+                  className={cn(`text-lg inline-flex gap-2 items-center`,
+                     pathname === `/explore` && `text-blue-600`)}
+                  underlineClassname={cn(`bg-black`,
+                     pathname === `/explore` && `bg-blue-600`)
+                  }
+                  href={`/explore`}>
+                  <Telescope className={``} size={14} />
                   Explore
+               </InteractiveLink>
+               <InteractiveLink
+                  className={cn(`text-lg inline-flex gap-2 items-center`,
+                     pathname === `/notes/ask` && `text-blue-600`)}
+                  underlineClassname={cn(`bg-black`,
+                     pathname === `/notes/ask` && `bg-blue-600`)
+                  }
+                  href={`/notes/ask`}>
+                  <Sparkles size={14} />
+                  Ask AI
                </InteractiveLink>
             </div>
             <div className={`flex flex-1 items-center justify-end space-x-8`}>

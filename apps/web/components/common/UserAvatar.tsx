@@ -8,13 +8,13 @@ export interface UserAvatarProps extends AvatarProps, HTMLAttributes<HTMLSpanEle
    alt?: string;
 }
 
-const UserAvatar = ({ imageSrc, alt, ...props }: UserAvatarProps) => {
+const UserAvatar = ({ imageSrc, alt, className, ...props }: UserAvatarProps) => {
    return imageSrc ? (
       <Avatar {...props}>
          <AvatarImage alt={alt ?? ``} src={imageSrc} />
       </Avatar>
    ) : (
-      <CircleUserRound className={``} size={28} />
+      <CircleUserRound className={className} size={28} />
    );
 };
 

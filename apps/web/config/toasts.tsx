@@ -184,6 +184,14 @@ Export successful
          </div>),
       className: `text-base font-normal`,
    },
+   DELETE_NOTE_SUCCESS: {
+      message:
+         (<div className={`flex items-center gap-2`}>
+            <Check className={`text-green-600 bg-green-600`} size={18} />
+            <span>Note successfully deleted!</span>
+         </div>),
+      className: `text-base font-normal`,
+   },
 } as const;
 
 export const toast = ({ message, ...config }: ExternalToast & { message: ReactNode }) => sonnerToast(message, config);

@@ -20,11 +20,14 @@ model User {
   accounts      Account[]
   sessions      Session[]
 
-  createdAt  DateTime       @default(now())
-  updatedAt  DateTime       @updatedAt
-  notes      Note[]
-  noteLikes  NoteLike[]
-  categories NoteCategory[]
+  createdAt           DateTime               @default(now())
+  updatedAt           DateTime               @updatedAt
+  notes               Note[]
+  noteLikes           NoteLike[]
+  categories          NoteCategory[]
+  comments            NoteComment[]
+  chatHistories       AiChatHistory[]
+  chatHistoryMessages AiChatHistoryMessage[]
 }
 
 model Account {
@@ -81,9 +84,10 @@ model Note {
   author   User    @relation(fields: [authorId], references: [id])
   public   Boolean @default(false)
 
-  createdAt DateTime   @default(now())
-  updatedAt DateTime?  @updatedAt
+  createdAt DateTime      @default(now())
+  updatedAt DateTime?     @updatedAt
   likes     NoteLike[]
+  comments  NoteComment[]
 }
 
 model NoteLike {
@@ -91,6 +95,20 @@ model NoteLike {
   noteId String @db.Uuid
   note   Note   @relation(fields: [noteId], references: [id])
 
+  userId   String
+  user     User   @relation(fields: [userId], references: [id])
+  metadata Json?  @default("null") @db.JsonB
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+}
+
+model NoteComment {
+  id     String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  noteId String @db.Uuid
+  note   Note   @relation(fields: [noteId], references: [id])
+
+  raw_text String
   userId   String
   user     User   @relation(fields: [userId], references: [id])
   metadata Json?  @default("null") @db.JsonB
@@ -110,4 +128,39 @@ model NoteCategory {
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
   notes     Note[]
+}
+
+model AiChatHistory {
+  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+
+  userId   String
+  user     User   @relation(fields: [userId], references: [id])
+  metadata Json?  @default("null") @db.JsonB
+
+  createdAt DateTime               @default(now())
+  updatedAt DateTime?              @updatedAt
+  messages  AiChatHistoryMessage[]
+}
+
+model AiChatHistoryMessage {
+  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+
+  chatId String        @db.Uuid
+  chat   AiChatHistory @relation(fields: [chatId], references: [id])
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  raw_text String
+  role     ChatHistoryMessageRole
+  metadata Json?                  @default("null") @db.JsonB
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+}
+
+enum ChatHistoryMessageRole {
+  USER
+  SYSTEM
+  ASSISTANT
 }

@@ -6,7 +6,7 @@ import NotesGrid from "./NotesGrid";
 import { Note, NoteCategory } from "@repo/db";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "components/ui/accordion";
 import { Button } from "components/ui/button";
-import { ArrowRight, Loader2, Notebook, Pencil, Plus } from "lucide-react";
+import { Loader2, Notebook, Pencil, Plus } from "lucide-react";
 import {
    Dialog,
    DialogContent,
@@ -15,7 +15,7 @@ import {
    DialogTitle,
    DialogTrigger,
 } from "components/ui/dialog";
-import { useBoolean } from "../../../hooks/useBoolean";
+import { useBoolean } from "hooks/useBoolean";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -27,11 +27,11 @@ import {
    FormItem,
    FormLabel,
    FormMessage,
-} from "../../../components/ui/form";
-import { Input } from "../../../components/ui/input";
+} from "components/ui/form";
+import { Input } from "components/ui/input";
 import { useAction } from "next-safe-action/hooks";
 import { createCategory } from "../actions";
-import { toast, TOASTS } from "../../../config/toasts";
+import { toast, TOASTS } from "config/toasts";
 import { isExecuting } from "next-safe-action/status";
 import moment from "moment";
 import Link from "next/link";

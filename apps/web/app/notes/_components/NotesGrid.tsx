@@ -6,9 +6,10 @@ import { useFilteredNotes } from "../_hooks";
 
 export interface NotesGridProps {
    notes: Note[];
+   showComments?: boolean;
 }
 
-const NotesGrid = ({ notes }: NotesGridProps) => {
+const NotesGrid = ({ notes ,showComments = false }: NotesGridProps) => {
    const {pagedNotes, filteredNotes} = useFilteredNotes(notes);
 
    return (
@@ -17,6 +18,7 @@ const NotesGrid = ({ notes }: NotesGridProps) => {
             <NoteCard
                showButtons
                showPublicity
+               showComments={showComments}
                markdownProps={{ className: `h-[160px] !px-0` }}
                key={note.id + index} note={note} />
          ))}

@@ -141,6 +141,8 @@ const InitializedMdxEditor = ({
 
    useKeyPress(`I`, e => {
       if (e.shiftKey && !isExecuting(aiGenerateTextStatus)) {
+         e.preventDefault()
+         e.stopPropagation()
          handleGenerateAiText();
       }
    }, [markdownValue, noteTitle]);

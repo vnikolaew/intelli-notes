@@ -30,8 +30,8 @@ export const HeroSectionTwo = ({ appDescription, heroLogo }: HeroSectionTwoProps
                   initial={{ translateX: -60, opacity: 0 }}
                   animate={{ translateX: 0, opacity: 100 }}
                   transition={{ duration: 0.4, delay: 1.6 }}
-                  className="mb-8 leading-relaxed dark:text-neutral-400 text-neutral-600">
-                  Product overview ...
+                  className="mb-8 leading-relaxed dark:text-neutral-400 text-neutral-600 text-lg">
+                  Where smart technology meets seamless organization.
                </motion.p>
                <div className="flex justify-center items-center mt-8 gap-8">
                   <button
