@@ -13,6 +13,24 @@ import { NotebookPen, Server, Sparkles } from "lucide-react";
 
 const inter = FontSans({ subsets: ["latin"], variable: "--font-sans" });
 
+const FEATURES = [
+   {
+      title: `Powerful AI`,
+      description: `IntelliNotes is powered by advanced AI technology, ensuring that your notes are always up-to-date and accurate.`,
+      icon: <Sparkles size={60} />,
+   },
+   {
+      title: `Easy Note-Taking`,
+      description: `Effortlessly jot down and organize your thoughts, documents, and more with IntelliNotes.`,
+      icon: <NotebookPen size={60} />,
+   },
+   {
+      title: `Secure Storage`,
+      description: `Keep your notes and documents safe with IntelliNotes's secure storage system.`,
+      icon: <Server size={60} />,
+   },
+
+]
 /**
  * The site's main landing page.
  * @constructor
@@ -34,23 +52,7 @@ export default async function Page(): Promise<JSX.Element> {
                Unleash the power of AI to transform your note-taking with <span
                className={`test-gradient drop-shadow-lg`}> IntelliNotes </span>
             </>} />
-         <FeaturesTwo features={[
-            {
-               title: `Powerful AI`,
-               description: `IntelliNotes is powered by advanced AI technology, ensuring that your notes are always up-to-date and accurate.`,
-               icon: <Sparkles size={60} />,
-            },
-            {
-               title: `Easy Note-Taking`,
-               description: `Effortlessly jot down and organize your thoughts, documents, and more with IntelliNotes.`,
-               icon: <NotebookPen size={60} />,
-            },
-            {
-               title: `Secure Storage`,
-               description: `Keep your notes and documents safe with IntelliNotes's secure storage system.`,
-               icon: <Server size={60} />,
-            },
-         ]} />
+         <FeaturesTwo features={FEATURES} />
          <FaqOne />
          <CtaSectionOne appName={APP_NAME} />
       </section>

@@ -4,6 +4,13 @@ export const APP_DESCRIPTION = `Unleash the power of AI to transform your note-t
 
 export const APP_VERSION = `1.0.0`;
 
+export const COMPANY_DETAILS = {
+   streetAddress: `Sample Street 100`,
+   city: `Varna`,
+   zipCode: 9000,
+   country: `Bulgaria`
+}
+
 export const LINKS = {
    twitter: `https://twitter.com/vnikolaew25`,
    github: `https://github.com/vnikolaew`,

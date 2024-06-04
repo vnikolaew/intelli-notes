@@ -14,7 +14,6 @@ export interface SystemMessageProps {
 }
 
 const SystemMessage = ({ message, onRegenerate }: SystemMessageProps) => {
-   console.log(`System message: `, { message });
    return (
       <div className={`w-full flex items-start justify-start gap-3 group`}>
          <Image className={`rounded-full w-10 h-10 shadow-md p-1 border-[1px] border-neutral-300`} src={aiLogo}

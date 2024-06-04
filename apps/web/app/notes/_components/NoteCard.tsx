@@ -172,7 +172,8 @@ const NoteCard = ({
                   </DeleteNoteModal>
                )}
             </CardFooter>
-         </MotionCard></Fragment>
+         </MotionCard>
+      </Fragment>
    );
 };
 

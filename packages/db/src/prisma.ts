@@ -16,6 +16,13 @@ export let prisma = globalForPrisma.prisma ?? new PrismaClient({
    transactionOptions: { isolationLevel: `Serializable` },
 });
 
+export const nonArchivedFilter: Prisma.AiChatHistoryWhereInput = {
+   metadata: {
+      path: [`archived`],
+      equals: Prisma.AnyNull,
+   },
+};
+
 export let xprisma = prisma.$extends({
    result: {
       account: {
@@ -76,6 +83,23 @@ export let xprisma = prisma.$extends({
       },
    },
    model: {
+      aiChatHistory: {
+         async getNonArchivedUserChats(userId: string) {
+            const userChatHistories = await xprisma.aiChatHistory.findMany({
+               where: {
+                  userId,
+                  ...nonArchivedFilter,
+               },
+               include: {
+                  messages: { orderBy: { createdAt: `asc` } },
+               },
+            });
+            userChatHistories.forEach(chat =>  {
+              chat.messages = chat.messages.sort((a, b) => a.createdAt - b.createdAt)
+            })
+            return userChatHistories;
+         },
+      },
       user: {
          async notes({ userId, skip = 0, take = 20 }: { userId: string, skip?: number, take?: number }) {
             const total = await xprisma.note.count({

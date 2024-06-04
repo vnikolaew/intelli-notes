@@ -146,7 +146,7 @@ model AiChatHistoryMessage {
   id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
 
   chatId String        @db.Uuid
-  chat   AiChatHistory @relation(fields: [chatId], references: [id])
+  chat   AiChatHistory @relation(fields: [chatId], references: [id], onDelete: Cascade)
 
   userId String
   user   User   @relation(fields: [userId], references: [id])

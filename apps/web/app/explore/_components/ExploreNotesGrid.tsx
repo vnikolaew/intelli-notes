@@ -1,6 +1,6 @@
 "use client";
 import { Note, NoteComment, NoteLike } from "@repo/db";
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import { Row } from "@repo/ui/components";
 import UserAvatar from "components/common/UserAvatar";
 import NoteCard from "../../notes/_components/NoteCard";
@@ -61,10 +61,10 @@ const ExploreNotesGrid = ({ notes }: ExploreNotesGridProps) => {
             <div className={`col-span-3 col-start-1 w-full flex items-center justify-center mt-8`}>
                <Button className={`items-center gap-2`} disabled={loading} onClick={handleLoadMore} variant={`default`}>
                   {loading ? (
-                     <>
+                     <Fragment>
                         <Loader2 className={`animate-spin`} size={14} />
                         Loading ...
-                     </>
+                     </Fragment>
                   ) : `Load more`}
                </Button>
             </div>

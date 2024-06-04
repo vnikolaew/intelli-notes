@@ -74,7 +74,7 @@ const CookieConsentBannerClientTwo = ({ cookiePreferences }: CookieConsentBanner
                         give
                         you
                         the
-                        best experience on our website. <Link href="/tos" className="text-blue-500 hover:underline">
+                        best experience on our website. <Link href="/cookie-policy" className="text-blue-500 hover:underline">
                            Read cookies policies</Link>. </p>
                   </div>
 

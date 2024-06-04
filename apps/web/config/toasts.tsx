@@ -192,6 +192,15 @@ Export successful
          </div>),
       className: `text-base font-normal`,
    },
+   USER_FEEDBACK_SUCCESS: {
+      message:
+         (<div className={`flex items-center gap-2`}>
+            <Check className={`text-green-600 bg-green-600`} size={18} />
+            <span>Feedback successfully submitted!</span>
+         </div>),
+      description: `Thank you for your feedback!`,
+      className: `text-base font-normal`,
+   },
 } as const;
 
 export const toast = ({ message, ...config }: ExternalToast & { message: ReactNode }) => sonnerToast(message, config);

@@ -5,7 +5,7 @@ import AiChat from "./_components/AIChat";
 import { InteractiveLink } from "@repo/ui/components";
 import AiChatSidebar from "./_components/AiChatSidebar";
 import { auth } from "auth";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { fillSystemMessagesWithNotes, getCurrentChat, getSortedUserChatHistories } from "../_queries";
 
 export interface PageProps {
@@ -23,12 +23,15 @@ const Page = async ({ searchParams }: PageProps) => {
       session?.user?.id,
       searchParams?.chatId,
       searchParams?.new === `true`);
+   console.log({ messages: chatHistory.messages });
 
-   if (chatHistory.id !== searchParams.chatId) redirect(`/notes/ask?chatId=${chatHistory.id}`);
+   if(!chatHistory) return notFound()
+   if (chatHistory.id !== searchParams.chatId){
+      redirect(`/notes/ask?chatId=${chatHistory.id}`);
+   }
 
    // Now fetch all notes that are embedded as assistant answers:
    chatHistory = await fillSystemMessagesWithNotes(chatHistory)
-   console.log({ messages: chatHistory.messages });
 
    return (
       <section className={`w-4/5 grid grid-cols-5 mt-24 mx-auto gap-2`}>

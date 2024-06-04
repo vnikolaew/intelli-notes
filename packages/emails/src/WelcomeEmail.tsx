@@ -4,11 +4,12 @@ import { Html, Section, Tailwind, Text, Link, Hr } from "@react-email/components
 export interface WelcomeEmailProps {
    username: string;
    appName: string;
+   features?: (string | ReactNode) []
    introduction: ReactNode;
    description: ReactNode;
 }
 
-const WelcomeEmail = ({ username, appName, introduction, description }: WelcomeEmailProps) => {
+const WelcomeEmail = ({ username, appName, introduction, description, features }: WelcomeEmailProps) => {
    const introSection = typeof introduction === `string` ? (
       <Text dangerouslySetInnerHTML={{ __html: introduction }} className={`text-base`}>
       </Text>
@@ -52,9 +53,9 @@ const WelcomeEmail = ({ username, appName, introduction, description }: WelcomeE
 
                <Text className={`text-base`}>
                   <ol>
-                     {Array.from({ length: 4 }).map((_, i) => (
+                     {features?.map((feature, i) => (
                         <li key={i}>
-                           Feature {i + 1}
+                           {feature}
                         </li>
                      ))}
                   </ol>
@@ -64,8 +65,7 @@ const WelcomeEmail = ({ username, appName, introduction, description }: WelcomeE
                   don&apos;t hesitate to share any feedback or suggestions you may have.
                </Text>
                <Text className={`text-base`}>
-                  Once again, welcome to <b>{appName}</b>! We can&apos;t wait to see the world through your
-                  lens.
+                  Once again, welcome to <b>{appName}</b>!
                </Text>
                <Text className={`text-base`}>
                   Best regards,

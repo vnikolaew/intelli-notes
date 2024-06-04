@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import React from "react";
+import React, { ReactNode } from "react";
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import appLogo from "public/logo.jpg";
@@ -18,6 +18,28 @@ import { cn } from "lib/utils";
 
 export interface NavbarProps {
 }
+
+export interface InteractiveHeaderLinkProps {
+   href: string;
+   icon: ReactNode;
+   title: ReactNode;
+}
+
+const InteractiveHeaderLink = ({ icon, title, href }: InteractiveHeaderLinkProps) => {
+   const pathname = usePathname();
+   return (
+      <InteractiveLink
+         className={cn(`text-lg inline-flex gap-2 items-center`,
+            pathname === href && `text-blue-600 font-semibold`)}
+         underlineClassname={cn(`bg-black`,
+            pathname === href && `bg-blue-600`)
+         }
+         href={href}>
+         {icon}
+         {title}
+      </InteractiveLink>
+   );
+};
 
 /**
  * The site's header, containing the Navbar as well.
@@ -39,55 +61,49 @@ const Header = ({}: NavbarProps) => {
                </Link>
             </nav>
             <div className={`flex-1 text-center flex items-center gap-8 justify-center`}>
-               <InteractiveLink
-                  className={cn(`text-lg inline-flex gap-2 items-center`,
-                     pathname === `/notes` && `text-blue-600 font-semibold`)}
-                  underlineClassname={cn(`bg-black`,
-                     pathname === `/notes` && `bg-blue-600`)
-                  }
-                  href={`/notes`}>
-                  <Notebook size={14} />
-                  My notes
-               </InteractiveLink>
-               <InteractiveLink
-                  className={cn(`text-lg inline-flex gap-2 items-center`,
-                     pathname === `/explore` && `text-blue-600 font-semibold`)}
-                  underlineClassname={cn(`bg-black`,
-                     pathname === `/explore` && `bg-blue-600`)
-                  }
-                  href={`/explore`}>
-                  <Telescope className={``} size={14} />
-                  Explore
-               </InteractiveLink>
-               <InteractiveLink
-                  className={cn(`text-lg inline-flex gap-2 items-center`,
-                     pathname === `/notes/ask` && `text-blue-600 font-semibold`)}
-                  underlineClassname={cn(`bg-black`,
-                     pathname === `/notes/ask` && `bg-blue-600`)
-                  }
-                  href={`/notes/ask`}>
-                  <Sparkles size={14} />
-                  Ask AI
-               </InteractiveLink>
+               <InteractiveHeaderLink href={`/notes`} icon={<Notebook
+                  size={14}
+                  className={cn(pathname === `/notes` && `stroke-[3px]`)}
+               />} title={`My notes`} />
+               <InteractiveHeaderLink href={`/explore`} icon={<Telescope
+                  size={14}
+                  className={cn(pathname === `/explore` && `stroke-[3px]`)}
+               />} title={`Explore`} />
+               <InteractiveHeaderLink
+                  href={`/notes/ask`} icon={<Sparkles
+                  size={14}
+                  className={cn(pathname === `/notes/ask` && `stroke-[3px]`)}
+               />} title={`Ask AI`} />
             </div>
             <div className={`flex flex-1 items-center justify-end space-x-8`}>
                <SignedIn>
                   <div className={`flex items-center gap-6`}>
-                     <UserAvatar title={session?.data?.user?.name} className={`cursor-pointer`}
+                     <TooltipProvider>
+                        <Tooltip>
+                           <TooltipTrigger >
+                              <UserAvatar
+                                 title={session?.data?.user?.name} className={`cursor-pointer`}
                                  imageSrc={session?.data?.user?.image} />
-                     <div>
-                        <TooltipProvider> <Tooltip>
-                           <TooltipTrigger asChild>
-                              <Button asChild className={`rounded-md p-2`} variant={`ghost`} size={"icon"}>
-                                 <Link href={`/write`}>
-                                    <PenLine size={18} />
-                                 </Link>
-                              </Button>
                            </TooltipTrigger>
-                           <TooltipContent side={`top`} className={`bg-black text-white rounded-md text-xs`}>
-                              Create a note
+                           <TooltipContent side={`bottom`} className={`bg-black text-white rounded-md text-xs`}>
+                              Signed in as {session?.data?.user?.name}
                            </TooltipContent>
                         </Tooltip>
+                     </TooltipProvider>
+                     <div>
+                        <TooltipProvider>
+                           <Tooltip>
+                              <TooltipTrigger asChild>
+                                 <Button asChild className={`rounded-md p-2`} variant={`ghost`} size={"icon"}>
+                                    <Link href={`/write`}>
+                                       <PenLine className={`stroke-[2px]`} size={22} />
+                                    </Link>
+                                 </Button>
+                              </TooltipTrigger>
+                              <TooltipContent side={`top`} className={`bg-black text-white rounded-md text-xs`}>
+                                 Create a note
+                              </TooltipContent>
+                           </Tooltip>
                         </TooltipProvider>
                      </div>
                      <Button

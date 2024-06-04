@@ -3,9 +3,10 @@
 import { authorizedAction, safeExecute } from "lib/actions";
 import { z } from "zod";
 import { HuggingFaceAPI } from "@repo/ai";
-import { Note, xprisma } from "@repo/db";
+import { nonArchivedFilter, Note, Prisma, xprisma } from "@repo/db";
 import { createStreamableValue, StreamableValue } from "ai/rsc";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 const askSchema = z.object({
       question: z.string().min(3).max(500),
@@ -23,6 +24,9 @@ export type Response = {
    }, note: Note
 }
 
+/**
+ * Ask AI to retrieve information about your current notes.
+ */
 export const askAi = authorizedAction(askSchema, async ({ question }, { userId }) => {
    return await safeExecute<Response>(async () => {
       const hf = new HuggingFaceAPI();
@@ -141,3 +145,107 @@ export const addChatMessage = authorizedAction(addSchema,
    });
 
 export type AddChatMessage = Awaited<ReturnType<typeof addChatMessage>>["data"]
+
+const archiveSchema = z.object({
+      chatId: z.string(),
+      currentChatId: z.string(),
+   },
+);
+
+
+export type ArchiveSchema = typeof archiveSchema
+
+/**
+ *  Archive an existing user chat.
+ */
+export const archiveChat = authorizedAction(archiveSchema,
+   async ({
+             chatId,
+             currentChatId,
+          }, { userId }) => {
+      let chat = await xprisma.aiChatHistory.findUnique({
+         where: {
+            userId,
+            id: chatId,
+         },
+      });
+
+      if (!chat) return { success: false };
+
+      chat = await xprisma.aiChatHistory.update({
+         where: { id: chat.id },
+         data: {
+            metadata: { ...(chat.metadata ?? {}), archived: true },
+         },
+      });
+
+      if (currentChatId === chat.id) {
+
+         // Redirect user to next available chat history
+         const nextChat = await xprisma.aiChatHistory.findFirst({
+            orderBy: { updatedAt: `desc` },
+            where: {
+               ...nonArchivedFilter,
+            },
+         });
+
+         if (!nextChat) redirect(`/notes/ask`);
+         else redirect(`/notes/ask?chatId=${nextChat.id}`);
+
+         return;
+      }
+
+      revalidatePath(`/notes/ask`);
+      revalidatePath(`/notes/ask?chatId=${chat.id}`);
+
+      return { success: true, chat };
+   });
+
+export type ArchiveChat = Awaited<ReturnType<typeof archiveChat>>["data"]
+
+
+const deleteSchema = archiveSchema;
+
+export type DeleteSchema = typeof deleteSchema;
+
+/**
+ *  Delete an existing user chat.
+ */
+export const deleteChat = authorizedAction(deleteSchema,
+   async ({
+             chatId,
+             currentChatId,
+          }, { userId }) => {
+      let chat = await xprisma.aiChatHistory.findUnique({
+         where: {
+            userId,
+            id: chatId,
+         },
+      });
+
+      if (!chat) return { success: false };
+
+      chat = await xprisma.aiChatHistory.delete({
+         where: { id: chat.id },
+      });
+
+      if (currentChatId === chat.id) {
+
+         // Redirect user to next available chat history
+         const nextChat = await xprisma.aiChatHistory.findFirst({
+            orderBy: { updatedAt: `desc` },
+            where: { ...nonArchivedFilter },
+         });
+         if (!nextChat) redirect(`/notes/ask`);
+         else redirect(`/notes/ask?chatId=${nextChat.id}`);
+
+         return;
+      }
+
+      revalidatePath(`/notes/ask`);
+      revalidatePath(`/notes/ask?chatId=${chat.id}`);
+
+      return { success: true, chat };
+   });
+
+export type DeleteChat = Awaited<ReturnType<typeof deleteChat>>["data"]

@@ -65,7 +65,7 @@ export const FooterTwo = ({
                <h2 className={`uppercase text-muted-foreground text-base`}>Links</h2>
                <div className="mt-4 flex space-y-2 flex-col">
                   <Link className={`hover:underline text-sm w-fit`} href={`/`}>Home</Link>
-                  <Link className={`hover:underline text-sm w-fit`} href={`/#pricing`}>Pricing</Link>
+                  <Link className={`hover:underline text-sm w-fit`} href={`/#features`}>Features</Link>
                   <Link className={`hover:underline text-sm w-fit`} href={`mailto:${email}`}>Support</Link>
                </div>
             </div>
@@ -74,6 +74,7 @@ export const FooterTwo = ({
                <div className="mt-4 flex space-y-2 flex-col">
                   <Link className={`hover:underline text-sm w-fit`} href={`/tos`}>Terms of Service</Link>
                   <Link className={`hover:underline text-sm w-fit `} href={`/privacy-policy`}>Privacy Policy</Link>
+                  <Link className={`hover:underline text-sm w-fit `} href={`/cookie-policy`}>Cookie Policy</Link>
                </div>
             </div>
             <div>
@@ -81,7 +82,7 @@ export const FooterTwo = ({
                <div className="mb-8 flex space-x-8 mt-4">
                   <Link title={`E-mail`} target="_blank" rel="noreferrer" href={`mailto:${email}`}>
                      <span className="sr-only">Mail</span>
-                     <Mail className="h-6 w-6" />
+                     <Mail className="h-6 w-6 fill:neutral-500 " />
                   </Link>
                   <Link title={`Twitter`} target="_blank" rel="noreferrer" href={twitter}>
                      <span className="sr-only">Twitter</span>
@@ -89,7 +90,7 @@ export const FooterTwo = ({
                   </Link>
                   <Link title={`LinkedIn`} target="_blank" rel="noreferrer" href={linkedIn}>
                      <span className="sr-only">GitHub</span>
-                     <Icons.linkedIn className="h-6 w-6 dark:fill-white" />
+                     <Icons.linkedIn className="h-6 w-6 fill-[#0a66c2]" />
                   </Link>
                </div>
             </div>

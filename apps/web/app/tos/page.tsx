@@ -170,7 +170,7 @@ const Page = ({}: PageProps) => {
    );
 };
 
-const Heading = ({ text }: { text: string }) => {
+export const Heading = ({ text }: { text: string }) => {
    return (
       <h2 className={`mt-4 text-lg font-semibold`}>{text}</h2>
    );

@@ -22,10 +22,26 @@ import {
 } from "components/ui/pagination";
 import NotesSection from "./_components/NotesSection";
 import UploadToGoogleDriveButton from "./_components/UploadToGoogleDriveButton";
+import { headers } from "next/headers";
+import UserFeedbackModal from "../../components/modals/UserFeedbackModal";
 
 export interface PageProps {
    searchParams: { page?: number };
 }
+
+const showFeedbackModal = () => {
+   let referer = [...headers().entries()].find(([key]) => key === `referer`);
+   if (referer) {
+      console.log({ referer: referer[1] });
+      try {
+         console.log(new URL(referer[1]).pathname);
+         return new URL(referer[1]).pathname === `/write`
+      } catch(e ) { return false}
+   }
+
+
+   return false
+};
 
 function NotesEmptyState() {
    return <div className={`w-full flex items-center justify-center flex-col mt-12 gap-2`}>
@@ -57,8 +73,13 @@ const Page = async ({ searchParams }: PageProps) => {
    const allTags = [...new Set(myNotes.flatMap(n => n.tags))];
    const showGoogleDriveUploadFeature = !!session.accessToken && !!session.refreshToken;
 
+   const h_ = headers();
+   const show = showFeedbackModal()
+   console.log({ show });
+
    return (
       <section className="flex flex-col items-start gap-4 mt-24 w-3/4 px-12 mx-auto">
+         <UserFeedbackModal open={true} />
          <Row className={``}>
             <NotesHeader notes={myNotes} />
             <Row className={`!w-fit gap-6`}>

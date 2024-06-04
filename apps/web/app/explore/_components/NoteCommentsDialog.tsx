@@ -46,10 +46,11 @@ const NoteCommentsDialog = ({ note }: NoteCommentsDialogProps) => {
             <div className={`h-[300px] flex flex-col items-center justify-center self-center`}>
                <NoCommentsLogo className={`w-16`} />
                <span className={`text-muted-foreground text-base`}>No comments yet.</span>
+               <span className={`text-muted-foreground text-sm`}>Be the first one to comment.</span>
             </div>
          )}
          <div className={`flex flex-col items-start mt-12 gap-4 `}>
-            {note?.comments?.sort((a, b) => b.createdAt - a.createdAt).map((comment, index) => (
+         {note?.comments?.sort((a, b) => b.createdAt - a.createdAt).map((comment, index) => (
                <CNoteComment key={index} comment={comment} />
             ))}
          </div>

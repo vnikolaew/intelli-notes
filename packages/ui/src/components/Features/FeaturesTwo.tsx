@@ -3,7 +3,6 @@ import React, { ReactNode } from "react";
 import Link from "next/link";
 import AnimatedComponent from "../common/AnimatedComponent";
 import { motion } from "framer-motion";
-import { Infinity } from "lucide-react";
 import { cn } from "../Pricing";
 
 export interface FeaturesTwoProps {
@@ -18,7 +17,7 @@ export interface Feature {
 
 export const FeaturesTwo = ({ features }: FeaturesTwoProps) => {
    return (
-      <section className="text-gray-400 body-font">
+      <section id={`features`} className="text-gray-400 body-font">
          <div className="container px-5 py-24 mx-auto">
             {features.map((feature, index) => (
                <AnimatedComponent

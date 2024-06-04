@@ -47,6 +47,12 @@ const START_MESSAGES: ChatMessage[] = [
 
 export function useAiChat(initialMessages: ChatMessage[] = []) {
    const [messages, setMessages] = useState<ChatMessage[]>([...START_MESSAGES, ...initialMessages]);
+   const [chatId] = useQueryState(`chatId`, parseAsString);
+
+   useEffect(() => {
+      setMessages(m => [...START_MESSAGES, ...initialMessages]);
+   }, [chatId])
+
    const updateLastMessage = (message: Partial<ChatMessage> | ((message: ChatMessage) => Partial<ChatMessage>),
    ) =>
       setMessages(m => {
@@ -56,7 +62,6 @@ export function useAiChat(initialMessages: ChatMessage[] = []) {
       });
 
    const [message, setMessage] = useState(``);
-   const [chatId] = useQueryState(`chatId`, parseAsString);
 
    const {
       execute: addMessageAction,
