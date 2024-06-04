@@ -1,6 +1,6 @@
 "use client";
 import { MDXEditor, MDXEditorMethods, MDXEditorProps } from "@mdxeditor/editor";
-import React, { MutableRefObject, useCallback, useEffect, useState } from "react";
+import React, { MutableRefObject, useCallback, useEffect, useLayoutEffect, useState } from "react";
 import { useDebounce } from "@uidotdev/usehooks";
 
 import { plugins } from "components/common/markdown/Plugins";
@@ -138,6 +138,11 @@ const InitializedMdxEditor = ({
       }
    }, [markdownValue, noteTitle]);
 
+   useLayoutEffect(() => {
+      let editorElement =  document.querySelector(`.mdxeditor-rich-text-editor`);
+      if(editorElement) editorElement.setAttribute(`tabIndex`, `1`)
+   }, []);
+
    return (
       <div className={`flex flex-col items-start gap-2 mt-4`}>
          <NotesCategorySelect note={note} categories={categories} />
@@ -245,7 +250,8 @@ const InitializedMdxEditor = ({
                </TooltipProvider>
             </div>
             <MDXEditor
-               className={cn(`min-h-[300px] !font-mono mt-2 `, sfMono.variable)}
+               autoFocus
+               className={cn(`min-h-[300px] !font-mono mt-2`, sfMono.variable)}
                ref={editorRef}
                markdown={markdownValue ?? currentNote?.raw_text ?? ``}
                onChange={setMarkdownValue}

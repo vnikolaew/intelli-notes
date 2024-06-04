@@ -4,9 +4,7 @@ import { AiChatHistory, AiChatHistoryMessage, xprisma } from "@repo/db";
 import { auth } from "auth";
 
 const sortHistories = (a: AiChatHistory, b: AiChatHistory) => {
-   return b.messages?.sort((a, b) =>
-         b.createdAt - a.createdAt).at(0)?.createdAt -
-      a.messages?.sort((a, b) => a.createdAt - b.createdAt)?.at(0)?.createdAt;
+   return b.messages?.at(-1)?.createdAt - a.messages?.at(-1)?.createdAt;
 };
 
 /**
@@ -14,14 +12,7 @@ const sortHistories = (a: AiChatHistory, b: AiChatHistory) => {
  */
 export const getSortedUserChatHistories = async () => {
    const session = await auth();
-   const userChatHistories = await xprisma.aiChatHistory.findMany({
-      where: {
-         userId: session?.user?.id,
-      },
-      include: {
-         messages: true,
-      },
-   });
+   const userChatHistories = await xprisma.aiChatHistory.getNonArchivedUserChats(session?.user?.id);
 
    return userChatHistories.sort(sortHistories);
 };
@@ -42,7 +33,7 @@ export const getCurrentChat = async (
    isNew?: boolean): Promise<{
    chatHistory: (AiChatHistory & { messages: AiChatHistoryMessage[] })
 }> => {
-   if(isNew) {
+   if (isNew) {
       const newChat = await xprisma.aiChatHistory.create({
          data: {
             userId,

@@ -30,9 +30,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
    events: {
       // @ts-ignore
       createUser: async (user: { user: User }) => {
-         // Send a welcome e-mail:
-         console.log({ user });
+         const features = [
+            `Powerful AI - ${APP_NAME.replaceAll(` `, ``)} is powered by advanced AI technology, ensuring that your notes are always up-to-date and accurate.`,
+            `Easy Note-Taking - Effortlessly jot down and organize your thoughts, documents, and more with ${APP_NAME.replaceAll(` `, ``)}.`,
+            `Secure Storage - Keep your notes and documents safe with ${APP_NAME.replaceAll(` `, ``)}'s secure storage system.`,
+         ];
 
+         // Send a welcome e-mail:
          try {
             const res = await new EmailService().sendMail({
                to: user.user?.email,
@@ -46,6 +50,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                   and inspire creativity. Whether you&apos;re a seasoned photographer or someone who simply loves
                   capturing moments on the go, our platform provides the perfect space for you to showcase your work and
                   discover inspiring content from others.`,
+                  features,
                }),
             });
             if (res.success) console.log(`Welcome e-mail successfully sent to: ${user.user.email} with ID: ${res?.success ? res?.id : ``}`);
@@ -65,10 +70,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
       async jwt({ token, user, session, profile, account }) {
          if (user?.id) token.id = user.id;
-         if(account) {
-            token.accessToken = account.access_token
-            token.refreshToken = account.refresh_token
-            token.idToken = account.id_token
+         if (account) {
+            token.accessToken = account.access_token;
+            token.refreshToken = account.refresh_token;
+            token.idToken = account.id_token;
          }
 
          return token;
@@ -81,9 +86,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
          params: {
             scope: `openid email profile https://www.googleapis.com/auth/drive`,
             access_type: `offline`,
-            response_type: `code`
-         }
-      }
+            response_type: `code`,
+         },
+      },
    }), ResendProvider({
       from: RESEND_ONBOARDING_EMAIL,
       generateVerificationToken() {

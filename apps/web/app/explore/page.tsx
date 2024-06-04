@@ -2,13 +2,7 @@ import React from "react";
 import { xprisma } from "@repo/db";
 import { auth } from "auth";
 import { Separator } from "components/ui/separator";
-import { Row } from "@repo/ui/components";
-import NoteCard from "../notes/_components/NoteCard";
-import UserAvatar from "components/common/UserAvatar";
-import NoteLikeButton from "./_components/NoteLikeButton";
-import NoteCommentsCount from "./_components/NoteCommentsCount";
 import ExploreNotesGrid from "./_components/ExploreNotesGrid";
-import { late } from "zod";
 
 export interface PageProps {
 }
@@ -43,22 +37,23 @@ const Page = async ({}: PageProps) => {
       },
       orderBy: { createdAt: `desc` },
       include: {
-         author: true, likes: { select: { id: true, noteId: true, userId: true } }, comments: {
+         author: true, likes: { select: { id: true, noteId: true, userId: true } },
+         comments: {
             include: { user: true },
          },
       },
       take: 10,
    });
 
-   latestUsersNotes.forEach(note =>  {
-      note.author.updatePassword=  undefined ;
-      note.author.verifyPassword = undefined ;
+   latestUsersNotes.forEach(note => {
+      note.author.updatePassword = undefined;
+      note.author.verifyPassword = undefined;
 
       note.comments.forEach(comment => {
-        comment.user.updatePassword = undefined
-         comment.user.verifyPassword = undefined
-      })
-   })
+         comment.user.updatePassword = undefined;
+         comment.user.verifyPassword = undefined;
+      });
+   });
 
    return (
       <section className="flex flex-col items-start gap-4 mt-24 w-3/4 px-12 mx-auto">
