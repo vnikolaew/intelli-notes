@@ -16,7 +16,7 @@ export function SystemMessageActions({ message, onRegenerate }: SystemMessageAct
    const [audioUrl, setAudioUrl] = useState(``);
    const { playing, handleReadAloud } = useAudio();
    const [pending, setPending] = useState(false);
-   const [value, copy] = useCopyToClipboard();
+   const [, copy] = useCopyToClipboard();
    const [copied, setCopied] = useBoolean()
 
    async function handleMessageReadAloud() {
@@ -43,7 +43,7 @@ export function SystemMessageActions({ message, onRegenerate }: SystemMessageAct
    }
 
    return (
-      <div className={`invisible items-center gap-2 group-hover:visible border-[1px] rounded-md border-neutral-300 mt-2 p-1`}>
+      <div className={`invisible items-center gap-4 group-hover:visible border-[1px] rounded-md border-neutral-300 mt-2 p-1`}>
          <TooltipProvider>
             <Tooltip>
                <TooltipTrigger asChild>

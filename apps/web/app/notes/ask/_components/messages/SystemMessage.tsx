@@ -1,12 +1,12 @@
 "use client";
 import React, { Fragment } from "react";
-import { isErrorMessage, TSystemMessage } from "./AIChat";
+import { isErrorMessage, TSystemMessage } from "../AIChat";
 import moment from "moment/moment";
 import Image from "next/image";
 import aiLogo from "public/logo.jpg";
 import { cn } from "lib/utils";
 import { SystemMessageActions } from "./SystemMessageActions";
-import NoteCard from "../../_components/NoteCard";
+import NoteCard from "../../../_components/NoteCard";
 
 export interface SystemMessageProps {
    message: TSystemMessage;
@@ -14,6 +14,7 @@ export interface SystemMessageProps {
 }
 
 const SystemMessage = ({ message, onRegenerate }: SystemMessageProps) => {
+   console.log(`System message: `, { message });
    return (
       <div className={`w-full flex items-start justify-start gap-3 group`}>
          <Image className={`rounded-full w-10 h-10 shadow-md p-1 border-[1px] border-neutral-300`} src={aiLogo}

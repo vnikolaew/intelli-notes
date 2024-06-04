@@ -1,19 +1,18 @@
 "use client";
 import { ScrollArea } from "components/ui/scroll-area";
-import React, { ReactNode, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, { ReactNode, useEffect, useMemo, useRef } from "react";
+import { AiChatHistory, AiChatHistoryMessage, Note } from "@repo/db";
 import { Input } from "components/ui/input";
 import { Button } from "components/ui/button";
-import { ArrowUp, Loader2, LoaderPinwheel } from "lucide-react";
-import { useAction } from "next-safe-action/hooks";
-import { askAi, Response } from "../actions";
+import { ArrowUp, Loader2 } from "lucide-react";
 import { isExecuting } from "next-safe-action/status";
-import UserMessage from "./UserMessage";
-import SystemMessage from "./SystemMessage";
-import { readStreamableValue } from "ai/rsc";
-import { SafeExecuteResponse } from "lib/actions";
+import UserMessage from "./messages/UserMessage";
+import SystemMessage from "./messages/SystemMessage";
 import { ChatEmptyState } from "./ChatEmptyState";
+import { useAiChat } from "../_hooks/useAiChat";
 
 export interface AiChatProps {
+   chatHistory: AiChatHistory & { messages: AiChatHistoryMessage[] };
 }
 
 export interface ChatMessage {
@@ -31,7 +30,7 @@ export interface TUserMessage extends ChatMessage {
 export interface TSystemMessage extends ChatMessage {
    role: `system`;
    message: string | ReactNode;
-   note?: ReactNode;
+   note?: Note;
 }
 
 export interface TSystemErrorMessage extends ChatMessage {
@@ -44,6 +43,10 @@ export function isUserMessage(message: ChatMessage): message is TUserMessage {
    return message.role === "user";
 }
 
+export function isSystemMessage(message: ChatMessage): message is TSystemMessage {
+   return message.role === "system";
+}
+
 export function isErrorMessage(message: ChatMessage): message is TSystemErrorMessage {
    return message.error?.length;
 }
@@ -52,38 +55,21 @@ export const SCORE_THRESHOLD = 0.2;
 
 export const NO_RESPONSE_MESSAGE = `AI could not generate an appropriate response to your question!`;
 
-const systemGeneratingMessage = () => {
-   return {
-      message: <div className={`flex items-center gap-2`}>
-         <LoaderPinwheel size={14} className={`animate-spin`} />
-         <span className={`animate-pulse`}>
-               Generating
-            </span>
-      </div>,
-      timestamp: new Date(),
-      role: `system` as const,
-      id: crypto.randomUUID(),
-   } as TSystemMessage;
-};
 
-const START_MESSAGES: ChatMessage[] = [
-   {
-      id: crypto.randomUUID(),
-      role: `user`,
-      message: `A user message`,
-      timestamp: new Date(),
-   },
-   {
-      id: crypto.randomUUID(),
-      role: `system`,
-      message: `A system message`,
-      timestamp: new Date(),
-   }
-]
+const AiChat = ({ chatHistory }: AiChatProps) => {
+   const { status, message, messages, setMessage, handleSendUserMessage, handleRegenerate } = useAiChat(
+      chatHistory.messages?.map(m => ({
+         id: m.id,
+         role: m.role.toLowerCase() as ChatMessage["role"],
+         message: m.raw_text,
+         saved: true,
+         timestamp: m.createdAt,
+         note: isSystemMessage({
+            ...m,
+            role: m.role.toLowerCase() as ChatMessage["role"],
+         } as unknown as ChatMessage) && m.note ? m.note : undefined,
+      })) ?? []);
 
-const AiChat = ({}: AiChatProps) => {
-   const [messages, setMessages] = useState<ChatMessage[]>(START_MESSAGES);
-   const [message, setMessage] = useState(``);
    const showEmptyState = useMemo(() => messages.length === 0, [messages]);
 
    let lastMessageRef = useRef<HTMLDivElement>(null!);
@@ -91,91 +77,6 @@ const AiChat = ({}: AiChatProps) => {
    useEffect(() => {
       lastMessageRef.current?.scrollIntoView({ block: `end`, behavior: `smooth` });
    }, [messages]);
-
-   const handleSuccess = useCallback(async (res: SafeExecuteResponse<Response>) => {
-      if (res.success) {
-         console.log(res, res.result.response.score);
-         if (res.result.response.score > SCORE_THRESHOLD) {
-            setMessages((messages) => {
-               const last = messages.at(-1)!;
-               return [...messages.slice(0, messages.length - 1), { ...last, message: `` }];
-            });
-
-            for await (let value of readStreamableValue(res.result.answer)) {
-               setMessages((messages) => {
-                  const last = messages.at(-1)!;
-                  return [...messages.slice(0, messages.length - 1), { ...last, message: last.message + value }];
-               });
-            }
-            if (!!res.result.note?.id) {
-               setMessages((messages) => {
-                  const last = messages.at(-1)!;
-
-                  return [...messages.slice(0, messages.length - 1), {
-                     ...last,
-                     message: last.message,
-                     note: res.result.note,
-                  }];
-               });
-            }
-         } else {
-            setMessages((messages) => {
-               const last = messages.at(-1)!;
-               return [...messages.slice(0, messages.length - 1), {
-                  ...last,
-                  message: NO_RESPONSE_MESSAGE
-               }];
-            });
-         }
-      }
-   }, [messages]);
-
-   const { status, execute } = useAction(askAi, {
-      onSuccess: handleSuccess,
-      onError: error => {
-         console.error(error.validationErrors.question);
-         setMessages((messages) => {
-            const last = messages.at(-1)!;
-            const err = `Error: ${error.validationErrors?.question}` ?? error.serverError ?? error.fetchError;
-
-            return [...messages.slice(0, messages.length - 1), {
-               ...last,
-               message: err,
-               error: err,
-            }];
-         });
-      },
-   });
-
-   const handleRegenerate = useCallback(() => {
-      console.log(`Re-generating ...`);
-      const systemMessage = systemGeneratingMessage();
-
-      setMessages(m => {
-         return [...m.slice(0, -1), systemMessage];
-      });
-      const lastUserMessage = messages.findLast(m => isUserMessage(m)) as TUserMessage;
-      setMessage(``);
-      execute({ question: lastUserMessage.message });
-   }, [messages]);
-
-   const handleSendUserMessage = (message: TUserMessage) => {
-      const systemMessage = systemGeneratingMessage();
-
-      setMessages(m => [...m, message, systemMessage]);
-      setMessage(``);
-      execute({ question: message.message });
-   };
-
-   const handler = useCallback(e => {
-      if (e.key !== `Enter` || message?.length === 0) return;
-      handleSendUserMessage({ id: crypto.randomUUID(), role: `user`, message, timestamp: new Date() });
-   }, [message]);
-
-   useEffect(() => {
-      document.addEventListener(`keypress`, handler);
-      return () => document.removeEventListener(`keypress`, handler);
-   }, [message]);
 
    // @ts-ignore
    return (
@@ -196,7 +97,7 @@ const AiChat = ({}: AiChatProps) => {
                            }}
                            message={message} />
                      ) : <SystemMessage onRegenerate={handleRegenerate} key={message.id} message={message} />}
-                  </div>
+                  </div>;
                })}
             </ScrollArea>
          )}

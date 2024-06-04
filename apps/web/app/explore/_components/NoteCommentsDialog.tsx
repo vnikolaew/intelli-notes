@@ -16,6 +16,11 @@ export interface NoteCommentsDialogProps {
    note: Note & { comments: (NoteComment & { user: User })[] };
 }
 
+/**
+ * Dialog for showing note comments.
+ * @param note - The note
+ * @constructor
+ */
 const NoteCommentsDialog = ({ note }: NoteCommentsDialogProps) => {
    const session = useSession();
    const [comment, setComment] = useState(``);
@@ -23,6 +28,7 @@ const NoteCommentsDialog = ({ note }: NoteCommentsDialogProps) => {
       onSuccess: res => {
          if (res.success) {
             console.log(res.comment);
+            setComment(``)
          }
       },
    });
@@ -49,13 +55,15 @@ const NoteCommentsDialog = ({ note }: NoteCommentsDialogProps) => {
          </div>
          <div className={`justify-self-end flex flex-col items-end gap-4 w-full flex-1 justify-end`}>
             <div className={`flex items-center gap-4 w-full`}>
-               <UserAvatar className={`w-8 h-8 shadow-md`} imageSrc={session?.data?.user?.image} />
+               <UserAvatar className={`w-8 h-8 `} imageSrc={session?.data?.user?.image} />
                <Input
                   onChange={e => setComment(e.target.value)} value={comment} className={`flex-1 rounded-lg`}
                   placeholder={`Leave a comment ...`} type={`text`} />
             </div>
-            <Button disabled={isExecuting(status)} onClick={handleSendComment} className={`!px-6`} size={`sm`}
-                    variant={`default`}>
+            <Button
+               disabled={isExecuting(status)} onClick={handleSendComment} className={`!px-6 items-center gap-2`}
+               size={`sm`}
+               variant={`default`}>
                {isExecuting(status) ? (
                   <>
                      <Loader2 className={`animate-spin`} size={18} />

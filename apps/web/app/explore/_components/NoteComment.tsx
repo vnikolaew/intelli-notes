@@ -6,11 +6,9 @@ import moment from "moment";
 import { Separator } from "components/ui/separator";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "components/ui/hover-card";
 import { CalendarDays, Notebook } from "lucide-react";
-import { getUserDetails } from "../actions";
-import { useAction } from "next-safe-action/hooks";
-import { InteractiveLink } from "@repo/ui/components";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
+import { motion } from "framer-motion";
 
 export interface NoteCommentProps {
    comment: NoteComment & { user: User };
@@ -39,7 +37,15 @@ function UserInfoCard({ user }: UserInfoCardProps) {
       [],
    );
 
-   return <div className={`flex items-start gap-3`}>
+   return <motion.div
+      transition={{ duration: .3 }}
+      animate={{
+         opacity: 1,
+      }}
+      initial={{
+         opacity: 0,
+      }}
+      className={`flex items-start gap-3`}>
       <UserAvatar className={`shadow-md cursor-pointer w-6 h-6`} imageSrc={user.image} />
       <div className={`flex flex-col items-start gap-2`}>
          <Link href={`/users/${user.id}/notes`} className={`text-xs !z-30`}>
@@ -54,7 +60,7 @@ function UserInfoCard({ user }: UserInfoCardProps) {
             <span>Joined {moment(user.createdAt).format(`MMMM YYYY`)}</span>
          </time>
       </div>
-   </div>;
+   </motion.div>;
 }
 
 const NoteComment = ({ comment }: NoteCommentProps) => {

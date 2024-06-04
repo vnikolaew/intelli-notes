@@ -5,6 +5,7 @@ import { z } from "zod";
 import { HuggingFaceAPI } from "@repo/ai";
 import { Note, xprisma } from "@repo/db";
 import { createStreamableValue, StreamableValue } from "ai/rsc";
+import { revalidatePath } from "next/cache";
 
 const askSchema = z.object({
       question: z.string().min(3).max(500),
@@ -64,6 +65,7 @@ export const askAi = authorizedAction(askSchema, async ({ question }, { userId }
             response.output.start >= start && response.output.end <= end)?.at(0);
 
       let note = userNotes.find(n => n.id === noteId);
+
       console.log({ response, note });
 
       const streamableValue = createStreamableValue(``);
@@ -77,3 +79,65 @@ export const askAi = authorizedAction(askSchema, async ({ question }, { userId }
       return { response: response.output, note, answer: streamableValue.value };
    });
 });
+
+/**
+ *  Create a new AI chat.
+ */
+export const createNewChat = authorizedAction(z.any(), async ({}, { userId }) => {
+   const newChat = await xprisma.aiChatHistory.create({
+      data: {
+         userId,
+         metadata: {},
+      },
+   });
+
+   revalidatePath(`/notes/ask`);
+   return { success: true, chat: newChat };
+});
+
+const addSchema = z.object({
+      chatId: z.string(),
+      // A client-only identifier for the chat message
+      clientMessageId: z.string(),
+      message: z.string().min(1).max(500),
+      role: z.union([z.literal(`SYSTEM`), z.literal(`USER`), z.literal(`ASSISTANT`)]),
+      metadata: z.record(z.string(), z.string()).nullable().optional(),
+   },
+);
+
+export type AddMessageSchema = typeof addSchema
+
+/**
+ *  Add a new message to an existing chat.
+ */
+export const addChatMessage = authorizedAction(addSchema,
+   async ({
+             message: raw_text,
+             chatId,
+             role,
+             metadata,
+          }, { userId }) => {
+      const chat = await xprisma.aiChatHistory.findUnique({
+         where: {
+            userId,
+            id: chatId,
+         },
+      });
+
+      if (!chat) return { success: false };
+
+      const message = await xprisma.aiChatHistoryMessage.create({
+         data: {
+            userId,
+            raw_text,
+            chatId,
+            role,
+            metadata,
+         },
+      });
+
+      revalidatePath(`/notes/ask`);
+      return { success: true, message };
+   });
+
+export type AddChatMessage = Awaited<ReturnType<typeof addChatMessage>>["data"]

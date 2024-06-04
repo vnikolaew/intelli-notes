@@ -1,6 +1,6 @@
 "use client";
 import React, { Fragment, useState } from "react";
-import { TUserMessage } from "./AIChat";
+import { TUserMessage } from "../AIChat";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "components/ui/tooltip";
 import { Button } from "components/ui/button";
 import { PenLine } from "lucide-react";

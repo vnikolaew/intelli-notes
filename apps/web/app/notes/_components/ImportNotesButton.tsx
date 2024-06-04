@@ -7,7 +7,6 @@ import {
    DropdownMenuTrigger,
 } from "components/ui/dropdown-menu";
 import { Button } from "components/ui/button";
-import { useBoolean } from "hooks/useBoolean";
 import { EXPORT_FORMATS, ExportFormat } from "./BulkExportNotesButton";
 import { Fragment } from "react";
 import { FolderDown, Loader2 } from "lucide-react";
@@ -48,7 +47,8 @@ export function ImportNotesButton() {
       </Fragment>
          <DropdownMenu>
             <DropdownMenuTrigger>
-               <Button disabled={isExecuting(status)} className={`shadow-md items-center gap-2`} variant={`default`}
+               <Button
+                  disabled={isExecuting(status)} className={`shadow-md items-center gap-2`} variant={`default`}
                        size={"default"}>
                   {isExecuting(status) ? (
                      <Fragment>
@@ -74,5 +74,7 @@ export function ImportNotesButton() {
                   </DropdownMenuItem>
                ))}
             </DropdownMenuContent>
-         </DropdownMenu></Fragment>);
+         </DropdownMenu>
+      </Fragment>);
+
 }

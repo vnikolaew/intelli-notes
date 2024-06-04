@@ -65,7 +65,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
       async jwt({ token, user, session, profile, account }) {
          if (user?.id) token.id = user.id;
-         console.log({ account });
          if(account) {
             token.accessToken = account.access_token
             token.refreshToken = account.refresh_token

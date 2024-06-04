@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import React from "react";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import appLogo from "public/logo.jpg";
 import { SignedIn, SignedOut } from "./Auth";
@@ -11,7 +11,7 @@ import { APP_NAME } from "config/site";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
 import { InteractiveLink } from "@repo/ui/components";
 import UserAvatar from "./UserAvatar";
-import { useBoolean } from "../../hooks/useBoolean";
+import { useBoolean } from "hooks/useBoolean";
 import SignInModal from "../modals/SignInModal";
 import { usePathname } from "next/navigation";
 import { cn } from "lib/utils";
@@ -41,7 +41,7 @@ const Header = ({}: NavbarProps) => {
             <div className={`flex-1 text-center flex items-center gap-8 justify-center`}>
                <InteractiveLink
                   className={cn(`text-lg inline-flex gap-2 items-center`,
-                     pathname === `/notes` && `text-blue-600`)}
+                     pathname === `/notes` && `text-blue-600 font-semibold`)}
                   underlineClassname={cn(`bg-black`,
                      pathname === `/notes` && `bg-blue-600`)
                   }
@@ -51,7 +51,7 @@ const Header = ({}: NavbarProps) => {
                </InteractiveLink>
                <InteractiveLink
                   className={cn(`text-lg inline-flex gap-2 items-center`,
-                     pathname === `/explore` && `text-blue-600`)}
+                     pathname === `/explore` && `text-blue-600 font-semibold`)}
                   underlineClassname={cn(`bg-black`,
                      pathname === `/explore` && `bg-blue-600`)
                   }
@@ -61,7 +61,7 @@ const Header = ({}: NavbarProps) => {
                </InteractiveLink>
                <InteractiveLink
                   className={cn(`text-lg inline-flex gap-2 items-center`,
-                     pathname === `/notes/ask` && `text-blue-600`)}
+                     pathname === `/notes/ask` && `text-blue-600 font-semibold`)}
                   underlineClassname={cn(`bg-black`,
                      pathname === `/notes/ask` && `bg-blue-600`)
                   }
