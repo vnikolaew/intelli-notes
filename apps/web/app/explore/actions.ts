@@ -72,6 +72,7 @@ export const commentOnNote = authorizedAction(commentSchema, async ({ noteId, ra
    });
 
    revalidatePath(`/explore`);
+   revalidatePath(`/explore?previewId=${noteId}`);
    return { success: true, comment };
 });
 
