@@ -14,7 +14,6 @@ import { AddChatMessage, addChatMessage, AddMessageSchema, askAi, Response } fro
 import { SafeExecuteResponse } from "lib/actions";
 import { readStreamableValue } from "ai/rsc";
 import { parseAsString, useQueryState } from "nuqs";
-import { Note } from "@repo/db";
 
 const systemGeneratingMessage = () => {
    return {

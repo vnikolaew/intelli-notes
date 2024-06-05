@@ -17,74 +17,79 @@ const schema = z.object({
  */
 export const submitUserFeedback = authorizedAction(schema, async ({ anonymous, rating, message }, { userId }) => {
    const session = await auth();
-   const client = new WebClient(process.env.SLACK_TOKEN);
-   const result = await client.chat.postMessage({
-      channel: process.env.SLACK_FEEDBACK_CHANNEL_ID!,
-      blocks: [
-         {
-            "type": "rich_text",
-            "elements": [
-               {
-                  "type": "rich_text_section",
-                  "elements": [
-                     {
-                        "type": "text",
-                        "text": "User "
-                     },
-                     {
-                        "type": "text",
-                        "text": session?.user?.name,
-                        "style": {
-                           "bold": true
-                        }
-                     },
-                     {
-                        "type": "text",
-                        "text": " submitted the following feedback with a rating of "
-                     },
-                     {
-                        "type": "text",
-                        "text": rating.toString() + ` `,
-                        "style": {
-                           "bold": true
-                        }
-                     },
-                     ...Array.from({ length: rating}).map((_) => (
+   try {
+      const client = new WebClient(process.env.SLACK_TOKEN);
+      const result = await client.chat.postMessage({
+         text: `User ${session?.user?.name} submitted a feedback with a rating of ${rating} ...`,
+         channel: process.env.SLACK_FEEDBACK_CHANNEL_ID!,
+         blocks: [
+            {
+               "type": "rich_text",
+               "elements": [
+                  {
+                     "type": "rich_text_section",
+                     "elements": [
                         {
-                           "type": "emoji",
-                           "name": "star",
-                           "unicode": "2b50",
+                           "type": "text",
+                           "text": "User "
+                        },
+                        {
+                           "type": "text",
+                           "text": session?.user?.name,
                            "style": {
                               "bold": true
                            }
-                        } as const
-                     )),
-                     {
-                        "type": "text",
-                        "text": ":"
-                     }
-                  ]
-               }
-            ]
-         },
-         {
-            "type": "divider"
-         },
-         {
-            "type": "rich_text",
-            "elements": [
-               {
-                  "type": "rich_text_section",
-                  "elements": [
-                     {
-                        "type": "text",
-                        "text": message
-                     }
-                  ]
-               }
-            ]
-         }
-      ]
-   });
-   return { success: true, result };
+                        },
+                        {
+                           "type": "text",
+                           "text": " submitted the following feedback with a rating of "
+                        },
+                        {
+                           "type": "text",
+                           "text": rating.toString() + ` `,
+                           "style": {
+                              "bold": true
+                           }
+                        },
+                        ...Array.from({ length: rating}).map((_) => (
+                           {
+                              "type": "emoji",
+                              "name": "star",
+                              "unicode": "2b50",
+                              "style": {
+                                 "bold": true
+                              }
+                           } as const
+                        )),
+                        {
+                           "type": "text",
+                           "text": ":"
+                        }
+                     ]
+                  }
+               ]
+            },
+            {
+               "type": "divider"
+            },
+            {
+               "type": "rich_text",
+               "elements": [
+                  {
+                     "type": "rich_text_section",
+                     "elements": [
+                        {
+                           "type": "text",
+                           "text": message
+                        }
+                     ]
+                  }
+               ]
+            }
+         ]
+      });
+      return { success: true };
+   } catch (err) {
+      return { success: false, error: err };
+   }
 });

@@ -1,25 +1,18 @@
 "use client";
 import { MDXEditor, MDXEditorMethods, MDXEditorProps } from "@mdxeditor/editor";
 import React, { MutableRefObject, useCallback, useEffect, useLayoutEffect, useState } from "react";
-import { useDebounce } from "@uidotdev/usehooks";
 
 import { plugins } from "components/common/markdown/Plugins";
-import { useAction } from "next-safe-action/hooks";
-import { aiGenerateText, AiGenerateTextResponse, changeNoteVisibility, createOrUpdateNote } from "../actions";
 import { Input } from "components/ui/input";
 import { Eye, Loader2, LockKeyhole, Sparkles, X } from "lucide-react";
 import { cn } from "lib/utils";
 import { isExecuting } from "next-safe-action/status";
-import { useRouter } from "next/navigation";
 import { Note, NoteCategory } from "@repo/db";
 
 import "@mdxeditor/editor/style.css";
 import { Badge } from "components/ui/badge";
 import moment from "moment";
 import { sfMono } from "assets/fonts";
-import { useKeyPress } from "hooks/useKeyPress";
-import { readStreamableValue } from "ai/rsc";
-import { useBoolean } from "hooks/useBoolean";
 import { AiTip } from "./AiTip";
 import { GeneratingWithAi } from "./GeneratingWithAi";
 import { KeepAiTextPrompt } from "./KeepAiTextPrompt";
@@ -28,6 +21,8 @@ import ExportNoteButton from "./ExportNoteButton";
 import { Button } from "components/ui/button";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "components/ui/tooltip";
 import NotesCategorySelect from "./NotesCategorySelect";
+import { useMarkdownEditor } from "../_hooks/useMarkdownEditor";
+import { useAiTextGeneration } from "../_hooks/useAiTextGeneration";
 
 export interface InitializedMdxEditorProps extends MDXEditorProps {
    editorRef: MutableRefObject<MDXEditorMethods> | null;
@@ -35,8 +30,6 @@ export interface InitializedMdxEditorProps extends MDXEditorProps {
    note?: Note;
    categories: NoteCategory[];
 }
-
-const SPACE = `&#x20;`;
 
 const InitializedMdxEditor = ({
                                  editorRef,
@@ -46,107 +39,31 @@ const InitializedMdxEditor = ({
                                  markdown,
                                  ...props
                               }: InitializedMdxEditorProps) => {
-   const [markdownValue, setMarkdownValue] = useState(() => note?.raw_text ?? markdown);
-   const debouncedValue = useDebounce(markdownValue, 2000);
-   const [currentNote, setCurrentNote] = useState(note);
-   const router = useRouter();
-
-   const [noteTitle, setNoteTitle] = useState(note?.title ?? ``);
-   const [noteTags, setNoteTags] = useState(note?.tags ?? []);
-   const [currentTag, setCurrentTag] = useState(``);
-
-   const debouncedTitle = useDebounce(noteTitle, 2000);
-
-   const { execute: changeVisibilityAction, status: changeVisibilityStatus } = useAction(changeNoteVisibility, {
-      onSuccess: res => {
-         if (res.success) {
-            setCurrentNote(note => ({ ...note, public: res.note.public }));
-         }
-      },
-      onError: console.error,
-   });
-
-   const { execute, status } = useAction(createOrUpdateNote, {
-      onSuccess: res => {
-         if (res.success) {
-            router.push(`?id=${res.note.id}`);
-            setCurrentNote(res.note);
-         }
-      },
-      onError: console.error,
-   });
-
-   const [lastCompletionText, setLastCompletionText] = useState(``);
-   const [showConfirmAiTextPrompt, setShowConfirmAiTextPrompt] = useBoolean();
-
-   const onGenerateSuccess = useCallback(async (res: AiGenerateTextResponse) => {
-      if (res.success) {
-         console.log(res);
-
-         setLastCompletionText(res.completion_text);
-         editorRef?.current?.focus();
-         for await (const value of readStreamableValue(res.generatedMessage)) {
-            editorRef?.current?.insertMarkdown(`${SPACE}${value}`);
-         }
-
-         // Prompt user to confirm AI-generated content.
-         setShowConfirmAiTextPrompt(true);
-      }
-   }, []);
-
    const {
-      result: _,
-      execute: aiGenerateTextAction,
-      status: aiGenerateTextStatus,
-   } = useAction<any, AiGenerateTextResponse>(aiGenerateText, {
-      onSuccess: onGenerateSuccess,
-      onError: console.error,
-   });
-
-   useEffect(() => {
-      execute({
-         title: noteTitle,
-         metadata: {},
-         note_id: currentNote?.id,
-         raw_text: debouncedValue ?? ``,
-         tags: noteTags,
-      });
-   }, [noteTags]);
-
-   useEffect(() => {
-      if (!debouncedValue?.length || debouncedValue?.length < 3) return;
-
-      execute({
-         title: noteTitle,
-         metadata: {},
-         note_id: currentNote?.id,
-         raw_text: debouncedValue,
-         tags: noteTags,
-      });
-   }, [debouncedValue, debouncedTitle, noteTags]);
-
-   const handleGenerateAiText = useCallback(() => {
-      const raw_text = document.querySelector(`.mdxeditor-rich-text-editor`)?.innerText ?? markdownValue;
-      aiGenerateTextAction({ title: noteTitle, raw_text });
-   }, [markdownValue, noteTitle]);
-
-   useKeyPress(`I`, e => {
-      if (e.shiftKey && !isExecuting(aiGenerateTextStatus)) {
-         e.preventDefault()
-         e.stopPropagation()
-         handleGenerateAiText();
-      }
-   }, [markdownValue, noteTitle]);
-
-   useLayoutEffect(() => {
-      let editorElement =  document.querySelector(`.mdxeditor-rich-text-editor`);
-      if(editorElement) editorElement.setAttribute(`tabIndex`, `1`)
-   }, []);
+      status,
+      setMarkdownValue,
+      noteTags,
+      setNoteTags,
+      noteTitle,
+      setNoteTitle,
+      currentNote,
+      markdownValue,
+      currentTag,
+      setCurrentTag,
+      changeVisibilityAction, changeVisibilityStatus,
+   } = useMarkdownEditor(note, markdown);
+   const {
+      showConfirmAiTextPrompt,
+      setShowConfirmAiTextPrompt,
+      handleGenerateAiText,
+      lastCompletionText,
+      aiGenerateTextStatus,
+   } = useAiTextGeneration(editorRef, noteTitle, markdownValue);
 
    return (
       <div className={`flex flex-col items-start gap-2 mt-4`}>
          <NotesCategorySelect note={note} categories={categories} />
-         <div className={`flex items-center justify-between w-full gap-4`}>
+         <div className={`flex items-center justify-between w-full gap-4 mt-8`}>
             <div>
                <TooltipProvider>
                   <Tooltip delayDuration={200}>

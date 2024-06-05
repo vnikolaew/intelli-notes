@@ -36,7 +36,7 @@ const UserFeedbackModal = ({ open }: UserFeedbackModalProps) => {
    const { execute, status } = useAction(submitUserFeedback, {
       onSuccess: res => {
          if (res.success) {
-            console.log(res.result);
+            console.log(res);
             setDialogOpen(false)
             toast(TOASTS.USER_FEEDBACK_SUCCESS)
          }
@@ -49,7 +49,7 @@ const UserFeedbackModal = ({ open }: UserFeedbackModalProps) => {
    });
 
    return (
-      <Dialog open={dialogOpen}>
+      <Dialog onOpenChange={setDialogOpen} open={dialogOpen}>
          <DialogTrigger></DialogTrigger>
          <DialogContent className={`!p-8`}>
             <DialogHeader>

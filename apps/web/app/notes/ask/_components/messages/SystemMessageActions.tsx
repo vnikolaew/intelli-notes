@@ -43,12 +43,13 @@ export function SystemMessageActions({ message, onRegenerate }: SystemMessageAct
    }
 
    return (
-      <div className={`invisible items-center gap-4 group-hover:visible border-[1px] rounded-md border-neutral-300 mt-2 p-1`}>
+      <div className={`invisible flex items-center gap-2 group-hover:visible border-[1px] rounded-md border-neutral-300 mt-2 p-1`}>
          <TooltipProvider>
             <Tooltip>
                <TooltipTrigger asChild>
                   <Button
-                     onClick={handleMessageReadAloud} variant={`secondary`} className={`rounded-md !w-7 !h-7`}
+                     onClick={handleMessageReadAloud}
+                     variant={`secondary`} className={`rounded-md !w-7 !h-7 !bg-transparent`}
                      size={`icon`}>
                      {pending && (
                         <Loader size={18} className={`animate-spin`} />
@@ -77,7 +78,7 @@ export function SystemMessageActions({ message, onRegenerate }: SystemMessageAct
                         });
                      }}
                      variant={`secondary`}
-                     className={`rounded-md !w-7 !h-7`}
+                     className={`rounded-md !w-7 !h-7 !bg-transparent`}
                      size={`icon`}>
                      {copied ? (
                         <Check size={18} />
@@ -97,7 +98,7 @@ export function SystemMessageActions({ message, onRegenerate }: SystemMessageAct
                   <Button
                      onClick={onRegenerate}
                      variant={`secondary`}
-                     className={`rounded-md !w-7 !h-7`}
+                     className={`rounded-md !w-7 !h-7 !bg-transparent`}
                      size={`icon`}>
                      <RefreshCcw size={18} />
                   </Button>

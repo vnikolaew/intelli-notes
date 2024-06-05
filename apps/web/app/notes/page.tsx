@@ -23,7 +23,7 @@ import {
 import NotesSection from "./_components/NotesSection";
 import UploadToGoogleDriveButton from "./_components/UploadToGoogleDriveButton";
 import { headers } from "next/headers";
-import UserFeedbackModal from "../../components/modals/UserFeedbackModal";
+import UserFeedbackModal from "components/modals/UserFeedbackModal";
 
 export interface PageProps {
    searchParams: { page?: number };
@@ -73,7 +73,6 @@ const Page = async ({ searchParams }: PageProps) => {
    const allTags = [...new Set(myNotes.flatMap(n => n.tags))];
    const showGoogleDriveUploadFeature = !!session.accessToken && !!session.refreshToken;
 
-   const h_ = headers();
    const show = showFeedbackModal()
    console.log({ show });
 

@@ -34,11 +34,11 @@ const Page = async ({ searchParams }: PageProps) => {
    chatHistory = await fillSystemMessagesWithNotes(chatHistory)
 
    return (
-      <section className={`w-4/5 grid grid-cols-5 mt-24 mx-auto gap-2`}>
+      <section className={`w-4/5 grid grid-cols-5 mt-24 mx-auto gap-4`}>
          <div className={`col-span-1`}>
             <AiChatSidebar chatId={chatHistory.id} chatHistories={sortedChatHistories} />
          </div>
-         <section className="flex flex-col items-start gap-2 max-w-[1200px] px-4 col-span-4 w-full">
+         <section className="flex flex-col items-start gap-2 max-w-[1200px] p-4 col-span-4 w-full ">
             <div className={`flex items-center w-full justify-between`}>
                <h2 className={`text-3xl font-semibold drop-shadow-md flex items-center gap-3`}>
                   <Sparkles className={`text-blue-500`} size={22} />

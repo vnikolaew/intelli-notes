@@ -86,7 +86,7 @@ const AiChat = ({ chatHistory }: AiChatProps) => {
                <ChatEmptyState />
             </div>
          ) : (
-            <ScrollArea id={`scroll-area`} className={`h-[500px] pt-8 px-4 w-full pb-12 gap-2`}>
+            <ScrollArea id={`scroll-area`} className={`h-[500px] py-8 px-4 w-full gap-2`}>
                {messages.map((message, index) => {
                   return <div ref={index === messages.length - 1 ? lastMessageRef : null} className={``}>
                      {isUserMessage(message) ? (
@@ -129,7 +129,9 @@ const AiChat = ({ chatHistory }: AiChatProps) => {
                </Button>
             </div>
          </div>
-         <div className={`mt-1 text-muted-foreground text-xs`}>AI can make mistakes. Check important info.</div>
+         <div className={`mt-2 text-muted-foreground text-sm`}>
+            AI can make mistakes. Check important info.
+         </div>
       </div>
    );
 };

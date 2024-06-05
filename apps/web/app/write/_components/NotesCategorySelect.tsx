@@ -52,19 +52,19 @@ const NotesCategorySelect = ({ note, categories }: NotesCategorySelectProps) => 
                <SelectValue placeholder="Choose a category" />
             </SelectTrigger>
             <SelectContent>
-               <SelectItem
-                  onClick={e => {
-                     e.preventDefault();
-                     e.stopPropagation();
-                     setOpen(true);
-                  }} checkedIcon={loading ? <Loader2 className={`animate-spin`} size={14} /> :
-                  <Check
-                     className="h-4 w-4" />}
-                  className={`text-muted-foreground`}
-                  key={UNCATEGORIZED}
-                  value={UNCATEGORIZED}>Uncategorized</SelectItem>
                <SelectGroup>
                   <SelectLabel>Choose a category</SelectLabel>
+                  <SelectItem
+                     onClick={e => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        setOpen(true);
+                     }} checkedIcon={loading ? <Loader2 className={`animate-spin`} size={14} /> :
+                     <Check
+                        className="h-4 w-4" />}
+                     className={`text-muted-foreground`}
+                     key={UNCATEGORIZED}
+                     value={UNCATEGORIZED}>Uncategorized</SelectItem>
                   {categories.map((category, index) => (
                      <SelectItem
                         onClick={e => {
