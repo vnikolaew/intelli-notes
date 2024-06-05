@@ -15,6 +15,7 @@ const askSchema = z.object({
 
 const EMBEDDINGS_MODEL = `BAAI/bge-large-en-v1.5`;
 const QUESTION_ANSWERING_MODEL = `deepset/roberta-base-squad2`;
+const QUESTION_ANSWERING_MODEL_2 = `google-bert/bert-large-uncased-whole-word-masking-finetuned-squad`;
 const SEPARATOR = `-----`;
 
 export type Response = {
@@ -23,6 +24,37 @@ export type Response = {
       answer: string; end: number; score: number; start: number;
    }, note: Note
 }
+
+const constructContextAndRanges = (notes: Note[], notesWithScores: (
+   {
+      raw_text: string; id: string; score: number
+   }
+   )[]) => {
+   // Construct context for question answering:
+   let context = `These are my top ${TOP_K} notes separated by '${SEPARATOR}':`;
+   const ranges: Record<string, [number, number]> = {};
+
+   notesWithScores.forEach(note => {
+      const userNote = notes.find(n => n.id === note.id);
+      const formattedNote = formatNote(userNote);
+      ranges[note.id] = [context.length + 1, context.length + 1 + formattedNote.length];
+
+      context += `\n ${formattedNote}\n${SEPARATOR}`;
+   });
+   return { context, ranges } as const;
+};
+
+const formatNote = (note: Note): string => {
+   const { title, createdAt, tags, raw_text } = note;
+   return `
+      Title: ${title}
+      Created At: ${createdAt}
+      Tags: ${tags.join(", ")}
+      Content: ${raw_text}
+`;
+};
+
+const TOP_K = 10;
 
 /**
  * Ask AI to retrieve information about your current notes.
@@ -41,35 +73,27 @@ export const askAi = authorizedAction(askSchema, async ({ question }, { userId }
             EMBEDDINGS_MODEL);
 
       // Retrieve the top 5 most similar notes:
-      const top5 = notesEmbeddings
+      const top10 = notesEmbeddings
          .map((e, index) => ({
             id: userNotes[index].id,
             score: hf.getSimilarityScore(e, questionEmbedding),
          }))
          .sort((a, b) => b.score - a.score)
          .map(e => ({ ...e, raw_text: userNotes.find(n => n.id === e.id)?.raw_text }))
-         .slice(0, 5);
+         .slice(0, TOP_K);
 
-      console.log(`Top 5 most similar notes:`);
-      top5.forEach(note => console.log(`Id: ${note.id}, Score: ${note.score.toFixed(4)}, Raw text: ${note.raw_text}`));
+      console.log(`Top ${TOP_K} most similar notes:`);
+      top10.forEach(note => console.log(`Id: ${note.id}, Score: ${note.score.toFixed(4)}, Raw text: ${note.raw_text}`));
 
       // Construct context for question answering:
-      let context = `These are my top 5 notes separated by '${SEPARATOR}':`;
-      const ranges: Record<string, [number, number]> = {};
+      let { context, ranges } = constructContextAndRanges(userNotes, top10);
+      console.log({ context });
 
-      top5.forEach(note => {
-         ranges[note.id] = [context.length + 1, context.length + 1 + note.raw_text.length];
-         context += `\n${note.raw_text}\n${SEPARATOR}`;
-      });
-
-      const response = await hf.questionAnswering(question, context, QUESTION_ANSWERING_MODEL);
-      const noteId = Object
-         .entries(ranges)
-         .find(([_, [start, end]]) =>
-            response.output.start >= start && response.output.end <= end)?.at(0);
+      const response = await hf.questionAnswering(question, context, QUESTION_ANSWERING_MODEL_2);
+      const noteId = Object.entries(ranges).find(([_, [start, end]]) =>
+         response.output.start >= start && response.output.end <= end)?.at(0);
 
       let note = userNotes.find(n => n.id === noteId);
-
       console.log({ response, note });
 
       const streamableValue = createStreamableValue(``);
@@ -84,20 +108,6 @@ export const askAi = authorizedAction(askSchema, async ({ question }, { userId }
    });
 });
 
-/**
- *  Create a new AI chat.
- */
-export const createNewChat = authorizedAction(z.any(), async ({}, { userId }) => {
-   const newChat = await xprisma.aiChatHistory.create({
-      data: {
-         userId,
-         metadata: {},
-      },
-   });
-
-   revalidatePath(`/notes/ask`);
-   return { success: true, chat: newChat };
-});
 
 const addSchema = z.object({
       chatId: z.string(),
@@ -172,12 +182,7 @@ export const archiveChat = authorizedAction(archiveSchema,
 
       if (!chat) return { success: false };
 
-      chat = await xprisma.aiChatHistory.update({
-         where: { id: chat.id },
-         data: {
-            metadata: { ...(chat.metadata ?? {}), archived: true },
-         },
-      });
+      chat = await xprisma.aiChatHistory.archive(chat.id);
 
       if (currentChatId === chat.id) {
 

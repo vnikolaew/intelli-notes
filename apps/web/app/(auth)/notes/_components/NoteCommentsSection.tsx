@@ -6,7 +6,6 @@ import { useSession } from "next-auth/react";
 import UserAvatar from "components/common/UserAvatar";
 import { Button } from "components/ui/button";
 import NoCommentsLogo from "components/common/icons/NoCommentsLogo";
-import { useClickAway } from "@uidotdev/usehooks";
 
 export interface NoteCommentsSectionProps {
    note: Note & { comments: (NoteComment & { user: User })[] };

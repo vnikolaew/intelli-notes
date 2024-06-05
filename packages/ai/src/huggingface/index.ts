@@ -206,9 +206,9 @@ export class HuggingFaceAPI {
 
    /**
     * Want to have a nice know-it-all bot that can answer any question?. Recommended model: deepset/ roberta-base-squad2
-    * @param question
-    * @param context
-    * @param model
+    * @param question The question you want to ask the AI model.
+    * @param context The context you want to use to answer the question.
+    * @param model The model you want to use.
     */
    public async questionAnswering(question: string, context: string, model: string) {
       const response: QuestionAnsweringOutput = await this.hf.questionAnswering({

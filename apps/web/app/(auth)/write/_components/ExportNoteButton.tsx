@@ -6,7 +6,7 @@ import {
    DropdownMenuSeparator,
    DropdownMenuTrigger,
 } from "components/ui/dropdown-menu";
-import { FolderUp, Loader2 } from "lucide-react";
+import { ArrowUp, Braces, Code, DiamondMinus, FileCode2, FolderUp, Loader2 } from "lucide-react";
 import React, { Fragment } from "react";
 import { Note } from "@repo/db";
 import { useBoolean } from "hooks/useBoolean";
@@ -17,12 +17,32 @@ export interface ExportNoteButtonProps {
    note?: Note;
 }
 
-const EXPORT_FORMATS = [
-   `CSV`,
-   `JSON`,
-   `Markdown`,
-   `HTML`,
-   `XML`,
+export const EXPORT_FORMATS = [
+   {
+      value:
+         `CSV`,
+      icon: <ArrowUp size={14} />,
+   },
+   {
+      value:
+         `JSON`,
+      icon: <Braces size={14} />,
+   },
+   {
+      value:
+         `Markdown`,
+      icon: <DiamondMinus size={14} />,
+   },
+   {
+      value:
+         `HTML`,
+      icon: <FileCode2 size={14} />,
+   },
+   {
+      value:
+         `XML`,
+      icon: <Code size={14} />,
+   },
 ] as const;
 
 const ExportNoteButton = ({ note }: ExportNoteButtonProps) => {
@@ -36,7 +56,7 @@ const ExportNoteButton = ({ note }: ExportNoteButtonProps) => {
          headers: {
             "Content-Type": "application/json",
          },
-         body: JSON.stringify({ note, format: dataValue, single: true }),
+         body: JSON.stringify({ notes: [note], format: dataValue, single: true }),
          credentials: "include",
       }).then(async res => {
          const fileName = res.headers.get(`Content-Disposition`)?.split(`;`).at(-1)?.split(`=`).at(-1)?.trim();
@@ -63,12 +83,13 @@ const ExportNoteButton = ({ note }: ExportNoteButtonProps) => {
          </DropdownMenuTrigger>
          <DropdownMenuContent>
             <DropdownMenuSeparator />
-            {EXPORT_FORMATS.map((item, index) => (
+            {EXPORT_FORMATS.map(({value ,icon}, index) => (
                <DropdownMenuItem
-                  data-value={item} key={item}
+                  data-value={value} key={value}
+                  className={`items-center gap-2`}
                   onClick={e => {
-                     handleExport(e.currentTarget.attributes.getNamedItem(`data-value`).value as (typeof EXPORT_FORMATS)[number]);
-                  }}>{item}</DropdownMenuItem>
+                     handleExport(e.currentTarget.attributes.getNamedItem(`data-value`).value as (typeof EXPORT_FORMATS)[number]["value"]);
+                  }}>{icon}{value}</DropdownMenuItem>
             ))}
          </DropdownMenuContent>
       </DropdownMenu>

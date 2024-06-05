@@ -61,26 +61,30 @@ const Header = ({}: NavbarProps) => {
                </Link>
             </nav>
             <div className={`flex-1 text-center flex items-center gap-8 justify-center`}>
-               <InteractiveHeaderLink href={`/notes`} icon={<Notebook
-                  size={14}
-                  className={cn(pathname === `/notes` && `stroke-[3px]`)}
-               />} title={`My notes`} />
+               <SignedIn>
+                  <InteractiveHeaderLink href={`/notes`} icon={<Notebook
+                     size={14}
+                     className={cn(pathname === `/notes` && `stroke-[3px]`)}
+                  />} title={`My notes`} />
+               </SignedIn>
                <InteractiveHeaderLink href={`/explore`} icon={<Telescope
                   size={14}
                   className={cn(pathname === `/explore` && `stroke-[3px]`)}
                />} title={`Explore`} />
-               <InteractiveHeaderLink
-                  href={`/notes/ask`} icon={<Sparkles
-                  size={14}
-                  className={cn(pathname === `/notes/ask` && `stroke-[3px]`)}
-               />} title={`Ask AI`} />
+               <SignedIn>
+                  <InteractiveHeaderLink
+                     href={`/notes/ask`} icon={<Sparkles
+                     size={14}
+                     className={cn(pathname === `/notes/ask` && `stroke-[3px]`)}
+                  />} title={`Ask AI`} />
+               </SignedIn>
             </div>
             <div className={`flex flex-1 items-center justify-end space-x-8`}>
                <SignedIn>
                   <div className={`flex items-center gap-6`}>
                      <TooltipProvider>
                         <Tooltip>
-                           <TooltipTrigger >
+                           <TooltipTrigger>
                               <UserAvatar
                                  title={session?.data?.user?.name} className={`cursor-pointer`}
                                  imageSrc={session?.data?.user?.image} />

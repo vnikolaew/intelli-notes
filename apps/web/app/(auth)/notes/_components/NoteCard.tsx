@@ -70,7 +70,8 @@ const NoteCard = ({
             markdownProps={markdownProps}
             showButtons={showButtons}
             showPublicity={showPublicity}
-            showComments={showComments} note={note} />
+            showComments={showComments}
+            note={note} />
          <MotionCard
             initial={{ opacity: 0 }}
             animate={{ opacity: 100 }}

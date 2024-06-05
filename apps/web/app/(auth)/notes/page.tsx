@@ -1,7 +1,7 @@
 import React from "react";
 import { auth } from "auth";
 import { redirect } from "next/navigation";
-import { xprisma } from "@repo/db";
+import { PublicNotesFilter, xprisma } from "@repo/db";
 import { Separator } from "components/ui/separator";
 import { Button } from "components/ui/button";
 import { PenLine, Sparkles, StickyNote } from "lucide-react";
@@ -22,25 +22,29 @@ import {
 } from "components/ui/pagination";
 import NotesSection from "./_components/NotesSection";
 import UploadToGoogleDriveButton from "./_components/UploadToGoogleDriveButton";
-import { headers } from "next/headers";
 import UserFeedbackModal from "components/modals/UserFeedbackModal";
+import { getReferer } from "lib/utls.server";
+import ShimmerButton from "components/ui/shimmer-button";
+import { cookies } from "next/headers";
+import { USER_SUBMITTED_FEEDBACK_COOKIE_NAME } from "lib/consts";
 
 export interface PageProps {
-   searchParams: { page?: number };
+   searchParams: { page?: number, public?: string; tags?: string, view?: string };
 }
 
-const showFeedbackModal = () => {
-   let referer = [...headers().entries()].find(([key]) => key === `referer`);
+
+const showFeedbackModal = async () => {
+   let referer = await getReferer();
    if (referer) {
-      console.log({ referer: referer[1] });
       try {
-         console.log(new URL(referer[1]).pathname);
-         return new URL(referer[1]).pathname === `/write`
-      } catch(e ) { return false}
+         return new URL(referer[1]).pathname === `/write`;
+      } catch (e) {
+         return false;
+      }
    }
 
 
-   return false
+   return false;
 };
 
 function NotesEmptyState() {
@@ -53,17 +57,28 @@ function NotesEmptyState() {
 }
 
 
+export const dynamic = `force-dynamic`;
+
 const Page = async ({ searchParams }: PageProps) => {
    const session = await auth();
    if (!session) redirect(`/`);
 
    const page = Math.max(Number(searchParams.page ?? 0), 1);
+   const viewingPublic = searchParams.public === `true`
+      ? PublicNotesFilter.PUBLIC : searchParams.public === `false`
+         ? PublicNotesFilter.PRIVATE : PublicNotesFilter.ALL;
+   const tags = (searchParams.tags?.split(`,`)) ?? [];
 
+   console.log(`Fetching notes from DB ...`);
    const { notes: myNotes, total } = await xprisma.user.notes({
          userId: session.user?.id,
          take: 10000,
+         filters: {
+            tags, publicity: viewingPublic,
+         },
       },
    );
+   console.log({ myNotes });
 
    const categories = await xprisma.noteCategory.findMany({
       where: {
@@ -73,12 +88,12 @@ const Page = async ({ searchParams }: PageProps) => {
    const allTags = [...new Set(myNotes.flatMap(n => n.tags))];
    const showGoogleDriveUploadFeature = !!session.accessToken && !!session.refreshToken;
 
-   const show = showFeedbackModal()
-   console.log({ show });
+   let hasUserSubmittedFeedback = cookies().get(USER_SUBMITTED_FEEDBACK_COOKIE_NAME)?.value === `1`
+   const show = !hasUserSubmittedFeedback && await showFeedbackModal();
 
    return (
       <section className="flex flex-col items-start gap-4 mt-24 w-3/4 px-12 mx-auto">
-         <UserFeedbackModal open={true} />
+         <UserFeedbackModal open={show} />
          <Row className={``}>
             <NotesHeader notes={myNotes} />
             <Row className={`!w-fit gap-6`}>
@@ -89,12 +104,17 @@ const Page = async ({ searchParams }: PageProps) => {
                      <span className={`font-normal text-base`}>New note</span>
                   </Link>
                </Button>
-               <Button asChild className={`shadow-md`} variant={"ghost"} size={`sm`}>
-                  <Link className={`flex gap-2`} href={`/notes/ask`}>
+               <Link href={`/notes/ask`}>
+                  <ShimmerButton shimmerDuration={`1.5s`} shimmerSize={`0.15em`} borderRadius={`.5rem`}
+                                 shimmerColor={`var(--blue-700)`} background={`white`}
+                                 className="!shadow-md !bg-white !px-3 !py-1.5 hover:opacity-80 transition-opacity duration-200">
+                 <span
+                    className="whitespace-pre-wrap test-gradient text-center text-sm font-medium leading-none tracking-tight dark:from-white dark:to-slate-900/10 lg:text-base inline-flex items-center gap-2">
                      <Sparkles className={`text-blue-500`} size={16} />
-                     <span className={`test-gradient font-semibold text-base`}>Ask AI</span>
-                  </Link>
-               </Button>
+                   Ask AI
+                 </span>
+                  </ShimmerButton>
+               </Link>
             </Row>
          </Row>
          <Separator orientation={`horizontal`} className={`w-2/5 mt-0 text-neutral-700 bg-neutral-300 shadow-lg`} />

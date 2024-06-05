@@ -15,7 +15,7 @@ import { changeNoteCategory } from "../actions";
 import { toast, TOASTS } from "config/toasts";
 import { isExecuting } from "next-safe-action/status";
 import { Check, Loader2 } from "lucide-react";
-import { useBoolean } from "../../../hooks/useBoolean";
+import { useBoolean } from "hooks/useBoolean";
 
 export interface NotesCategorySelectProps {
    note: Note;

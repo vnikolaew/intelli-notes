@@ -13,15 +13,13 @@ export interface HeroSectionTwoProps {
    heroLogo?: ReactNode;
 }
 
-const AnimatedLottie = motion(Lottie);
-
 export const HeroSectionTwo = ({ appDescription, heroLogo }: HeroSectionTwoProps) => {
    return (
       <section className="text-gray-400 body-font">
          <div className="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center">
             <DotPattern
                className={cn(
-                  "[mask-image:radial-gradient(300px_circle_at_center,white,transparent)] inset-y-12",
+                  "[mask-image:radial-gradient(300px_circle_at_center,white,transparent)] inset-y-16",
                )}
             />
             <div

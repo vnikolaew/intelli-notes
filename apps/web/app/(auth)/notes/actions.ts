@@ -6,7 +6,7 @@ import { xprisma } from "@repo/db";
 import { sleep } from "lib/utils";
 import { revalidatePath } from "next/cache";
 import { GoogleDriveStorage } from "@repo/storage";
-import { auth } from "../../auth";
+import { auth } from "auth";
 
 const deleteSchema = z.object({
    noteId: z.string(),

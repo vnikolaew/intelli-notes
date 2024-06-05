@@ -10,7 +10,7 @@ export interface NotesGridProps {
 }
 
 const NotesGrid = ({ notes ,showComments = false }: NotesGridProps) => {
-   const {pagedNotes, filteredNotes} = useFilteredNotes(notes);
+   const {pagedNotes, filteredNotes, page} = useFilteredNotes(notes);
 
    return (
       <div className={`grid grid-cols-3 w-full gap-8 mt-8`}>

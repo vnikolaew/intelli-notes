@@ -2,13 +2,13 @@
 import { Input } from "components/ui/input";
 import React from "react";
 import { Search, X } from "lucide-react";
-import { useQueryState } from "nuqs";
+import { parseAsString, useQueryState } from "nuqs";
 
 export interface NotesSearchInputProps {
 }
 
 const NotesSearchInput = ({}: NotesSearchInputProps) => {
-   const [q, setQ] = useQueryState(`q`);
+   const [q, setQ] = useQueryState(`q`, parseAsString.withDefault(`k`));
 
    return (
       <div className={`relative`}>

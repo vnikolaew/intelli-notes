@@ -11,8 +11,8 @@ export function NotesVisibilityFilter() {
       if (showPublic === null) return `Showing all notes. Click to see public ones.`;
 
       return showPublic ? `Showing only public notes. Click to show private ones.` :
-         `Showing only private notes. Click to show public ones.`;
-   }, []);
+         `Showing only private notes. Click to show all ones.`;
+   }, [showPublic]);
 
    const handleChangeVisibilityFilter = async () => {
       if (showPublic === null) await setShowPublic(true);

@@ -4,7 +4,7 @@ import { auth } from "auth";
 import EditorComponentWrapper from "./_components/EditorComponentWrapper";
 import { ArrowRight, SquarePen } from "lucide-react";
 import { InteractiveLink } from "@repo/ui/components";
-import { redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import { isValidUuid } from "lib/utils";
 import { Separator } from "components/ui/separator";
 
@@ -37,12 +37,13 @@ const Page = async (props: PageProps) => {
 
    if (!!params.id) {
       const isValid = isValidUuid(params.id);
-      if (!isValid) redirect(`/write`);
+      if (!isValid) notFound()
 
       note = await xprisma.note.findUnique({
          where: { id: params.id, authorId: session?.user?.id },
       });
    }
+   if(!note) notFound()
    const categories = await xprisma.noteCategory.findMany({
       where: { userId: session.user.id },
    });

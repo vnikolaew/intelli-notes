@@ -13,7 +13,7 @@ export function useFilteredNotes(notes: Note[]) {
    const q = useSearchParam(`q`);
    const [showPublic] = useQueryState(`public`, parseAsBoolean);
    const [selectedTags] = useQueryState<Item[]>(`tags`, parseAsItems);
-   const [page, setPage] = useQueryState(`page`, parseAsInteger);
+   const [page, setPage] = useQueryState(`page`, parseAsInteger.withDefault(1));
 
    const filteredNotes = useMemo(() => {
       let filtered = notes;
@@ -39,5 +39,5 @@ export function useFilteredNotes(notes: Note[]) {
 
    const pagedNotes = useMemo(() => filteredNotes.slice(((page ?? 1) - 1) * PAGE_SIZE, (page ?? 1) * PAGE_SIZE), [filteredNotes, page]);
 
-   return { filteredNotes, pagedNotes };
+   return { filteredNotes, pagedNotes, page };
 }

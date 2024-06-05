@@ -3,7 +3,6 @@
 import { MultiSelect, Item } from "./MultiSelect";
 import { createParser, parseAsArrayOf, parseAsString, useQueryState } from "nuqs";
 import { useCallback } from "react";
-import BulkExportNotesButton from "./BulkExportNotesButton";
 
 export interface NotesTagsFilterProps {
    tags: string[];

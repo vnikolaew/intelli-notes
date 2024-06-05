@@ -4,6 +4,9 @@ import { z } from "zod";
 import { authorizedAction } from "lib/actions";
 import { auth } from "auth";
 import { WebClient } from "@slack/web-api";
+import { cookies } from "next/headers";
+import moment from "moment/moment";
+import { USER_SUBMITTED_FEEDBACK_COOKIE_NAME } from "lib/consts";
 
 
 const schema = z.object({
@@ -87,6 +90,12 @@ export const submitUserFeedback = authorizedAction(schema, async ({ anonymous, r
                ]
             }
          ]
+      });
+
+      cookies().set(USER_SUBMITTED_FEEDBACK_COOKIE_NAME, `1`, {
+         sameSite: `lax`,
+         httpOnly: false,
+         expires: moment(new Date()).add(1, `hour`).toDate(),
       });
       return { success: true };
    } catch (err) {

@@ -23,6 +23,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "compon
 import NotesCategorySelect from "./NotesCategorySelect";
 import { useMarkdownEditor } from "../_hooks/useMarkdownEditor";
 import { useAiTextGeneration } from "../_hooks/useAiTextGeneration";
+import LinearGradient from "components/ui/linear-gradient";
 
 export interface InitializedMdxEditorProps extends MDXEditorProps {
    editorRef: MutableRefObject<MDXEditorMethods> | null;
@@ -142,7 +143,8 @@ const InitializedMdxEditor = ({
             />
          </div>
          <AiTip />
-         <div className={`relative w-full`}>
+         <div className={`relative w-full rounded-b-lg`}>
+            <LinearGradient className={`bg-transparent !rounded-b-xl`} from={`transparent`} to={`#DDDDDD`} transitionPoint={`95%`} />
             <div className={`absolute bottom-2 right-2`}>
                <TooltipProvider>
                   <Tooltip delayDuration={200}>
@@ -159,7 +161,7 @@ const InitializedMdxEditor = ({
                      </TooltipTrigger>
                      <TooltipContent side={`bottom`} className={`bg-black text-white rounded-md text-xs max-w-[240px]`}>
                         <span className={`text-sm block`}>Ask AI</span>
-                        <span className={`text-xs text-muted-foreground text-wrap`}>
+                        <span className={`text-xs text-muted-foreground text-wrap mt-2`}>
                            Use AI to suggest completions for your note.
                         </span>
                      </TooltipContent>
@@ -168,7 +170,7 @@ const InitializedMdxEditor = ({
             </div>
             <MDXEditor
                autoFocus
-               className={cn(`min-h-[300px] !font-mono mt-2`, sfMono.variable)}
+               className={cn(`min-h-[400px] !font-mono mt-2 !rounded-b-lg`, sfMono.variable)}
                ref={editorRef}
                markdown={markdownValue ?? currentNote?.raw_text ?? ``}
                onChange={setMarkdownValue}

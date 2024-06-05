@@ -53,7 +53,7 @@ export function isErrorMessage(message: ChatMessage): message is TSystemErrorMes
 
 export const SCORE_THRESHOLD = 0.2;
 
-export const NO_RESPONSE_MESSAGE = `AI could not generate an appropriate response to your question!`;
+export const NO_RESPONSE_MESSAGE = `AI could not generate an appropriate answer to your question!`;
 
 
 const AiChat = ({ chatHistory }: AiChatProps) => {
