@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { useAudio } from "hooks/useAudio";
-import { useCopyToClipboard } from "@uidotdev/usehooks";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "components/ui/tooltip";
 import { Button } from "components/ui/button";
 import { Check, CircleStop, Copy, Loader, RefreshCcw, Volume2 } from "lucide-react";
 import { SystemMessageProps } from "./SystemMessage";
 import { useBoolean } from "hooks/useBoolean";
+import useCopyToClipboard from "hooks/useCopyToClipboard";
 
 export interface SystemMessageActionsProps extends SystemMessageProps {
    onRegenerate: () => void;

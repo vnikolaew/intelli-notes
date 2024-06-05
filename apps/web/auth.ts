@@ -26,6 +26,7 @@ const customAdapter = {
 } satisfies Adapter;
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
+   trustHost: true,
    adapter: customAdapter,
    events: {
       // @ts-ignore

@@ -29,8 +29,10 @@ const FEATURES = [
       description: `Keep your notes and documents safe with IntelliNotes's secure storage system.`,
       icon: <Server size={60} />,
    },
-
 ];
+
+export const dynamic = `force-static`
+
 /**
  * The site's main landing page.
  * @constructor

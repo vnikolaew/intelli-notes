@@ -3,7 +3,6 @@ import { Note, NoteComment, NoteLike } from "@repo/db";
 import React, { Fragment, useState } from "react";
 import { Row } from "@repo/ui/components";
 import UserAvatar from "components/common/UserAvatar";
-import NoteCard from "../../notes/_components/NoteCard";
 import NoteCommentsCount from "./NoteCommentsCount";
 import NoteLikeButton from "./NoteLikeButton";
 import { useSession } from "next-auth/react";
@@ -13,6 +12,7 @@ import { useBoolean } from "hooks/useBoolean";
 import { Loader2 } from "lucide-react";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "components/ui/hover-card";
 import { UserInfoCard } from "./UserInfoCard";
+import NoteCard from "app/(auth)/notes/_components/NoteCard";
 
 export interface ExploreNotesGridProps {
    notes: (Note & { author: { name: string; image: string }, comments: NoteComment[], likes: NoteLike[] })[];

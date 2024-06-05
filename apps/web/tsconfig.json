@@ -10,12 +10,12 @@
     }
   },
   "display": "Next.js",
-  "paths": {
-    "@/*": [
-      "./*"
-    ],
-  },
   "compilerOptions": {
+    "paths": {
+      "@/*": [
+        "./*"
+      ]
+    },
     "baseUrl": ".",
     "target": "ES2020",
     "plugins": [

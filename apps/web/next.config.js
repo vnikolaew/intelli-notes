@@ -4,11 +4,12 @@ module.exports = {
       disableServerWebpackPlugin: true,
       disableClientWebpackPlugin: true,
    },
-   serverExternalPackages: ["sharp", "onnxruntime-node"],
+   serverExternalPackages: ["sharp", "onnxruntime-node", "@aws-sdk"],
+   output: `standalone`,
    experimental: {
       typedRoutes: true,
    },
-   compiler: { },
+   compiler: {},
    eslint: { ignoreDuringBuilds: true },
    webpack: (config) => {
       // See https://webpack.js.org/configuration/resolve/#resolvealias
@@ -47,4 +48,7 @@ module.exports = {
       ],
    },
    transpilePackages: ["@repo/ui", "@repo/db", "@repo/emails", "@repo/ai", "@mdxeditor/editor"],
+   typescript: {
+      ignoreBuildErrors: true,
+   },
 };

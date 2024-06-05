@@ -16,8 +16,6 @@ import appLogo from "public/logo.jpg";
 import { __IS_DEV__ } from "lib/consts";
 import { sfMono } from "assets/fonts";
 
-const inter = FontSans({ subsets: ["latin"], variable: "--font-sans" });
-
 export const metadata: Metadata = {
    title: APP_NAME,
    description: APP_DESCRIPTION,

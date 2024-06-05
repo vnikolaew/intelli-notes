@@ -3,7 +3,7 @@
 import { authorizedAction } from "lib/actions";
 import { z } from "zod";
 import { Note, xprisma } from "@repo/db";
-import { sleep } from "../../lib/utils";
+import { sleep } from "lib/utils";
 import { revalidatePath } from "next/cache";
 import { ChatCompletionOutput, HuggingFaceAPI } from "@repo/ai";
 import { createStreamableValue, StreamableValue } from "ai/rsc";

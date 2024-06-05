@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useDebounce } from "@uidotdev/usehooks";
 import { Note } from "@repo/db";
 import { useAction } from "next-safe-action/hooks";
 import { changeNoteVisibility, createOrUpdateNote } from "../actions";
 import { useRouter } from "next/navigation";
+import useDebounce from "hooks/useDebounce";
 
 const DEFAULT_DEBOUNCE = 2000;
 

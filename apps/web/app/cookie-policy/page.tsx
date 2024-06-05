@@ -1,6 +1,5 @@
 import React from "react";
 import moment from "moment";
-import { Heading } from "../tos/page";
 import { APP_HOST_NAME, APP_NAME, COMPANY_DETAILS, LINKS } from "config/site";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
@@ -14,7 +13,7 @@ const LAST_UPDATED = new Date(2024, 4, 21);
  * The site's Cookie Policy page.
  * @constructor
  */
-const Page = ({}: PageProps) => {
+const Page = async ({}: PageProps) => {
    return (
       <section className={`flex flex-col w-full mt-12 items-center`}>
          <div className={`flex flex-col items-start gap-2 w-2/5 text-wrap`}>
@@ -91,7 +90,7 @@ const Page = ({}: PageProps) => {
                If you have any questions about our use of cookies or other technologies, please email us
                at <Link className={`!text-blue-500`} href={`mailto:${LINKS.supportEmail}`}>
                {LINKS.supportEmail}
-            </Link>  or by post to:
+            </Link> or by post to:
             </p>
             <b className={`mt-4`}>{APP_NAME}</b>
             <p>{COMPANY_DETAILS.streetAddress}</p>
@@ -102,6 +101,12 @@ const Page = ({}: PageProps) => {
             <Link className={`inline-flex gap-1 items-center`} href={`/`}>Go Home <ArrowRight size={14} /></Link>
          </div>
       </section>
+   );
+};
+
+const Heading = ({ text }: { text: string }) => {
+   return (
+      <h2 className={`mt-4 text-lg font-semibold`}>{text}</h2>
    );
 };
 

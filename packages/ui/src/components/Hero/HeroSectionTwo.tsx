@@ -1,5 +1,4 @@
 "use client";
-import Lottie from "lottie-react";
 import React, { ReactNode } from "react";
 import Link from "next/link";
 import { NotebookPen } from "lucide-react";
@@ -57,15 +56,6 @@ export const HeroSectionTwo = ({ appDescription, heroLogo }: HeroSectionTwoProps
                transition={{ duration: 1, delay: 2, type: `spring` }}
                className="lg:max-w-lg lg:w-full md:w-1/2 w-5/6 flex items-center justify-center">
                {heroLogo
-               //    ? (
-               //    heroLogo
-               // ) : (
-               //    <AnimatedLottie
-               //       className={`!max-w-[500px]`}
-               //       aria-labelledby={`Hero Section animation`}
-               //       animationData={animation}
-               //       loop />
-               // )
                }
             </motion.div>
          </div>

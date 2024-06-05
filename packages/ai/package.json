@@ -2,12 +2,15 @@
   "name": "@repo/ai",
   "version": "0.0.0",
   "private": true,
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": "./src/index.ts"
   },
   "scripts": {
     "dev": "echo 'Add dev script here'",
-    "build": "echo 'Add build script here'",
+    "build": "tsup src/index.ts --format cjs,esm --dts",
     "test": "echo 'Add test script here'",
     "lint": "echo 'Add lint script here'"
   },
@@ -16,7 +19,8 @@
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@xenova/transformers": "^2.17.1",
-    "ai": "^3.1.12"
+    "ai": "^3.1.12",
+    "tsup": "^8.1.0"
   },
   "dependencies": {
     "@ai-sdk/openai": "^0.0.13",

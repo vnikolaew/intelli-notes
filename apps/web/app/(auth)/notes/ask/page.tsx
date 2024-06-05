@@ -14,6 +14,8 @@ export interface PageProps {
 
 const DESCRIPTION = `Use AI to retrieve information about your current notes.`;
 
+export const dynamic = `force-dynamic`
+
 const Page = async ({ searchParams }: PageProps) => {
    const session = await auth();
 

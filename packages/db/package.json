@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "dev": "echo 'Add dev script here'",
-    "build": "echo 'Add build script here'",
+    "build": "tsup src/index.ts --format cjs,esm --dts",
     "test": "echo 'Add test script here'",
     "lint": "echo 'Add lint script here'",
     "db:generate": "prisma generate",
@@ -14,14 +14,15 @@
     "db:push": "prisma db push --skip-generate"
   },
   "dependencies": {
-    "@prisma/client": "latest",
     "@prisma/adapter-pg": "latest",
-    "bcryptjs": "^2.4.3",
-    "bcrypt": "^5.1.1"
+    "@prisma/client": "latest",
+    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3"
   },
   "devDependencies": {
-    "prisma": "latest",
+    "@types/bcrypt": "^5.0.2",
     "@types/bcryptjs": "^2.4.6",
-    "@types/bcrypt": "^5.0.2"
+    "prisma": "latest",
+    "tsup": "^8.1.0"
   }
 }

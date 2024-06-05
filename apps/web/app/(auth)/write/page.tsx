@@ -1,7 +1,7 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { Note, xprisma } from "@repo/db";
 import { auth } from "auth";
-import EditorComponentWrapper from "./_components/EditorComponentWrapper";
+import dynamic from 'next/dynamic';
 import { ArrowRight, SquarePen } from "lucide-react";
 import { InteractiveLink } from "@repo/ui/components";
 import { notFound } from "next/navigation";
@@ -24,10 +24,12 @@ const HEADINGS = [
    "What are you brainstorming today?",
 ];
 
+const EditorComponentWrapper  = dynamic(() => import('./_components/EditorComponentWrapper'), { ssr: false });
 
 export interface PageProps {
    searchParams: { id?: string };
 }
+
 
 const Page = async (props: PageProps) => {
    const session = await auth();
@@ -70,7 +72,9 @@ const Page = async (props: PageProps) => {
                   className={`w-3/5 mt-3 text-neutral-700 bg-neutral-300 shadow-lg`} />
             </div>
             <div className={`w-full`}>
-               <EditorComponentWrapper categories={categories} note={note} />
+               <Suspense>
+                  <EditorComponentWrapper categories={categories} note={note} />
+               </Suspense>
             </div>
          </div>
       </section>

@@ -13,7 +13,7 @@ const LAST_UPDATED = new Date(2024, 4, 21);
  * The site's Terms of Service page.
  * @constructor
  */
-const Page = ({}: PageProps) => {
+const Page = async ({}: PageProps) => {
    return (
       <section className={`flex flex-col w-full mt-12 items-center`}>
          <div className={`flex flex-col items-start gap-2 w-2/5 text-wrap`}>
@@ -170,7 +170,7 @@ const Page = ({}: PageProps) => {
    );
 };
 
-export const Heading = ({ text }: { text: string }) => {
+const Heading = ({ text }: { text: string }) => {
    return (
       <h2 className={`mt-4 text-lg font-semibold`}>{text}</h2>
    );
