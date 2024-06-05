@@ -8,7 +8,7 @@ export interface NotFoundAnimationProps {
 
 const NotFoundAnimation = ({}: NotFoundAnimationProps) => {
    return (
-      <Lottie className={`w-[400px]`} animationData={animation} />
+      <Lottie className={`w-[400px] `} animationData={animation} />
    );
 };
 

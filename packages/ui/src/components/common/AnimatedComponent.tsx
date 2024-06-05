@@ -13,9 +13,6 @@ const AnimatedComponent = ({ children, ...props }: AnimatedComponentProps) => {
       rootMargin: "100px",
       threshold: 1, // Trigger when 10% of the component is visible
    });
-   useEffect(() => {
-      console.log(`Element is in view`);
-   }, [inView])
 
    return (
       <motion.div

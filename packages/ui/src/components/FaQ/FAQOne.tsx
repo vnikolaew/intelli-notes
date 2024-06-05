@@ -17,7 +17,7 @@ export const FaqOne = ({ faqs }: FaqOneProps) => {
       <section id={`faq`} className="w-full body-font mt-20 flex items-start justify-center gap-48 mx-auto relative">
          <DotPattern
             className={cn(
-               "[mask-image:radial-gradient(300px_circle_at_center,white,transparent)] inset-y-12",
+               "[mask-image:radial-gradient(300px_circle_at_center,white,transparent)] inset-y-20",
             )}
          />
          <div className={`flex flex-col items-start gap-4`}>

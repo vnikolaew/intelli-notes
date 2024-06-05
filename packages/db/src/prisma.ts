@@ -23,8 +23,22 @@ export const nonArchivedFilter: Prisma.AiChatHistoryWhereInput = {
    },
 };
 
+export enum PublicNotesFilter {
+   PUBLIC,
+   PRIVATE,
+   ALL
+}
+
 export let xprisma = prisma.$extends({
    result: {
+      aiChatHistory: {
+         archived: {
+            needs: { metadata: true },
+            compute({ metadata }) {
+               return (metadata as any)?.[`archived`] ?? false;
+            },
+         },
+      },
       account: {
          deleteResetToken: {
             needs: { providerAccountId: true, provider: true, metadata: true, userId: true },
@@ -84,6 +98,24 @@ export let xprisma = prisma.$extends({
    },
    model: {
       aiChatHistory: {
+         async archive(chatId: string) {
+            const chat = await xprisma.aiChatHistory.findUnique({
+               where: {
+                  id: chatId,
+               },
+            });
+            if (!chat) return null;
+
+            await xprisma.aiChatHistory.update({
+               where: { id: chat.id },
+               data: {
+                  metadata: { ...(chat.metadata ?? {}), archived: true },
+               },
+            });
+
+            return chat;
+         },
+
          async getNonArchivedUserChats(userId: string) {
             const userChatHistories = await xprisma.aiChatHistory.findMany({
                where: {
@@ -94,19 +126,33 @@ export let xprisma = prisma.$extends({
                   messages: { orderBy: { createdAt: `asc` } },
                },
             });
-            userChatHistories.forEach(chat =>  {
-              chat.messages = chat.messages.sort((a, b) => a.createdAt - b.createdAt)
-            })
+            userChatHistories.forEach(chat => {
+               chat.messages = chat.messages.sort((a, b) => a.createdAt - b.createdAt);
+            });
             return userChatHistories;
          },
       },
       user: {
-         async notes({ userId, skip = 0, take = 20 }: { userId: string, skip?: number, take?: number }) {
+         async notes({ userId, skip = 0, take = 20, filters }: {
+            userId: string, skip?: number, take?: number, filters: {
+               publicity: PublicNotesFilter, tags: string[]
+            }
+         }) {
+
             const total = await xprisma.note.count({
                where: { authorId: userId },
             });
+
             const notes = await xprisma.note.findMany({
-               where: { authorId: userId },
+               where: {
+                  authorId: userId,
+                  ...(filters.tags?.length && {
+                     tags: {
+                        hasSome: filters.tags,
+                     },
+                  }),
+                  public: filters.publicity === PublicNotesFilter.PUBLIC ? true : filters.publicity === PublicNotesFilter.PRIVATE ? false : undefined,
+               },
                orderBy: { createdAt: `desc` },
                include: { category: true },
                skip,

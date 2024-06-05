@@ -10,7 +10,7 @@ export interface UserAvatarProps extends AvatarProps, HTMLAttributes<HTMLSpanEle
 
 const UserAvatar = ({ imageSrc, alt, className, ...props }: UserAvatarProps) => {
    return imageSrc ? (
-      <Avatar {...props}>
+      <Avatar className={className} {...props}>
          <AvatarImage alt={alt ?? ``} src={imageSrc} />
       </Avatar>
    ) : (

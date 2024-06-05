@@ -3,6 +3,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import convert from "xml-js";
+import { recordsToCsv } from "lib/utls.server";
 
 const ObjectToCSV = require("object-to-csv");
 
@@ -14,6 +15,7 @@ const exportSchema = z.object({
       raw_text: z.string(),
       tags: z.array(z.string()),
       authorId: z.string(),
+      public: z.boolean(),
       createdAt: z.string(),
       updatedAt: z.string().nullable(),
    })),
@@ -32,18 +34,17 @@ const exportSchema = z.object({
  */
 export async function POST(req: NextRequest) {
    const body = exportSchema.safeParse(await req.json());
-   if (!body.success) return NextResponse.json({ errors: body.error.errors.map(e => e.message) }, { status: 500 });
+   if (!body.success) return NextResponse.json({
+      errors: body.error.errors.map(({ message, path }) => ({
+         path,
+         message,
+      })),
+   }, { status: 500 });
 
    const { format, notes, single = false } = body.data;
 
    if (format === `CSV`) {
-      const csv = new ObjectToCSV({
-         data: notes,
-         delimiter: `,`,
-         keys: Object.keys(notes[0]),
-         shouldExpandObjects: true,
-         quote: "\"",
-      }).getCSV();
+      const csv = await recordsToCsv(notes, `,`)
       console.log({ csv, notes });
 
       const fileName = single ? `note-${notes[0].id}.csv` : `notes.csv`;
