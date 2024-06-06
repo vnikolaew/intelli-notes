@@ -284,7 +284,7 @@ importers:
         specifier: latest
         version: 5.15.0(pg@8.12.0)
       '@prisma/client':
-        specifier: latest
+        specifier: ^5.15.0
         version: 5.15.0(prisma@5.15.0)
       bcrypt:
         specifier: ^5.1.1
