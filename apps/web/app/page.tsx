@@ -31,7 +31,7 @@ const FEATURES = [
    },
 ];
 
-export const dynamic = `force-static`
+export const dynamic = 'force-static'
 
 /**
  * The site's main landing page.

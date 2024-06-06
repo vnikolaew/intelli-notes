@@ -1,12 +1,12 @@
-import React, { Suspense } from "react";
+import React from "react";
 import { Note, xprisma } from "@repo/db";
 import { auth } from "auth";
-import dynamic from 'next/dynamic';
 import { ArrowRight, SquarePen } from "lucide-react";
 import { InteractiveLink } from "@repo/ui/components";
 import { notFound } from "next/navigation";
 import { isValidUuid } from "lib/utils";
 import { Separator } from "components/ui/separator";
+import EditorComponentWrapper from "./_components/EditorComponentWrapper";
 
 const HEADINGS = [
    `What's on your mind today?`,
@@ -23,8 +23,6 @@ const HEADINGS = [
    "What's your top task today?",
    "What are you brainstorming today?",
 ];
-
-const EditorComponentWrapper  = dynamic(() => import('./_components/EditorComponentWrapper'), { ssr: false });
 
 export interface PageProps {
    searchParams: { id?: string };
@@ -72,9 +70,7 @@ const Page = async (props: PageProps) => {
                   className={`w-3/5 mt-3 text-neutral-700 bg-neutral-300 shadow-lg`} />
             </div>
             <div className={`w-full`}>
-               <Suspense>
                   <EditorComponentWrapper categories={categories} note={note} />
-               </Suspense>
             </div>
          </div>
       </section>
