@@ -11,7 +11,7 @@
     "lint": "echo 'Add lint script here'",
     "db:generate": "pnpm dlx prisma generate",
     "db:migrate": "prisma migrate dev",
-    "db:push": "prisma db push --skip-generate"
+    "db:push": "pnpm dlx prisma db push --skip-generate"
   },
   "dependencies": {
     "@prisma/adapter-pg": "latest",
