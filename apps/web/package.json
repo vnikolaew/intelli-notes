@@ -29,7 +29,6 @@
     "@radix-ui/react-tooltip": "^1.0.7",
     "@repo/ai": "workspace:*",
     "@repo/db": "workspace:*",
-    "@repo/storage": "workspace:*",
     "@repo/emails": "workspace:*",
     "@repo/ui": "workspace:*",
     "@slack/web-api": "^7.0.4",

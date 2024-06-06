@@ -9,11 +9,12 @@ export interface PageProps {
 
 const LAST_UPDATED = new Date(2024, 4, 21);
 
+export const dynamic = "force-static";
 /**
  * The site's Terms of Service page.
  * @constructor
  */
-const Page = async ({}: PageProps) => {
+const Page = ({}: PageProps) => {
    return (
       <section className={`flex flex-col w-full mt-12 items-center`}>
          <div className={`flex flex-col items-start gap-2 w-2/5 text-wrap`}>

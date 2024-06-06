@@ -31,7 +31,7 @@ const Page = async ({}: PageProps) => {
    const latestUsersNotes = await xprisma.note.findMany({
       where: {
          authorId: {
-            not: session.user?.id as string,
+            not: session?.user?.id as string,
          },
          public: true,
       },

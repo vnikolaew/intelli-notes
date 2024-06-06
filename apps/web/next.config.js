@@ -5,7 +5,6 @@ module.exports = {
       disableClientWebpackPlugin: true,
    },
    serverExternalPackages: ["sharp", "onnxruntime-node", "@aws-sdk"],
-   output: `standalone`,
    experimental: {
       typedRoutes: true,
    },

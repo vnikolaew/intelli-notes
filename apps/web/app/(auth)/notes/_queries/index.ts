@@ -2,6 +2,7 @@
 
 import { AiChatHistory, AiChatHistoryMessage, xprisma } from "@repo/db";
 import { auth } from "auth";
+import  {uniq} from "lodash"
 
 const sortHistories = (a: AiChatHistory, b: AiChatHistory) => {
    return b.messages?.at(-1)?.createdAt - a.messages?.at(-1)?.createdAt;
@@ -98,10 +99,10 @@ export const getNotesByIds = async (noteIds: string[]) => {
  * @param chat The chat history.
  */
 export const fillSystemMessagesWithNotes = async (chat: (AiChatHistory & { messages: AiChatHistoryMessage[] })) => {
-   const sourceNoteIds = chat
+   const sourceNoteIds = uniq(chat
       .messages
       ?.filter(m => !!m.metadata?.source_note_id?.length)
-      .map(m => m.metadata?.source_note_id) ?? [];
+      .map(m => m.metadata?.source_note_id) ?? []);
 
    const sourceNotes = await getNotesByIds(sourceNoteIds);
 
