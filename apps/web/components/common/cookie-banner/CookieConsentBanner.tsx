@@ -1,6 +1,6 @@
 import React from "react";
 import { xprisma } from "@repo/db";
-import { auth } from "auth";
+import { auth } from "@/auth";
 import CookieConsentBannerClientTwo from "./CookieConsentBannerClientTwo";
 
 export interface CookieConsentBannerProps {

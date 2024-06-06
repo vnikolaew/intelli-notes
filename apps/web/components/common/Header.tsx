@@ -10,11 +10,11 @@ import { LogOut, Notebook, PenLine, Sparkles, Telescope } from "lucide-react";
 import { APP_NAME } from "config/site";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
 import { InteractiveLink } from "@repo/ui/components";
-import UserAvatar from "./UserAvatar";
 import { useBoolean } from "hooks/useBoolean";
 import SignInModal from "../modals/SignInModal";
 import { usePathname } from "next/navigation";
 import { cn } from "lib/utils";
+import UserAvatarDropdown from "@/components/common/UserAvatarDropdown";
 
 export interface NavbarProps {
 }
@@ -30,7 +30,7 @@ const InteractiveHeaderLink = ({ icon, title, href }: InteractiveHeaderLinkProps
    return (
       <InteractiveLink
          className={cn(`text-lg inline-flex gap-2 items-center`,
-            pathname === href && `text-blue-600 font-semibold`)}
+            pathname === href && `font-semibold !test-gradient`)}
          underlineClassname={cn(`bg-black`,
             pathname === href && `bg-blue-600`)
          }
@@ -57,43 +57,32 @@ const Header = ({}: NavbarProps) => {
             <nav className={`flex flex-1 items-center space-x-4 lg:space-x-6`}>
                <Link href={`/`} className={`flex items-center gap-3`}>
                   <Image className={`rounded-full`} height={40} width={40} alt={APP_NAME} src={appLogo} />
-                  <span className={`font-semibold text-lg !test-gradient`}>{APP_NAME}</span>
+                  <span className={`font-semibold text-lg !test-gradient drop-shadow-md`}>{APP_NAME}</span>
                </Link>
             </nav>
             <div className={`flex-1 text-center flex items-center gap-8 justify-center`}>
                <SignedIn>
                   <InteractiveHeaderLink href={`/notes`} icon={<Notebook
                      size={14}
-                     className={cn(pathname === `/notes` && `stroke-[3px]`)}
+                     className={cn(pathname === `/notes` && `stroke-[3px] !text-blue-600`, `text-black`)}
                   />} title={`My notes`} />
                </SignedIn>
                <InteractiveHeaderLink href={`/explore`} icon={<Telescope
                   size={14}
-                  className={cn(pathname === `/explore` && `stroke-[3px]`)}
+                  className={cn(pathname === `/explore` && `stroke-[3px] !text-blue-600`, `text-black`)}
                />} title={`Explore`} />
                <SignedIn>
                   <InteractiveHeaderLink
                      href={`/notes/ask`} icon={<Sparkles
                      size={14}
-                     className={cn(pathname === `/notes/ask` && `stroke-[3px]`)}
+                     className={cn(pathname === `/notes/ask` && `stroke-[3px] !text-blue-600`, `text-black`)}
                   />} title={`Ask AI`} />
                </SignedIn>
             </div>
             <div className={`flex flex-1 items-center justify-end space-x-8`}>
                <SignedIn>
                   <div className={`flex items-center gap-6`}>
-                     <TooltipProvider>
-                        <Tooltip>
-                           <TooltipTrigger>
-                              <UserAvatar
-                                 title={session?.data?.user?.name} className={`cursor-pointer`}
-                                 imageSrc={session?.data?.user?.image} />
-                           </TooltipTrigger>
-                           <TooltipContent side={`bottom`} className={`bg-black text-white rounded-md text-xs`}>
-                              Signed in as {session?.data?.user?.name}
-                           </TooltipContent>
-                        </Tooltip>
-                     </TooltipProvider>
+                     <UserAvatarDropdown />
                      <div>
                         <TooltipProvider>
                            <Tooltip>

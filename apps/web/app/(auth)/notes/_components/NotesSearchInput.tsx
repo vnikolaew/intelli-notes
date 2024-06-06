@@ -8,7 +8,7 @@ export interface NotesSearchInputProps {
 }
 
 const NotesSearchInput = ({}: NotesSearchInputProps) => {
-   const [q, setQ] = useQueryState(`q`, parseAsString.withDefault(`k`));
+   const [q, setQ] = useQueryState(`q`, parseAsString.withDefault(``));
 
    return (
       <div className={`relative`}>

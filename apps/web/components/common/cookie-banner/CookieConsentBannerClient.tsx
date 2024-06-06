@@ -4,18 +4,18 @@ import CookieConsent from "react-cookie-consent";
 import Link from "next/link";
 import { toast } from "sonner";
 import { ArrowLeft, Cookie, ExternalLink, SlidersHorizontal, X } from "lucide-react";
-import { acceptAllCookies, declineCookieConsent, updateCookiePreferences } from "./actions";
+import { acceptAllCookies, declineCookieConsent, updateCookiePreferences } from "../actions";
 import { useAction } from "next-safe-action/hooks";
-import { LoadingSpinner } from "./LoadingSpinner";
-import { cn } from "lib/utils";
-import { Card, CardContent, CardFooter, CardHeader } from "components/ui/card";
-import { Button } from "../ui/button";
-import { Separator } from "../ui/separator";
-import { Switch } from "components/ui/switch";
+import { LoadingSpinner } from "../LoadingSpinner";
+import { cn } from "@/lib/utils";
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import { Button } from "../../ui/button";
+import { Separator } from "../../ui/separator";
+import { Switch } from "@/components/ui/switch";
 import { isExecuting } from "next-safe-action/status";
 import { motion, MotionProps } from "framer-motion";
-import { TOASTS } from "config/toasts";
-import { APP_HOST_NAME } from "config/site";
+import { TOASTS } from "@/config/toasts";
+import { APP_HOST_NAME } from "@/config/site";
 
 
 export interface CookieConsentBannerProps {

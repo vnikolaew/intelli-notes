@@ -120,7 +120,7 @@ model NoteComment {
 model NoteCategory {
   id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
 
-  name     String
+  title    String
   userId   String
   user     User   @relation(fields: [userId], references: [id])
   metadata Json?  @default("null") @db.JsonB

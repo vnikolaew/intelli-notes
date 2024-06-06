@@ -42,8 +42,9 @@ const Page = async (props: PageProps) => {
       note = await xprisma.note.findUnique({
          where: { id: params.id, authorId: session?.user?.id },
       });
+
+      if(!note) notFound()
    }
-   if(!note) notFound()
    const categories = await xprisma.noteCategory.findMany({
       where: { userId: session.user.id },
    });

@@ -58,9 +58,11 @@ const UserMessage = ({ message, onEditMessage }: UserMessageProps) => {
                      <Tooltip>
                         <TooltipTrigger asChild>
                            <Button
-                              onClick={_ => setEditing(!editing)} className={`p-1 rounded-full`} variant={`ghost`}
+                              onClick={_ => setEditing(!editing)}
+                              className={`p-1 rounded-full bg-transparent hover:!bg-neutral-400 group/button`}
+                              // variant={`ghost`}
                               size={"icon"}>
-                              <PenLine className={`text-neutral-500 stroke-[3px]`} size={14} />
+                              <PenLine className={`!text-neutral-400 stroke-[3px] group-hover/button:!text-white`} size={14} />
                            </Button>
                         </TooltipTrigger>
                         <TooltipContent side={`bottom`} className={`bg-black text-white rounded-md text-xs`}>

@@ -1,13 +1,13 @@
 "use client";
 import { Note, NoteComment, User } from "@repo/db";
 import React, { useState } from "react";
-import NoCommentsLogo from "components/common/icons/NoCommentsLogo";
+import NoCommentsLogo from "@/components/common/icons/NoCommentsLogo";
 import { useSession } from "next-auth/react";
-import UserAvatar from "components/common/UserAvatar";
-import { Input } from "components/ui/input";
-import { Button } from "components/ui/button";
+import UserAvatar from "@/components/common/UserAvatar";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { useAction } from "next-safe-action/hooks";
-import { commentOnNote } from "../actions";
+import { commentOnNote } from "../../actions";
 import { isExecuting } from "next-safe-action/status";
 import { Loader2 } from "lucide-react";
 import CNoteComment from "./NoteComment";

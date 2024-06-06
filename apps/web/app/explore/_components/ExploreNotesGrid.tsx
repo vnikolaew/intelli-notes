@@ -1,25 +1,19 @@
 "use client";
 import { Note, NoteComment, NoteLike } from "@repo/db";
-import React, { Fragment, useState } from "react";
-import { Row } from "@repo/ui/components";
-import UserAvatar from "components/common/UserAvatar";
-import NoteCommentsCount from "./NoteCommentsCount";
-import NoteLikeButton from "./NoteLikeButton";
-import { useSession } from "next-auth/react";
-import { Button } from "components/ui/button";
+import React, { useState } from "react";
 import { GetExplorePageNotesResponse } from "../../api/notes/explore/route";
 import { useBoolean } from "hooks/useBoolean";
-import { Loader2 } from "lucide-react";
-import { HoverCard, HoverCardContent, HoverCardTrigger } from "components/ui/hover-card";
-import { UserInfoCard } from "./UserInfoCard";
-import NoteCard from "app/(auth)/notes/_components/NoteCard";
+import { ExplorePageEmptyState } from "@/app/explore/_components/ExplorePageEmptyState";
+import { ExplorePageNote } from "@/app/explore/_components/ExplorePageNote";
+import { LoadMoreNotesButton } from "@/app/explore/_components/LoadMoreNotesButton";
+import DotPattern from "@/components/ui/dot-pattern";
+import { cn } from "@/lib/utils";
 
 export interface ExploreNotesGridProps {
    notes: (Note & { author: { name: string; image: string }, comments: NoteComment[], likes: NoteLike[] })[];
 }
 
 const ExploreNotesGrid = ({ notes }: ExploreNotesGridProps) => {
-   const session = useSession();
    const [loading, setLoading] = useBoolean();
    const [currentNotes, setCurrentNotes] = useState(notes);
    const [hasMore, setHasMore] = useBoolean(true);
@@ -42,44 +36,18 @@ const ExploreNotesGrid = ({ notes }: ExploreNotesGridProps) => {
    }
 
    return (
-      <div className={`mt-4 grid grid-cols-3 gap-8`}>
-         {currentNotes.map(({ author, ...note }, index) => (
-            <div className={`flex flex-col items-start gap-4 min-w-[300px]`} key={note.id}>
-               <HoverCard>
-                  <HoverCardTrigger>
-                     <Row className={`justify-start`}>
-                        <UserAvatar className={`cursor-pointer`} imageSrc={author.image} />
-                        <span className={`text-muted-foreground`}>{author.name}</span>
-                     </Row>
-                  </HoverCardTrigger>
-                  <HoverCardContent side={`bottom`} className={`!p-4`}>
-                     <UserInfoCard user={author} />
-                  </HoverCardContent>
-               </HoverCard>
-               <NoteCard showComments className={`!w-full`} showButtons={false} note={note} />
-               <div className={`flex items-center justify-end gap-4 w-full`}>
-                  <NoteCommentsCount count={note.comments.length} />
-                  <NoteLikeButton
-                     note={note}
-                     total={note.likes.length}
-                     hasUserLiked={note.likes.some(l => l.userId === session?.data?.user?.id)} />
-               </div>
-            </div>
-         ))}
-         {hasMore && (
-            <div className={`col-span-3 col-start-1 w-full flex items-center justify-center mt-8`}>
-               <Button className={`items-center gap-2`} disabled={loading} onClick={handleLoadMore} variant={`default`}>
-                  {loading ? (
-                     <Fragment>
-                        <Loader2 className={`animate-spin`} size={14} />
-                        Loading ...
-                     </Fragment>
-                  ) : `Load more`}
-               </Button>
-            </div>
-         )}
+      <div className={`mt-8 grid grid-cols-3 gap-8 w-full relative`}>
+         <DotPattern
+            className={cn(
+               "[mask-image:radial-gradient(300px_circle_at_center,white,transparent)] inset-y-12",
+            )}
+            />
+         {!currentNotes?.length && (<ExplorePageEmptyState />)}
+         {currentNotes.map((note, index) => <ExplorePageNote key={note.id} {...note} />)}
+         {hasMore && !!currentNotes.length && <LoadMoreNotesButton onLoadMore={handleLoadMore} loading={loading} />}
       </div>
    );
 };
+
 
 export default ExploreNotesGrid;

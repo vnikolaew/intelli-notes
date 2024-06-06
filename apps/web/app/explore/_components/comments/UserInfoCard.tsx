@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { User } from "@repo/db";
 import { motion } from "framer-motion";
-import UserAvatar from "../../../components/common/UserAvatar";
+import UserAvatar from "../../../../components/common/UserAvatar";
 import Link from "next/link";
 import { CalendarDays, Notebook } from "lucide-react";
 import moment from "moment/moment";

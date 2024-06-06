@@ -7,7 +7,7 @@ import { FooterTwo } from "@repo/ui/components";
 import LoadingBar from "components/common/LoadingBar";
 import Header from "components/common/Header";
 import ScrollToTopButton from "components/common/ScrollToTopButton";
-import CookieConsentBanner from "components/common/CookieConsentBanner";
+import CookieConsentBanner from "@/components/common/cookie-banner/CookieConsentBanner";
 import { Analytics } from "@vercel/analytics/react";
 
 import "./globals.css";

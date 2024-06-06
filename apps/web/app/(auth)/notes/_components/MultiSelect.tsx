@@ -119,7 +119,6 @@ export function MultiSelect({ items, placeholder, setSelected, selected }: Fancy
                                  onSelect={(value) => {
                                     setInputValue("");
                                     setSelected((prev) => {
-                                       console.log({ prev, framework });
                                        return [...(prev ?? []), framework];
                                     });
                                  }}

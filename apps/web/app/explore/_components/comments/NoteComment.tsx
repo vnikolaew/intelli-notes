@@ -1,10 +1,10 @@
 "use client";
 import { NoteComment, User } from "@repo/db";
 import React from "react";
-import UserAvatar from "components/common/UserAvatar";
+import UserAvatar from "@/components/common/UserAvatar";
 import moment from "moment";
-import { Separator } from "components/ui/separator";
-import { HoverCard, HoverCardContent, HoverCardTrigger } from "components/ui/hover-card";
+import { Separator } from "@/components/ui/separator";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 import { useSession } from "next-auth/react";
 import { UserInfoCard } from "./UserInfoCard";
 

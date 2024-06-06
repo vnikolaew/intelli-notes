@@ -3,6 +3,7 @@ import { xprisma } from "@repo/db";
 import { auth } from "auth";
 import { Separator } from "components/ui/separator";
 import ExploreNotesGrid from "./_components/ExploreNotesGrid";
+import { Telescope } from "lucide-react";
 
 export interface PageProps {
 }
@@ -57,11 +58,12 @@ const Page = async ({}: PageProps) => {
 
    return (
       <section className="flex flex-col items-start gap-4 mt-24 w-3/4 px-12 mx-auto">
-         <h2 className={`text-3xl font-semibold`}>
+         <h2 className={`text-3xl font-semibold inline-flex items-center gap-4 drop-shadow-md`}>
+            <Telescope size={24} />
             {EXPLORE_HEADINGS.at(Math.floor(Math.random() * EXPLORE_HEADINGS.length))}
          </h2>
          <Separator orientation={`horizontal`} className={`w-2/5 mt-0 text-neutral-700 bg-neutral-300 shadow-lg`} />
-         <ExploreNotesGrid notes={latestUsersNotes} />
+         <ExploreNotesGrid notes={[]} />
       </section>
    );
 };

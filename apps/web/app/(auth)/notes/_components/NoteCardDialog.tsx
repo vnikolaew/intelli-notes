@@ -15,7 +15,7 @@ import { NoteTags } from "./NoteTags";
 import { Markdown } from "components/common/markdown";
 import NoteSocialShareButtons from "./NoteSocialShareButtons";
 import { Button } from "components/ui/button";
-import NoteCommentsDialog from "app/explore/_components/NoteCommentsDialog";
+import NoteCommentsDialog from "@/app/explore/_components/comments/NoteCommentsDialog";
 import { useQueryState } from "nuqs";
 import moment from "moment";
 import { ScrollAreaProps } from "@radix-ui/react-scroll-area";

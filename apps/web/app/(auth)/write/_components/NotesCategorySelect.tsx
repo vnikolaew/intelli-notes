@@ -74,7 +74,7 @@ const NotesCategorySelect = ({ note, categories }: NotesCategorySelectProps) => 
                         }} checkedIcon={loading ? <Loader2 className={`animate-spin`} size={14} /> :
                         <Check
                            className="h-4 w-4" />} key={category.id}
-                        value={category.id}>{category.name}</SelectItem>
+                        value={category.id}>{category.title}</SelectItem>
                   ))}
                </SelectGroup>
             </SelectContent>

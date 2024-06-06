@@ -1,13 +1,13 @@
 "use client";
 import React, { Fragment, useState } from "react";
 import { useAction } from "next-safe-action/hooks";
-import { acceptAllCookies, declineCookieConsent } from "./actions";
-import { TOASTS } from "config/toasts";
+import { acceptAllCookies, declineCookieConsent } from "../actions";
+import { TOASTS } from "@/config/toasts";
 import { toast } from "sonner";
 import { Cookie, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { CustomizePreferencesModal } from "./CookieConsentBannerClient";
-import { cn } from "lib/utils";
+import { cn } from "@/lib/utils";
 import { AnimatePresence, motion, MotionProps } from "framer-motion";
 import { isExecuting } from "next-safe-action/status";
 

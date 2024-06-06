@@ -25,7 +25,7 @@ export const acceptAllCookies = publicAction(z.any(), async (_, { userId }) => {
 
    await xprisma.user.update({
       where: {
-         id: userId
+         id: userId,
       },
       data: {
          metadata: {
@@ -55,7 +55,7 @@ export const declineCookieConsent = publicAction(z.any(), async (_, { userId }) 
 
    await xprisma.user.update({
       where: {
-         id: userId
+         id: userId,
       },
       data: {
          metadata: {
@@ -87,7 +87,7 @@ export const updateCookiePreferences = authorizedAction(cookiePreferencesSchema,
 
    await xprisma.user.update({
       where: {
-         id: userId
+         id: userId,
       },
       data: {
          metadata: {
@@ -116,7 +116,7 @@ export const changeUserTheme = authorizedAction(changeThemeSchema, async (theme,
 
    await xprisma.user.update({
       where: {
-         id: userId
+         id: userId,
       },
       data: {
          metadata: {
@@ -127,4 +127,23 @@ export const changeUserTheme = authorizedAction(changeThemeSchema, async (theme,
    });
 
    return { success: true };
+});
+
+
+const changeUserProfilePictureSchema = z.object({
+   avatarSrc: z.string().startsWith(`avatars/`),
+});
+/**
+ * An authorized action for changing the user's profile picture.
+ */
+export const changeUserProfilePicture = authorizedAction(changeUserProfilePictureSchema, async ({ avatarSrc }, { userId }) => {
+   await sleep(2000);
+
+   const user = await xprisma.user.update({
+      where: { id: userId },
+      data: { image: avatarSrc },
+   });
+
+
+   return { success: true, user };
 });

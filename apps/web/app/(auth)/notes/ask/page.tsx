@@ -7,6 +7,8 @@ import AiChatSidebar from "./_components/AiChatSidebar";
 import { auth } from "auth";
 import { notFound, redirect } from "next/navigation";
 import { fillSystemMessagesWithNotes, getCurrentChat, getSortedUserChatHistories } from "../_queries";
+import DotPattern from "@/components/ui/dot-pattern";
+import { cn } from "@/lib/utils";
 
 export interface PageProps {
    searchParams: { chatId?: string, new?: string };
@@ -40,7 +42,12 @@ const Page = async ({ searchParams }: PageProps) => {
          <div className={`col-span-1`}>
             <AiChatSidebar chatId={chatHistory.id} chatHistories={sortedChatHistories} />
          </div>
-         <section className="flex flex-col items-start gap-2 max-w-[1200px] p-4 col-span-4 w-full ">
+         <section className="flex flex-col items-start gap-2 max-w-[1200px] p-4 col-span-4 w-full  !rounded-r-lg relative">
+            <DotPattern
+               className={cn(
+                  "[mask-image:radial-gradient(400px_circle_at_center,white,transparent)] inset-y-1/2 -translate-y-1/2",
+               )}
+            />
             <div className={`flex items-center w-full justify-between`}>
                <h2 className={`text-3xl font-semibold drop-shadow-md flex items-center gap-3`}>
                   <Sparkles className={`text-blue-500`} size={22} />
