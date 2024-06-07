@@ -12,6 +12,7 @@ import { Note } from "@repo/db";
 import { useBoolean } from "hooks/useBoolean";
 import { downloadFile } from "lib/utils";
 import { toast, TOASTS } from "config/toasts";
+import { useTranslation } from "react-i18next";
 
 export interface ExportNoteButtonProps {
    note?: Note;
@@ -47,6 +48,7 @@ export const EXPORT_FORMATS = [
 
 const ExportNoteButton = ({ note }: ExportNoteButtonProps) => {
    const [pending, setPending] = useBoolean();
+   const { t } = useTranslation(`home`, { keyPrefix: `Notes.Buttons` });
 
    function handleExport(dataValue: (typeof EXPORT_FORMATS)[number]) {
       console.log(dataValue);
@@ -77,13 +79,13 @@ const ExportNoteButton = ({ note }: ExportNoteButtonProps) => {
                      Exporting ...
                   </Fragment>
                ) : (
-                  <><FolderUp size={24} /><span>Export</span></>
+                  <Fragment><FolderUp size={24} /><span>{t(`Export`)}</span></Fragment>
                )}
             </Button>
          </DropdownMenuTrigger>
          <DropdownMenuContent>
             <DropdownMenuSeparator />
-            {EXPORT_FORMATS.map(({value ,icon}, index) => (
+            {EXPORT_FORMATS.map(({ value, icon }, index) => (
                <DropdownMenuItem
                   data-value={value} key={value}
                   className={`items-center gap-2`}

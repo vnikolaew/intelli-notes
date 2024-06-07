@@ -1,4 +1,6 @@
 export const APP_NAME = `Intelli Notes`;
+export const AUTHOR = `Victorio Nikolaev`;
+export const AUTHOR_WEBSITE = `www.victorio-nikolaev.com`;
 export const APP_HOST_NAME = `intelli-notes`;
 export const APP_DESCRIPTION = `Unleash the power of AI to transform your note-taking with IntelliNotes, where smart technology meets seamless organization.`;
 

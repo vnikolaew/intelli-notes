@@ -18,6 +18,7 @@ import { isExecuting } from "next-safe-action/status";
 import { Loader2 } from "lucide-react";
 import { toast, TOASTS } from "@/config/toasts";
 import { AVATARS } from "@/components/common/icons/UserAvatars";
+import { useTranslation } from "react-i18next";
 
 
 export interface ChangeUserAvatarModalProps {
@@ -36,6 +37,8 @@ const ChangeUserAvatarModal = ({ open, setOpen }: ChangeUserAvatarModalProps) =>
          }
       },
    });
+   const { t } = useTranslation(`home`, { keyPrefix: `Misc.ChangeProfilePicture` });
+   const { t: misc } = useTranslation(`home`, { keyPrefix: `Misc` });
 
    async function handleUpdateProfilePicture() {
       const avatarFilePath = `avatars/avataaars(${selectedAvatarIndex + 1}).svg`;
@@ -47,9 +50,9 @@ const ChangeUserAvatarModal = ({ open, setOpen }: ChangeUserAvatarModalProps) =>
          <DialogTrigger></DialogTrigger>
          <DialogContent>
             <DialogHeader>
-               <DialogTitle>Change your profile picture </DialogTitle>
+               <DialogTitle>{t(`Title`)} </DialogTitle>
                <DialogDescription>
-                  Select one of our pre-selected avatars:
+                  {t(`Description`)}
                </DialogDescription>
             </DialogHeader>
             <div className={`grid grid-cols-5 gap-6 mt-8 !w-fit mx-auto`}>
@@ -69,7 +72,7 @@ const ChangeUserAvatarModal = ({ open, setOpen }: ChangeUserAvatarModalProps) =>
             </div>
             <DialogFooter className={`w-full flex items-center !justify-between mt-8`}>
                <DialogClose>
-                  <Button className={`shadow-md`} variant={`outline`}> Cancel</Button>
+                  <Button className={`shadow-md`} variant={`outline`}> {misc(`Cancel`)}</Button>
                </DialogClose>
                <Button
                   disabled={isExecuting(status)}
@@ -80,7 +83,7 @@ const ChangeUserAvatarModal = ({ open, setOpen }: ChangeUserAvatarModalProps) =>
                         <Loader2 size={18} className={`animate-spin`} />
                         Saving ...
                      </Fragment>
-                  ) : `Save`}
+                  ) : misc(`Save`)}
                </Button>
             </DialogFooter>
          </DialogContent>

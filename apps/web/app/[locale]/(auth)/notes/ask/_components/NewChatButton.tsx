@@ -4,8 +4,11 @@ import { Button } from "components/ui/button";
 import { SquarePen } from "lucide-react";
 import React from "react";
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
 
 export const NewChatButton = () => {
+   const { t } = useTranslation(`home`, { keyPrefix: `AskAi.Tooltips` });
+
    return (
       <TooltipProvider>
          <Tooltip delayDuration={200}>
@@ -19,7 +22,7 @@ export const NewChatButton = () => {
                </Button>
             </TooltipTrigger>
             <TooltipContent side={`bottom`} className={`bg-black text-white rounded-md text-xs max-w-[240px]`}>
-               New chat
+               {t(`NewChat`)}
             </TooltipContent>
          </Tooltip>
       </TooltipProvider>

@@ -41,7 +41,7 @@ const Page = async ({ searchParams,  params }: PageProps) => {
    return (
       <section className={`w-4/5 grid grid-cols-5 mt-24 mx-auto gap-4`}>
          <div className={`col-span-1`}>
-            <AiChatSidebar chatId={chatHistory.id} chatHistories={sortedChatHistories} />
+            <AiChatSidebar  chatId={chatHistory.id} chatHistories={sortedChatHistories} />
          </div>
          <section className="flex flex-col items-start gap-2 max-w-[1200px] p-4 col-span-4 w-full  !rounded-r-lg relative">
             <DotPattern
@@ -61,7 +61,7 @@ const Page = async ({ searchParams,  params }: PageProps) => {
                      underlineClassname={`bg-black`}
                      className={`inline-flex items-center gap-2`}
                      href={`/notes`}>
-                     Go back
+                     {t(`Misc.GoBack`)}
                      <ArrowRight size={14} />
                   </InteractiveLink>
                </div>

@@ -16,6 +16,7 @@ import { isExecuting } from "next-safe-action/status";
 import { motion, MotionProps } from "framer-motion";
 import { TOASTS } from "@/config/toasts";
 import { APP_HOST_NAME } from "@/config/site";
+import { useTranslation } from "react-i18next";
 
 
 export interface CookieConsentBannerProps {
@@ -141,6 +142,7 @@ export const CustomizePreferencesModal = ({
       Functionality: cookiePreferences?.[`Functionality`] === true,
       Marketing: cookiePreferences?.[`Marketing`] === true,
    });
+   const { t } = useTranslation(`home`, { keyPrefix: `CookieBanner.Preferences` });
    const { status, execute: handleSavePreferencesAction } = useAction(updateCookiePreferences, {
       onSuccess: res => {
          if (res.success) {
@@ -165,28 +167,28 @@ export const CustomizePreferencesModal = ({
                }} variant={`ghost`} className={`rounded-full !w-fit !h-fit p-2`}>
                   <ArrowLeft size={18} />
                </Button>
-               <h2 className={`!mt-0 text-base font-semibold`}>Customize your preferences</h2>
+               <h2 className={`!mt-0 text-base font-semibold`}>{t(`Title`)}</h2>
             </CardHeader>
             <Separator className={`w-full mx-auto my-2 !bg-neutral-300`} />
             <CardContent className={`mt-4`}>
                <div className={`grid grid-cols-2 gap-4 gap-x-12`}>
                   <PreferenceSwitch
-                     label={`Necessary`}
+                     label={t(`Necessary`)}
                      checked={preferences.Necessary}
                      onCheckedChange={value => setPreferences({ ...preferences, Necessary: value })} />
 
                   <PreferenceSwitch
-                     label={`Statistics`}
+                     label={t(`Statistics`)}
                      checked={preferences.Statistics}
                      onCheckedChange={value => setPreferences({ ...preferences, Statistics: value })} />
 
                   <PreferenceSwitch
-                     label={`Functionality`}
+                     label={t(`Functionality`)}
                      checked={preferences.Functionality}
                      onCheckedChange={value => setPreferences({ ...preferences, Functionality: value })} />
 
                   <PreferenceSwitch
-                     label={`Marketing`}
+                     label={t(`Marketing`)}
                      checked={preferences.Marketing}
                      onCheckedChange={value => setPreferences({ ...preferences, Marketing: value })} />
                </div>
@@ -194,7 +196,7 @@ export const CustomizePreferencesModal = ({
             <CardFooter className={`bg-neutral-100 mt-2 p-2 px-4 flex items-center justify-between !-mx-4 !-mb-4`}>
                <Button asChild className={`!text-neutral-400 !text-sm gap-1 items-center`} variant={`link`}>
                   <Link href={`/service/privacy`}>
-                     Learn more <ExternalLink className={`ml-1 text-neutral-400 `} size={12} />
+                     {t(`LearnMore`)} <ExternalLink className={`ml-1 text-neutral-400 `} size={12} />
                   </Link>
                </Button>
                <Button

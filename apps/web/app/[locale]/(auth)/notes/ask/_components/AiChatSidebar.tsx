@@ -12,7 +12,7 @@ import { ReportContentButton } from "./ReportContentButton";
 
 interface AiChatSidebarProps {
    chatHistories?: (AiChatHistory & { messages: AiChatHistoryMessage[] })[],
-   chatId: string
+   chatId: string,
 }
 
 type AiChatKey = `${number}-${number}` | `today` | `prev-7-days` | `prev-30-days` | `yesterday`;
@@ -25,7 +25,7 @@ const AI_CHAT_KEY_LABELS: Record<AiChatKey, string> = {
 };
 
 
-const AiChatSidebar = ({ chatHistories, chatId }: AiChatSidebarProps) => {
+const AiChatSidebar = async ({ chatHistories, chatId }: AiChatSidebarProps) => {
    const groupedHistories = groupBy(chatHistories, (chat): AiChatKey => {
       let lastMessage = chat.messages.at(-1);
 
@@ -37,10 +37,9 @@ const AiChatSidebar = ({ chatHistories, chatId }: AiChatSidebarProps) => {
 
       return `${chat.messages.at(-1)?.createdAt?.getFullYear()}-${chat.messages.at(-1)?.createdAt.getMonth()}`;
    });
-   console.log({ groupedHistories });
 
    return (
-      <div className={`bg-neutral-800 !h-full p-4 rounded-l-lg text-neutral-300`}>
+      <div className={`bg-neutral-800 !h-full p-4 rounded-l-lg text-neutral-300 overflow-auto`}>
          {chatHistories.length === 0 && (
             <div className={`text-center px-2 text-wrap !h-full flex flex-col items-center justify-center gap-2k`}>
                <NoCommentsLogo className={`!fill-transparent !w-32`} />
@@ -53,7 +52,7 @@ const AiChatSidebar = ({ chatHistories, chatId }: AiChatSidebarProps) => {
             <ReportContentButton />
             <NewChatButton />
          </div>
-         <ScrollArea id={`chat-scroll-area`} className={`!h-full`}>
+         <ScrollArea id={`chat-scroll-area`} className={`!h-full overflow-auto`}>
             <ul className={`mx-0 mt-4`}>
                {Object.entries(groupedHistories).map(([group, chats]) => (
                   <Fragment>

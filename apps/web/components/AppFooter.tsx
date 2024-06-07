@@ -11,44 +11,50 @@ export interface AppFooterProps {
 const AppFooter = async ({ t }: AppFooterProps) => {
    const APP_DESCRIPTION = `${t(`Index.HeroTitle`)} ${APP_NAME.replaceAll(` `, ``)}, ${t(`Index.HeroDescription`).toLowerCase()}`;
 
+   const FOOTER_LINKS = {
+      title: t(`Footer.Links.Title`),
+      links: [
+         {
+            title: t(`Footer.Links.Features`),
+            href: `/#features`,
+         },
+         {
+            title: t(`Footer.Links.Support`),
+            href: `mailto:${LINKS.email}`,
+         },
+         {
+            title: t(`Footer.Links.Report`),
+            href: `?report=true`,
+         },
+      ],
+   }
+
+   const FOOTER_LEGAL = {
+      title: t(`Footer.Legal.Title`),
+      links: [
+         {
+            title: t(`Footer.Legal.Terms`),
+            href: `/tos`,
+         },
+         {
+            title: t(`Footer.Legal.Privacy`),
+            href: `/privacy-policy`,
+         },
+         {
+            title: t(`Footer.Legal.Cookie`),
+            href: `/cookie-policy`,
+         },
+      ]
+   }
+
    return (
       <FooterTwo
          appDescription={APP_DESCRIPTION}
          appLogo={appLogo}
          appName={APP_NAME}
-         links={{
-            title: `LINKS`, links: [
-               {
-                  title: `Features`,
-                  href: `/#features`,
-               },
-               {
-                  title: `Support`,
-                  href: `mailto:${LINKS.email}`,
-               },
-               {
-                  title: `Report an issue`,
-                  href: `?report=true`,
-               },
-            ],
-         }}
-         legal={{
-            title: `LEGAL`, links: [
-               {
-                  title: `Terms of Service`,
-                  href: `/tos`,
-               },
-               {
-                  title: `Privacy Policy`,
-                  href: `/privacy-policy`,
-               },
-               {
-                  title: `Cookie Policy`,
-                  href: `/cookie-policy`,
-               },
-            ],
-         }}
-         socialLinks={{ ...LINKS, title: `Socials` }}
+         links={FOOTER_LINKS}
+         legal={FOOTER_LEGAL}
+         socialLinks={{ ...LINKS, title: t(`Index.Footer.Socials`) }}
       />
 
    );

@@ -22,9 +22,12 @@ import { LoadingSpinner } from "@/components/modals/SocialLogins";
 import { useAction } from "next-safe-action/hooks";
 import { isExecuting } from "next-safe-action/status";
 import { reportAiContent } from "@/app/[locale]/(auth)/notes/ask/actions";
+import { useTranslation } from "react-i18next";
 
 export const ReportContentButton = () => {
    const [open, setOpen] = useBoolean();
+   const { t } = useTranslation(`home`, { keyPrefix: `AskAi.Tooltips` });
+
    return (
       <Fragment>
          <TooltipProvider>
@@ -38,7 +41,7 @@ export const ReportContentButton = () => {
                   </Button>
                </TooltipTrigger>
                <TooltipContent side={`bottom`} className={`bg-black text-white rounded-md text-xs max-w-[240px]`}>
-                  Report content
+                  {t(`Report`)}
                </TooltipContent>
             </Tooltip>
          </TooltipProvider>
@@ -72,20 +75,21 @@ const REPORT_CAUSES = [
 const ReportContentModal = ({ setOpen, open }: ReportContentModalProps) => {
    const [step, setStep] = useState(1);
    const [report, setReport] = useState(``);
+   const { t } = useTranslation(`home`, { keyPrefix: `AskAi.ReportContent` });
 
    return (
       <Dialog onOpenChange={setOpen} open={open}>
          <DialogTrigger></DialogTrigger>
          <DialogContent>
             <DialogHeader>
-               <DialogTitle>Report a conversation</DialogTitle>
+               <DialogTitle>{t(`Title`)}</DialogTitle>
                <Separator className={`w-full`} />
                <DialogDescription className={`!mt-4`}>
                   <h2 className={`text-lg`}>
-                     Please tell us why you are reporting
+                     {t(`Prompt`)}
                   </h2>
                   <p className={`text-sm mt-2 text-muted-foreground`}>
-                     Your help will allows us to take the correct action based on the reported content.
+                     {t(`Description`)}
                   </p>
                </DialogDescription>
             </DialogHeader>

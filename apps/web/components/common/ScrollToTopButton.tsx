@@ -5,6 +5,7 @@ import { Button } from "components/ui/button";
 import { AnimatePresence, motion } from "framer-motion";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "components/ui/tooltip";
 import useWindowScroll from "hooks/useWindowScroll";
+import { useTranslation } from "react-i18next";
 
 export interface ScrollToTopButtonProps {
 }
@@ -24,6 +25,8 @@ const ScrollToTopButton = ({}: ScrollToTopButtonProps) => {
       window.focus();
       document.body.scrollTop = 0;
    };
+
+   const { t } = useTranslation(`home`, { keyPrefix: `Misc` });
 
    // @ts-ignore
    return <AnimatePresence mode={`sync`}>
@@ -47,7 +50,7 @@ const ScrollToTopButton = ({}: ScrollToTopButtonProps) => {
                      </MotionButton>
                   </TooltipTrigger>
                   <TooltipContent side={`top`} className={`bg-black text-white rounded-full text-xs`}>
-                     Scroll to top
+                     {t(`ScrollToTop`)}
                   </TooltipContent>
                </Tooltip>
                </TooltipProvider>

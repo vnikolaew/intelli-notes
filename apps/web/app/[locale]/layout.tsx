@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Toaster } from "components/ui/sonner";
-import { APP_DESCRIPTION, APP_NAME } from "config/site";
+import { APP_DESCRIPTION, APP_NAME, AUTHOR, AUTHOR_WEBSITE } from "config/site";
 import Providers from "providers";
 import { cn } from "lib/utils";
 import LoadingBar from "components/common/LoadingBar";
@@ -18,10 +18,21 @@ import TranslationsProvider from "@/providers/TranslationsProvider";
 import i18nConfig from "@/i18nConfig";
 import { dir } from "i18next";
 import AppFooter from "@/components/AppFooter";
+import appLogo from "@/public/logo.jpg"
 
 export const metadata: Metadata = {
    title: APP_NAME,
    description: APP_DESCRIPTION,
+   authors:  [{
+      url: AUTHOR_WEBSITE,
+      name: AUTHOR
+   }],
+   applicationName: APP_NAME,
+   icons: appLogo.src,
+   keywords: [`intelligent`, `notes`, `note-taking`, `AI`,],
+   category: `notes`,
+   creator: AUTHOR,
+   referrer: `no-referrer`
 };
 
 export function generateStaticParams() {

@@ -15,6 +15,7 @@ import { DropdownMenuItemProps } from "@radix-ui/react-dropdown-menu";
 import { useAction } from "next-safe-action/hooks";
 import { ArchiveChat, archiveChat, ArchiveSchema, DeleteChat, deleteChat, DeleteSchema } from "../actions";
 import { isExecuting } from "next-safe-action/status";
+import { useTranslation } from "react-i18next";
 
 interface ChatOptionsButtonProps {
    chat: AiChatHistory;
@@ -24,6 +25,8 @@ const ChatOptionsButton = ({ chat }: ChatOptionsButtonProps) => {
    const [chatId] = useQueryState(`chatId`, parseAsString);
    const [dropdownOpen, setDropdownOpen] = useBoolean();
    const [tooltipOpen, setTooltipOpen] = useBoolean();
+   const { t } = useTranslation(`home`, { keyPrefix: `AskAi.Tooltips` });
+
    const { execute: archiveAction, status: archiveStatus } = useAction<ArchiveSchema, ArchiveChat>(archiveChat, {
       onSuccess: res => {
          if (res.success) {
@@ -69,7 +72,7 @@ const ChatOptionsButton = ({ chat }: ChatOptionsButtonProps) => {
                   <TooltipContent
                      side={`bottom`}
                      className={`bg-black text-white rounded-md text-xs max-w-[240px] !z-[100]`}>
-                     Options
+                     {t(`Options`)}
                   </TooltipContent>
                </Tooltip>
             </TooltipProvider>
@@ -80,12 +83,12 @@ const ChatOptionsButton = ({ chat }: ChatOptionsButtonProps) => {
             <ChatOptionItem
                loading={isExecuting(deleteStatus)}
                loadingText={`Deleting ...`}
-               className={`!text-red-500`} title={`Delete`}
+               className={`!text-red-500`} title={t(`Delete`)}
                icon={<Trash size={18} className={`!text-red-500`} />} onAction={handleDeleteChat} />
             <ChatOptionItem
                loadingText={`Archiving ...`}
                loading={isExecuting(archiveStatus)}
-               className={``} title={`Archive`}
+               className={``} title={t(`Archive`)}
                icon={<Archive size={18} className={``} />} onAction={handleArchiveChat} />
          </DropdownMenuContent>
       </DropdownMenu>
