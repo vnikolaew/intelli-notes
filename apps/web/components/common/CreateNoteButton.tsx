@@ -4,11 +4,14 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { PenLine } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export interface CreateNoteButtonProps {
 }
 
 const CreateNoteButton = ({}: CreateNoteButtonProps) => {
+   const { t } = useTranslation(`home`, {keyPrefix: `Header.Tooltips`});
+
    return (
       <TooltipProvider>
          <Tooltip>
@@ -20,7 +23,7 @@ const CreateNoteButton = ({}: CreateNoteButtonProps) => {
                </Button>
             </TooltipTrigger>
             <TooltipContent side={`top`} className={`bg-black text-white rounded-md text-xs`}>
-               Create a note
+               {t(`CreateNote`)}
             </TooltipContent>
          </Tooltip>
       </TooltipProvider>

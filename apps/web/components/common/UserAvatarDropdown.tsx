@@ -12,6 +12,7 @@ import { useBoolean } from "@/hooks/useBoolean";
 import { Globe, Image } from "lucide-react";
 import ChangeUserAvatarModal from "@/components/common/ChangeUserAvatarModal";
 import UserLanguageSelect from "@/components/common/UserLanguageSelect";
+import { useTranslation } from "react-i18next";
 
 export interface UserAvatarDropdownProps {
 }
@@ -21,6 +22,7 @@ const UserAvatarDropdown = ({}: UserAvatarDropdownProps) => {
    const [dropdownOpen, setDropdownOpen] = useBoolean();
    const [tooltipOpen, setTooltipOpen] = useBoolean();
    const [changeAvatarModalOpen, setChangeAvatarModalOpen] = useBoolean(false);
+   const { t } = useTranslation(`home`, {keyPrefix: `Header.UserDropdown`});
 
    return (
       <Fragment>
@@ -48,7 +50,7 @@ const UserAvatarDropdown = ({}: UserAvatarDropdownProps) => {
                   }}
                   className={`flex items-center gap-2 w-full hover:!bg-neutral-300 transition-all duration-200 !rounded-md cursor-pointer hover:!text-white !px-4 !py-2`}>
                   <Image size={18} />
-                  Change profile picture
+                  {t(`ChangeProfilePicture`)}
                </DropdownMenuItem>
                <DropdownMenuItem
                   onClick={e => {

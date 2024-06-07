@@ -232,7 +232,16 @@ const changeLanguageSchema = z.object({
  */
 export const changeUserLanguage = publicAction(changeLanguageSchema, async ({ language }, { userId }) => {
    await sleep(1000);
-   cookies().set(`NEXT_LOCALE`, language);
+   const cookie = cookies().get(`NEXT_LOCALE`)
+
+   console.log(`Current cookie value: ${cookie?.value}`);
+   console.log(`Setting value to ${language}`);
+
+   cookies().set(`NEXT_LOCALE`, language, {
+      sameSite: `none`,
+      secure: true,
+      httpOnly: true,
+   });
 
    return { success: true };
 });

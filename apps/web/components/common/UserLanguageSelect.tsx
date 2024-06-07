@@ -9,6 +9,7 @@ import { changeUserLanguage } from "@/components/common/actions";
 import languages from "@/messages/languages.json";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useRouter } from "next/navigation";
+import { useTranslation } from "react-i18next";
 
 export interface UserLanguageSelectProps {
 }
@@ -16,19 +17,18 @@ export interface UserLanguageSelectProps {
 
 const UserLanguageSelect = ({}: UserLanguageSelectProps) => {
    const [open, setOpen] = useBoolean();
-   const router = useRouter()
+   const { t } = useTranslation(`home`, {keyPrefix: `Header.UserDropdown`});
    const { result, status, execute } = useAction(changeUserLanguage, {
       onSuccess: res => {
          if (res.success) {
             console.log(res);
             window.location.reload()
-            // router.refresh()
          }
       },
    });
 
    return (
-      <Select onValueChange={l => {
+      <Select  onValueChange={l => {
          console.log(l);
          execute({ language: l });
 
@@ -36,10 +36,10 @@ const UserLanguageSelect = ({}: UserLanguageSelectProps) => {
          <SelectTrigger withIcon={false} className="w-full !bg-transparent !border-none !px-0 !py-0 !h-fit">
             <div className={`w-full flex items-center gap-2`}>
                <Globe size={18} />
-               Language
+               {t(`Language`)}
             </div>
          </SelectTrigger>
-         <SelectContent>
+         <SelectContent >
             <ScrollArea className={`h-[180px]`}>
                {languages.languages.map(({ name, abbreviation }, index) => (
                   <SelectItem onSelect={_ => {

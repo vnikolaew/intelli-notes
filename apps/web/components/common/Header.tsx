@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import React, { ReactNode } from "react";
+import React, { ReactNode, Suspense } from "react";
 import { signOut } from "next-auth/react";
 import Image from "next/image";
 import appLogo from "public/logo.jpg";
@@ -16,7 +16,7 @@ import { cn } from "lib/utils";
 import UserAvatarDropdown from "@/components/common/UserAvatarDropdown";
 import CreateNoteButton from "@/components/common/CreateNoteButton";
 import ReportIssueButton from "@/components/common/ReportIssueButton";
-import { useTranslations } from "next-intl";
+import { useTranslation  } from "react-i18next";
 
 export interface NavbarProps {
 }
@@ -47,9 +47,10 @@ const InteractiveHeaderLink = ({ icon, title, href }: InteractiveHeaderLinkProps
  * The site's header, containing the Navbar as well.
  * @constructor
  */
-const Header = ({}: NavbarProps) => {
+const Header = ({ }: NavbarProps) => {
    const pathname = usePathname();
    const [signInModalOpen, setSignInModalOpen] = useBoolean();
+   const { t, i18n } = useTranslation(`home`, {keyPrefix: `Header`});
 
    return (
       <header
@@ -66,18 +67,18 @@ const Header = ({}: NavbarProps) => {
                   <InteractiveHeaderLink href={`/notes`} icon={<Notebook
                      size={14}
                      className={cn(pathname === `/notes` && `stroke-[3px] !text-blue-600`, `text-black`)}
-                  />} title={`My notes`} />
+                  />} title={t(`MyNotes`)} />
                </SignedIn>
                <InteractiveHeaderLink href={`/explore`} icon={<Telescope
                   size={14}
                   className={cn(pathname === `/explore` && `stroke-[3px] !text-blue-600`, `text-black`)}
-               />} title={`Explore`} />
+               />} title={t(`Explore`)} />
                <SignedIn>
                   <InteractiveHeaderLink
                      href={`/notes/ask`} icon={<Sparkles
                      size={14}
                      className={cn(pathname === `/notes/ask` && `stroke-[3px] !text-blue-600`, `text-black`)}
-                  />} title={`Ask AI`} />
+                  />} title={t(`AskAI`)} />
                </SignedIn>
             </div>
             <div className={`flex flex-1 items-center justify-end space-x-8`}>
@@ -91,7 +92,7 @@ const Header = ({}: NavbarProps) => {
                         className={`px-4 gap-2 rounded-lg !py-2 !h-fit`}
                         onClick={_ => signOut({ redirect: true, callbackUrl: `/` })} variant={"destructive"}>
                         <LogOut size={14} />
-                        Sign out
+                        {t(`SignOut`)}
                      </Button>
                   </div>
                </SignedIn>
@@ -99,11 +100,13 @@ const Header = ({}: NavbarProps) => {
                   <Button
                      onClick={_ => setSignInModalOpen(true)}
                      className={`px-6 !py-0 rounded-lg cta-button`}>
-                     Sign in
+                     { t(`SignIn`)[0].toUpperCase() + t(`SignIn`).slice(1).toLowerCase()}
                   </Button>
                   <SignInModal open={signInModalOpen} setOpen={setSignInModalOpen} />
                </SignedOut>
                <ReportIssueButton />
+               <Suspense fallback={`...`}>
+               </Suspense>
             </div>
          </div>
       </header>

@@ -2,7 +2,10 @@ import React, { PropsWithChildren } from "react";
 import SessionProvider from "./SessionProvider";
 import { ThemeProvider } from "./ThemeProvider";
 
-const Providers = ({ children }: PropsWithChildren) => {
+interface ProvidersProps extends PropsWithChildren {
+}
+
+const Providers = ({ children }: ProvidersProps) => {
    return (
       <SessionProvider>
          <ThemeProvider

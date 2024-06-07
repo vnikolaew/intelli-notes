@@ -3,7 +3,7 @@ const createNextIntlPlugin = require('next-intl/plugin');
 const withNextIntl = createNextIntlPlugin(`./i18n.ts`);
 
 /** @type {import("next").NextConfig} */
-module.exports = withNextIntl({
+module.exports = {
    sentry: {
       disableServerWebpackPlugin: true,
       disableClientWebpackPlugin: true,
@@ -50,8 +50,8 @@ module.exports = withNextIntl({
          },
       ],
    },
-   transpilePackages: ["@repo/ui", "@repo/db", "@repo/emails", "@repo/ai", "@mdxeditor/editor"],
+   transpilePackages: ["@repo/ui", "@repo/db", "@repo/emails", "@repo/ai", "@mdxeditor/editor", "next-international", "international-types"],
    typescript: {
       ignoreBuildErrors: true,
    },
-})
+}

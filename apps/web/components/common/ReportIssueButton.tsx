@@ -5,12 +5,14 @@ import { Button } from "@/components/ui/button";
 import { Flag } from "lucide-react";
 import ReportIssueModal from "@/components/common/ReportIssueModal";
 import { parseAsBoolean, useQueryState } from "nuqs";
+import { useTranslation } from "react-i18next";
 
 export interface ReportIssueButtonProps {
 }
 
 const ReportIssueButton = ({}: ReportIssueButtonProps) => {
    const [modalOpen, setModalOpen] = useQueryState(`report`, parseAsBoolean);
+   const { t } = useTranslation(`home`, {keyPrefix: `Header.Tooltips`});
 
    return (
       <Fragment>
@@ -26,7 +28,7 @@ const ReportIssueButton = ({}: ReportIssueButtonProps) => {
                   </Button>
                </TooltipTrigger>
                <TooltipContent side={`bottom`} className={`bg-black text-white rounded-md text-xs`}>
-                  Report an issue
+                  {t(`ReportIssue`)}
                </TooltipContent>
             </Tooltip>
          </TooltipProvider>
