@@ -1,8 +1,9 @@
 "use client";
 
-import { MultiSelect, Item } from "./MultiSelect";
+import { MultiSelect, Item } from "@/components/common/MultiSelect";
 import { createParser, parseAsArrayOf, parseAsString, useQueryState } from "nuqs";
 import { useCallback } from "react";
+import { Filter } from "lucide-react";
 
 export interface NotesTagsFilterProps {
    tags: string[];
@@ -31,6 +32,10 @@ export function NotesTagsFilter({ tags }: NotesTagsFilterProps) {
             selected={selectedTags ?? []}
             setSelected={setSelectedItems}
             placeholder={`Filter by tags ...`}
-            items={tags.map(t => ({ label: t, value: t }))} />
+            items={tags.map(t => ({ label: t, value: t }))} >
+            <div className={`absolute top-1/2 left-3 -translate-y-1/2`}>
+               <Filter className={`text-muted-foreground fill-muted-foreground`} size={14} />
+            </div>
+         </MultiSelect>
       </div>);
 }

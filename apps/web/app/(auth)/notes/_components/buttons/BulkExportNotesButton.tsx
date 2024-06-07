@@ -1,11 +1,11 @@
 "use client";
-import { Button } from "components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
    DropdownMenu,
    DropdownMenuContent, DropdownMenuItem,
    DropdownMenuSeparator,
    DropdownMenuTrigger,
-} from "components/ui/dropdown-menu";
+} from "@/components/ui/dropdown-menu";
 import {
    ArrowUp,
    Braces,
@@ -17,9 +17,9 @@ import {
 } from "lucide-react";
 import React, { Fragment } from "react";
 import { Note } from "@repo/db";
-import { useBoolean } from "hooks/useBoolean";
-import { downloadFile } from "lib/utils";
-import { toast, TOASTS } from "config/toasts";
+import { useBoolean } from "@/hooks/useBoolean";
+import { downloadFile } from "@/lib/utils";
+import { toast, TOASTS } from "@/config/toasts";
 
 export interface BulkExportNotesButtonProps {
    notes: Note[];

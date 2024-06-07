@@ -14,6 +14,9 @@ import "./globals.css";
 import appLogo from "public/logo.jpg";
 import { __IS_DEV__ } from "lib/consts";
 import { sfMono } from "assets/fonts";
+import { Suspense } from "react";
+import { getLocale, getMessages } from "next-intl/server";
+import { NextIntlClientProvider } from "next-intl";
 
 export const metadata: Metadata = {
    title: APP_NAME,
@@ -22,33 +25,40 @@ export const metadata: Metadata = {
 
 export const dynamic = "force-dynamic";
 
-export default function RootLayout({
-                                      children,
-                                   }: {
+export default async function RootLayout({
+                                            children,
+                                         }: {
    children: React.ReactNode;
-}): JSX.Element {
+}): Promise<JSX.Element> {
+   const locale = await getLocale();
+   const messages = await getMessages();
+
    return (
-      <html className={`light`} suppressContentEditableWarning lang="en" style={{ colorScheme: `light`}}>
+      <html className={`light`} suppressContentEditableWarning lang={locale} style={{ colorScheme: `light` }}>
       <head>
          <title>{APP_NAME}</title>
       </head>
       <Providers>
          <body className={cn(`min-h-screen font-mono antialiased `, sfMono.variable)}>
-         <LoadingBar />
-         <Header />
-         <main className={cn(`flex-1 min-h-[70vh]`)}>
-            {children}
-         </main>
-         <ScrollToTopButton />
-         <CookieConsentBanner />
-         <Toaster />
-         {!__IS_DEV__ && <Analytics />}
-         <FooterTwo
-            appDescription={APP_DESCRIPTION}
-            appLogo={appLogo}
-            appName={APP_NAME}
-            links={LINKS}
-         />
+         <NextIntlClientProvider messages={messages}>
+            <LoadingBar />
+            <Header />
+            <main className={cn(`flex-1 min-h-[70vh]`)}>
+               {children}
+            </main>
+            <ScrollToTopButton />
+            <Suspense fallback={null}>
+               <CookieConsentBanner />
+            </Suspense>
+            <Toaster />
+            {!__IS_DEV__ && <Analytics />}
+            <FooterTwo
+               appDescription={APP_DESCRIPTION}
+               appLogo={appLogo}
+               appName={APP_NAME}
+               links={LINKS}
+            />
+         </NextIntlClientProvider>
          </body>
       </Providers>
       </html>

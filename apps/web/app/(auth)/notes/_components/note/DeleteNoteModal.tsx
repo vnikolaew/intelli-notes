@@ -6,8 +6,8 @@ import {
    DialogHeader,
    DialogTitle,
    DialogTrigger,
-} from "components/ui/dialog";
-import { Button } from "components/ui/button";
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import React, { PropsWithChildren } from "react";
 

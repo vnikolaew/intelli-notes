@@ -3,18 +3,19 @@
 import * as React from "react";
 import { X } from "lucide-react";
 
-import { Badge } from "components/ui/badge";
+import { Badge } from "@/components/ui/badge";
 import {
    Command,
    CommandGroup,
    CommandItem,
    CommandList,
-} from "components/ui/command";
+} from "@/components/ui/command";
 import { Command as CommandPrimitive } from "cmdk";
+import { PropsWithChildren } from "react";
 
 export type Item = Record<"value" | "label", string>;
 
-export interface FancyMultiSelectProps {
+export interface FancyMultiSelectProps extends PropsWithChildren {
    items: Item[],
    placeholder?: string
    selected: Item[]
@@ -22,7 +23,7 @@ export interface FancyMultiSelectProps {
 }
 
 
-export function MultiSelect({ items, placeholder, setSelected, selected }: FancyMultiSelectProps) {
+export function MultiSelect({ items, placeholder, setSelected, selected , children }: FancyMultiSelectProps) {
    const inputRef = React.useRef<HTMLInputElement>(null);
    const [open, setOpen] = React.useState(false);
    const [inputValue, setInputValue] = React.useState("");
@@ -63,7 +64,7 @@ export function MultiSelect({ items, placeholder, setSelected, selected }: Fancy
          className="overflow-visible bg-transparent"
       >
          <div
-            className="group rounded-md border border-input px-3 py-2 text-sm ring-offset-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 relative">
+            className="group rounded-md border border-input px-3 py-2 text-sm ring-offset-background focus-within:ring-0  focus-within:ring-offset-0 bg-white relative">
             <div title={`Clear`} onClick={_ => setSelected([])} className={`absolute right-2 top-1/2 -translate-y-1/2`}>
                <X className={`cursor-pointer hover:opacity-60 transition-opacity duration-200`} size={14} />
             </div>
@@ -98,9 +99,10 @@ export function MultiSelect({ items, placeholder, setSelected, selected }: Fancy
                   onBlur={() => setOpen(false)}
                   onFocus={() => setOpen(true)}
                   placeholder={placeholder ?? "Select tags..."}
-                  className="ml-2 flex-1 bg-transparent outline-none placeholder:text-muted-foreground"
+                  className="ml-6 flex-1 bg-transparent outline-none placeholder:text-muted-foreground !focus:ring-0"
                />
             </div>
+            {children}
          </div>
          <div className="relative mt-2">
             <CommandList>

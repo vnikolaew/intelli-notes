@@ -60,7 +60,7 @@ const CookieConsentBannerClientTwo = ({ cookiePreferences }: CookieConsentBanner
          <AnimatePresence>
             {!hideBanner && (
                <motion.section {...cookieConsentMotionProps}
-                               className={cn("fixed max-w-3xl p-4 mx-auto bg-white border border-gray-200 md:gap-x-4 left-8 bottom-8 dark:bg-gray-900 md:flex md:items-center dark:border-gray-700 rounded-2xl",
+                               className={cn("fixed max-w-3xl p-4 mx-auto bg-white border border-gray-200 md:gap-x-4 left-8 bottom-8 dark:bg-gray-900 md:flex md:items-center dark:border-gray-700 rounded-2xl z-[1000]",
                                   hideBanner && `!hidden`)}>
                   <div className="flex items-center gap-x-4">
         <span className="inline-flex p-2 text-blue-500 rounded-lg shrink-0 dark:bg-gray-800 bg-blue-100/80">

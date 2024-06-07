@@ -67,6 +67,9 @@ export const FooterTwo = ({
                   <Link className={`hover:underline text-sm w-fit`} href={`/`}>Home</Link>
                   <Link className={`hover:underline text-sm w-fit`} href={`/#features`}>Features</Link>
                   <Link className={`hover:underline text-sm w-fit`} href={`mailto:${email}`}>Support</Link>
+                  <Link href={`?report=true`} className={`hover:underline text-sm w-fit`} >
+                     Report an issue
+                  </Link>
                </div>
             </div>
             <div>

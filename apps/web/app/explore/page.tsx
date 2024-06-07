@@ -4,6 +4,7 @@ import { auth } from "auth";
 import { Separator } from "components/ui/separator";
 import ExploreNotesGrid from "./_components/ExploreNotesGrid";
 import { Telescope } from "lucide-react";
+import { __IS_DEV__ } from "@/lib/consts";
 
 export interface PageProps {
 }
@@ -27,6 +28,10 @@ const EXPLORE_HEADINGS = [
    "Find out what’s being written",
 ];
 
+/**
+ * Explore other users' notes page
+ * @constructor
+ */
 const Page = async ({}: PageProps) => {
    const session = await auth();
    const latestUsersNotes = await xprisma.note.findMany({
@@ -63,7 +68,7 @@ const Page = async ({}: PageProps) => {
             {EXPLORE_HEADINGS.at(Math.floor(Math.random() * EXPLORE_HEADINGS.length))}
          </h2>
          <Separator orientation={`horizontal`} className={`w-2/5 mt-0 text-neutral-700 bg-neutral-300 shadow-lg`} />
-         <ExploreNotesGrid notes={[]} />
+         <ExploreNotesGrid notes={!__IS_DEV__ ? [] : latestUsersNotes} />
       </section>
    );
 };

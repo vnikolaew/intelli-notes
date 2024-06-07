@@ -3,16 +3,15 @@ import { auth } from "auth";
 import { redirect } from "next/navigation";
 import { PublicNotesFilter, xprisma } from "@repo/db";
 import { Separator } from "components/ui/separator";
-import { Button } from "components/ui/button";
 import { PenLine, Sparkles, StickyNote } from "lucide-react";
 import Link from "next/link";
 import NotesSearchInput from "./_components/NotesSearchInput";
-import { NotesHeader } from "./_components/NotesHeader";
+import { NotesHeader } from "./_components/notes/NotesHeader";
 import { NotesTagsFilter } from "./_components/NotesTagsFilter";
-import BulkExportNotesButton from "./_components/BulkExportNotesButton";
+import BulkExportNotesButton from "./_components/buttons/BulkExportNotesButton";
 import { NotesVisibilityFilter } from "./_components/NotesVisibilityFilter";
 import { Row } from "@repo/ui/components";
-import { ImportNotesButton } from "./_components/ImportNotesButton";
+import { ImportNotesButton } from "./_components/buttons/ImportNotesButton";
 import {
    Pagination,
    PaginationContent, PaginationEllipsis,
@@ -20,8 +19,8 @@ import {
    PaginationLink, PaginationNext,
    PaginationPrevious,
 } from "components/ui/pagination";
-import NotesSection from "./_components/NotesSection";
-import UploadToGoogleDriveButton from "./_components/UploadToGoogleDriveButton";
+import NotesSection from "./_components/notes/NotesSection";
+import UploadToGoogleDriveButton from "./_components/buttons/UploadToGoogleDriveButton";
 import UserFeedbackModal from "components/modals/UserFeedbackModal";
 import { getReferer } from "lib/utls.server";
 import ShimmerButton from "components/ui/shimmer-button";
@@ -37,7 +36,7 @@ const showFeedbackModal = async () => {
    let referer = await getReferer();
    if (referer) {
       try {
-         return new URL(referer[1]).pathname === `/write`;
+         return new URL(referer[1])?.pathname === `/write`;
       } catch (e) {
          return false;
       }
@@ -69,7 +68,6 @@ const Page = async ({ searchParams }: PageProps) => {
          ? PublicNotesFilter.PRIVATE : PublicNotesFilter.ALL;
    const tags = (searchParams.tags?.split(`,`)) ?? [];
 
-   console.log(`Fetching notes from DB ...`);
    const { notes: myNotes, total } = await xprisma.user.notes({
          userId: session.user?.id,
          take: 10000,
@@ -78,7 +76,6 @@ const Page = async ({ searchParams }: PageProps) => {
          },
       },
    );
-   console.log({ myNotes });
 
    const categories = await xprisma.noteCategory.findMany({
       where: {
@@ -88,7 +85,7 @@ const Page = async ({ searchParams }: PageProps) => {
    const allTags = [...new Set(myNotes.flatMap(n => n.tags))];
    const showGoogleDriveUploadFeature = !!session.accessToken && !!session.refreshToken;
 
-   let hasUserSubmittedFeedback = cookies().get(USER_SUBMITTED_FEEDBACK_COOKIE_NAME)?.value === `1`
+   let hasUserSubmittedFeedback = cookies().get(USER_SUBMITTED_FEEDBACK_COOKIE_NAME)?.value === `1`;
    const show = !hasUserSubmittedFeedback && await showFeedbackModal();
 
    return (
@@ -98,16 +95,29 @@ const Page = async ({ searchParams }: PageProps) => {
             <NotesHeader notes={myNotes} />
             <Row className={`!w-fit gap-6`}>
                <NotesSearchInput />
-               <Button asChild className={`shadow-md`} variant={"default"} size={`sm`}>
-                  <Link className={`flex gap-2`} href={`/write`}>
+               <Link href={`/write`}>
+                  <ShimmerButton
+                     shimmerDuration={`1.5s`}
+                     shimmerSize={`0.15em`}
+                     borderRadius={`.5rem`}
+                     shimmerColor={`var(--neutral-300)`}
+                     background={`black`}
+                     className="!shadow-md !bg-black !px-3 !py-1.5 hover:opacity-80 transition-opacity duration-200">
+                 <span
+                    className="whitespace-pre-wrap text-center text-sm font-medium leading-none tracking-tight lg:text-base inline-flex items-center gap-2">
                      <PenLine size={16} />
                      <span className={`font-normal text-base`}>New note</span>
-                  </Link>
-               </Button>
+                 </span>
+                  </ShimmerButton>
+               </Link>
                <Link href={`/notes/ask`}>
-                  <ShimmerButton shimmerDuration={`1.5s`} shimmerSize={`0.15em`} borderRadius={`.5rem`}
-                                 shimmerColor={`var(--blue-700)`} background={`white`}
-                                 className="!shadow-md !bg-white !px-3 !py-1.5 hover:opacity-80 transition-opacity duration-200">
+                  <ShimmerButton
+                     shimmerDuration={`1.5s`}
+                     shimmerSize={`0.15em`}
+                     borderRadius={`.5rem`}
+                     shimmerColor={`var(--blue-700)`}
+                     background={`white`}
+                     className="!shadow-md !bg-white !px-3 !py-1.5 hover:opacity-80 transition-opacity duration-200">
                  <span
                     className="whitespace-pre-wrap test-gradient text-center text-sm font-medium leading-none tracking-tight dark:from-white dark:to-slate-900/10 lg:text-base inline-flex items-center gap-2">
                      <Sparkles className={`text-blue-500`} size={16} />

@@ -1,5 +1,5 @@
 import { useQueryState } from "nuqs";
-import { Item } from "./MultiSelect";
+import { Item } from "@/components/common/MultiSelect";
 import { parseAsItems } from "./NotesTagsFilter";
 import { Badge } from "components/ui/badge";
 import React from "react";

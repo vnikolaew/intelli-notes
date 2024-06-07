@@ -1,12 +1,12 @@
 "use client";
 import React from "react";
 import { Note } from "@repo/db";
-import { useFilteredNotes } from "../_hooks";
-import { useSearchParam } from "hooks/useSearchParam";
+import { useFilteredNotes } from "../../_hooks";
+import { useSearchParam } from "@/hooks/useSearchParam";
 import { parseAsBoolean, parseAsStringLiteral, useQueryState } from "nuqs";
 import { BookCopy, Notebook } from "lucide-react";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "components/ui/tooltip";
-import { Button } from "components/ui/button";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Button } from "@/components/ui/button";
 
 export interface NotesHeaderProps {
    notes: Note[];
@@ -44,7 +44,7 @@ export function NotesHeader({ notes }: NotesHeaderProps) {
                </TooltipContent>
             </Tooltip>
          </TooltipProvider>
-         <h2 className={`text-3xl font-semibold`}>
+         <h2 className={`text-3xl font-semibold drop-shadow-md`}>
             {(q?.length || showPublic !== null) ? `Filtered` : `All notes`} ({filteredNotes.length})
          </h2>
       </div>

@@ -9,8 +9,8 @@ import {
    TwitterIcon,
    TwitterShareButton, ViberIcon, ViberShareButton,
 } from "react-share";
-import { APP_NAME } from "config/site";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "components/ui/tooltip";
+import { APP_NAME } from "@/config/site";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 export interface NoteSocialShareButtonsProps {
    note: Note;

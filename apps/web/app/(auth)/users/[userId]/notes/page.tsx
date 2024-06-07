@@ -1,7 +1,7 @@
 import React from "react";
 import { InteractiveLink, Row } from "@repo/ui/components";
 import UserAvatar from "components/common/UserAvatar";
-import NoteCard from "../../../notes/_components/NoteCard";
+import NoteCard from "../../../notes/_components/note/NoteCard";
 import { auth } from "auth";
 import { ArrowRight } from "lucide-react";
 import { notFound } from "next/navigation";

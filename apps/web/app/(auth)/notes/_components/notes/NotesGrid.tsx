@@ -1,8 +1,8 @@
 "use client";
 import { Note } from "@repo/db";
 import React from "react";
-import NoteCard from "./NoteCard";
-import { useFilteredNotes } from "../_hooks";
+import NoteCard from "../note/NoteCard";
+import { useFilteredNotes } from "../../_hooks";
 import DotPattern from "@/components/ui/dot-pattern";
 import { cn } from "@/lib/utils";
 
@@ -18,7 +18,7 @@ const NotesGrid = ({ notes ,showComments = false }: NotesGridProps) => {
       <div className={`grid grid-cols-3 w-full gap-8 mt-8 relative`}>
          <DotPattern
             className={cn(
-               "[mask-image:radial-gradient(400px_circle_at_center,white,transparent)] inset-y-1/2 -translate-y-1/2",
+               "[mask-image:radial-gradient(400px_circle_at_center,white,transparent)] inset-y-1/2 -translate-y-1/2 !z-1",
             )}
          />
          {!pagedNotes.length && (
@@ -32,7 +32,7 @@ const NotesGrid = ({ notes ,showComments = false }: NotesGridProps) => {
             <NoteCard
                showButtons
                showPublicity
-               className={`bg-white/80 !z-10`}
+               className={`bg-white/90 !z-3`}
                showComments={showComments}
                markdownProps={{ className: `h-[160px] !px-0` }}
                key={note.id + index} note={note} />

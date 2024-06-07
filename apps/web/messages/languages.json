@@ -1,0 +1,124 @@
+{
+  "languages": [
+    {
+      "name": "English",
+      "abbreviation": "en"
+    },
+    {
+      "name": "Spanish",
+      "abbreviation": "es"
+    },
+    {
+      "name": "French",
+      "abbreviation": "fr"
+    },
+    {
+      "name": "German",
+      "abbreviation": "de"
+    },
+    {
+      "name": "Chinese",
+      "abbreviation": "zh"
+    },
+    {
+      "name": "Japanese",
+      "abbreviation": "ja"
+    },
+    {
+      "name": "Korean",
+      "abbreviation": "ko"
+    },
+    {
+      "name": "Russian",
+      "abbreviation": "ru"
+    },
+    {
+      "name": "Portuguese",
+      "abbreviation": "pt"
+    },
+    {
+      "name": "Italian",
+      "abbreviation": "it"
+    },
+    {
+      "name": "Dutch",
+      "abbreviation": "nl"
+    },
+    {
+      "name": "Arabic",
+      "abbreviation": "ar"
+    },
+    {
+      "name": "Turkish",
+      "abbreviation": "tr"
+    },
+    {
+      "name": "Swedish",
+      "abbreviation": "sv"
+    },
+    {
+      "name": "Polish",
+      "abbreviation": "pl"
+    },
+    {
+      "name": "Hindi",
+      "abbreviation": "hi"
+    },
+    {
+      "name": "Hebrew",
+      "abbreviation": "he"
+    },
+    {
+      "name": "Greek",
+      "abbreviation": "el"
+    },
+    {
+      "name": "Danish",
+      "abbreviation": "da"
+    },
+    {
+      "name": "Finnish",
+      "abbreviation": "fi"
+    },
+    {
+      "name": "Czech",
+      "abbreviation": "cs"
+    },
+    {
+      "name": "Hungarian",
+      "abbreviation": "hu"
+    },
+    {
+      "name": "Thai",
+      "abbreviation": "th"
+    },
+    {
+      "name": "Vietnamese",
+      "abbreviation": "vi"
+    },
+    {
+      "name": "Romanian",
+      "abbreviation": "ro"
+    },
+    {
+      "name": "Norwegian",
+      "abbreviation": "no"
+    },
+    {
+      "name": "Ukrainian",
+      "abbreviation": "uk"
+    },
+    {
+      "name": "Bulgarian",
+      "abbreviation": "bg"
+    },
+    {
+      "name": "Croatian",
+      "abbreviation": "hr"
+    },
+    {
+      "name": "Indonesian",
+      "abbreviation": "id"
+    }
+  ]
+}

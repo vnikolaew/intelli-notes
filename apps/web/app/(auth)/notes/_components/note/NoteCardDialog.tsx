@@ -8,18 +8,18 @@ import {
    DialogFooter,
    DialogHeader,
    DialogTitle,
-} from "components/ui/dialog";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "components/ui/tooltip";
+} from "@/components/ui/dialog";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Note } from "@repo/db";
-import { NoteTags } from "./NoteTags";
-import { Markdown } from "components/common/markdown";
-import NoteSocialShareButtons from "./NoteSocialShareButtons";
-import { Button } from "components/ui/button";
+import { NoteTags } from "../NoteTags";
+import { Markdown } from "@/components/common/markdown";
+import NoteSocialShareButtons from "../buttons/NoteSocialShareButtons";
+import { Button } from "@/components/ui/button";
 import NoteCommentsDialog from "@/app/explore/_components/comments/NoteCommentsDialog";
 import { useQueryState } from "nuqs";
 import moment from "moment";
 import { ScrollAreaProps } from "@radix-ui/react-scroll-area";
-import { useBoolean } from "hooks/useBoolean";
+import { useBoolean } from "@/hooks/useBoolean";
 
 export interface NoteCardDialogProps {
    note: Note;

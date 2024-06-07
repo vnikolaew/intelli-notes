@@ -1,10 +1,10 @@
 "use client";
 import { Note } from "@repo/db";
 import React, { Fragment } from "react";
-import { Button } from "components/ui/button";
+import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import googleDriveLogo from "public/google-drive.png";
-import { useBoolean } from "hooks/useBoolean"
+import googleDriveLogo from "@/public/google-drive.png";
+import { useBoolean } from "@/hooks/useBoolean"
 import { Loader2 } from "lucide-react";
 import {
    Dialog,
@@ -13,8 +13,8 @@ import {
    DialogHeader,
    DialogTitle,
    DialogTrigger,
-} from "components/ui/dialog";
-import { APP_NAME } from "config/site";
+} from "@/components/ui/dialog";
+import { APP_NAME } from "@/config/site";
 
 export interface UploadToGoogleDriveButtonProps {
    notes: Note[];

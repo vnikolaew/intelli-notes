@@ -1,11 +1,11 @@
 "use client";
 import { Note, NoteComment, User } from "@repo/db";
-import { Input } from "components/ui/input";
+import { Input } from "@/components/ui/input";
 import React, { useState } from "react";
 import { useSession } from "next-auth/react";
-import UserAvatar from "components/common/UserAvatar";
-import { Button } from "components/ui/button";
-import NoCommentsLogo from "components/common/icons/NoCommentsLogo";
+import UserAvatar from "@/components/common/UserAvatar";
+import { Button } from "@/components/ui/button";
+import NoCommentsLogo from "@/components/common/icons/NoCommentsLogo";
 
 export interface NoteCommentsSectionProps {
    note: Note & { comments: (NoteComment & { user: User })[] };

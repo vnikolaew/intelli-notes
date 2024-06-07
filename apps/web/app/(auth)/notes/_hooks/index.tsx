@@ -4,7 +4,7 @@ import { Note } from "@repo/db";
 import { useSearchParam } from "hooks/useSearchParam";
 import { useMemo } from "react";
 import { parseAsBoolean, parseAsInteger, useQueryState } from "nuqs";
-import { Item } from "../_components/MultiSelect";
+import { Item } from "../../../../components/common/MultiSelect";
 import { parseAsItems } from "../_components/NotesTagsFilter";
 
 const PAGE_SIZE = 12;

@@ -4,7 +4,7 @@ import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/h
 import { Row } from "@repo/ui/components";
 import UserAvatar from "@/components/common/UserAvatar";
 import { UserInfoCard } from "@/app/explore/_components/comments/UserInfoCard";
-import NoteCard from "@/app/(auth)/notes/_components/NoteCard";
+import NoteCard from "@/app/(auth)/notes/_components/note/NoteCard";
 import NoteCommentsCount from "@/app/explore/_components/comments/NoteCommentsCount";
 import NoteLikeButton from "@/app/explore/_components/NoteLikeButton";
 import React from "react";

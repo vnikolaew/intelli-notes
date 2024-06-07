@@ -6,7 +6,7 @@ import Image from "next/image";
 import aiLogo from "public/logo.jpg";
 import { cn } from "lib/utils";
 import { SystemMessageActions } from "./SystemMessageActions";
-import NoteCard from "../../../_components/NoteCard";
+import NoteCard from "../../../_components/note/NoteCard";
 
 export interface SystemMessageProps {
    message: TSystemMessage;

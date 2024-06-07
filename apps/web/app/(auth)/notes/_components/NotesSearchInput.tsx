@@ -21,7 +21,8 @@ const NotesSearchInput = ({}: NotesSearchInputProps) => {
             </span>
          )}
          <Input
-            placeholder={`Search notes`} className={`px-8 placeholder:text-muted-foreground`}
+            placeholder={`Search notes`}
+            className={`px-8 placeholder:text-muted-foreground focus:!ring-0`}
             onChange={e => setQ(e.target.value)}
             value={q} type={`text`} />
       </div>

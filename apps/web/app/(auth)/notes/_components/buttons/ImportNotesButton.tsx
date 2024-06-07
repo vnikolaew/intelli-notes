@@ -5,13 +5,13 @@ import {
    DropdownMenuContent, DropdownMenuItem,
    DropdownMenuSeparator,
    DropdownMenuTrigger,
-} from "components/ui/dropdown-menu";
-import { Button } from "components/ui/button";
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
 import { EXPORT_FORMATS, ExportFormat } from "./BulkExportNotesButton";
 import { Fragment } from "react";
 import { FolderDown, Loader2 } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
-import { importNotes } from "../actions";
+import { importNotes } from "../../actions";
 import { isExecuting } from "next-safe-action/status";
 
 async function readFileAsText(file: File) {
