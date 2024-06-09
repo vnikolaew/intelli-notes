@@ -54,8 +54,11 @@ export const CreateNoteCategoryModal = ({ setOpen, open, children }: CreateNoteC
    }
 
    return (
-      <Dialog onOpenChange={setOpen} open={open}>
-         <DialogTrigger>{children}</DialogTrigger>
+      <Dialog onOpenChange={value => {
+         console.log(`Changing modal open state ...`);
+         setOpen(value);
+      }} open={open}>
+         <DialogTrigger >{children}</DialogTrigger>
          <DialogContent>
             <DialogHeader>
                <DialogTitle>Create a new category</DialogTitle>

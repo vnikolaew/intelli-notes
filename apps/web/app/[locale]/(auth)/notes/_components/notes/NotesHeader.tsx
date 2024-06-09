@@ -7,7 +7,7 @@ import { parseAsBoolean, parseAsStringLiteral, useQueryState } from "nuqs";
 import { BookCopy, Notebook } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "@/providers/TranslationsClientProvider";
 
 export interface NotesHeaderProps {
    notes: Note[];
@@ -23,7 +23,7 @@ export function NotesHeader({ notes }: NotesHeaderProps) {
    const { filteredNotes } = useFilteredNotes(notes);
    const [showPublic] = useQueryState(`public`, parseAsBoolean);
    const [view, setView] = useQueryState(`view`, parseAsStringLiteral(Object.values(NOTES_VIEW_OPTIONS)).withDefault(NOTES_VIEW_OPTIONS.ALL));
-   const { t } = useTranslation(`home`, { keyPrefix: `Notes` });
+   const t = useTranslations();
 
    return (
       <div className={`!w-fit flex items-center gap-2`}>
@@ -47,7 +47,7 @@ export function NotesHeader({ notes }: NotesHeaderProps) {
             </Tooltip>
          </TooltipProvider>
          <h2 className={`text-3xl font-semibold drop-shadow-md`}>
-            {(q?.length || showPublic !== null) ? t(`Filtered`) : t(`AllNotes`)} ({filteredNotes.length})
+            {(q?.length || showPublic !== null) ? t.notes_filtered : t.notes_allNotes} ({filteredNotes.length})
          </h2>
       </div>
    );

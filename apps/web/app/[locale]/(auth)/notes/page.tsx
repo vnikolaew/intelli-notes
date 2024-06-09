@@ -22,7 +22,7 @@ import {
 import NotesSection from "./_components/notes/NotesSection";
 import UploadToGoogleDriveButton from "./_components/buttons/UploadToGoogleDriveButton";
 import UserFeedbackModal from "components/modals/UserFeedbackModal";
-import { getReferer } from "lib/utls.server";
+import { getReferer } from "@/lib/utils.server";
 import ShimmerButton from "components/ui/shimmer-button";
 import { cookies } from "next/headers";
 import { USER_SUBMITTED_FEEDBACK_COOKIE_NAME } from "lib/consts";
@@ -30,9 +30,8 @@ import { getTranslation } from "@/lib/i18n";
 
 export interface PageProps {
    searchParams: { page?: number, public?: string; tags?: string, view?: string };
-   params: any
+   params: any;
 }
-
 
 const showFeedbackModal = async () => {
    let referer = await getReferer();
@@ -43,7 +42,6 @@ const showFeedbackModal = async () => {
          return false;
       }
    }
-
 
    return false;
 };

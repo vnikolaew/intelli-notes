@@ -5,10 +5,9 @@ import { xprisma } from "@repo/db";
 import { sleep } from "lib/utils";
 import { z } from "zod";
 import { WebClient } from "@slack/web-api";
-import { cookies } from "next/headers";
-import { USER_SUBMITTED_FEEDBACK_COOKIE_NAME } from "@/lib/consts";
-import moment, { lang } from "moment";
 import { auth } from "@/auth";
+import { cookies } from "next/headers";
+import { USER_LOCALE_COOKIE_NAME } from "@/lib/consts";
 
 export interface CookiePreferences {
    Necessary: boolean,
@@ -232,12 +231,22 @@ const changeLanguageSchema = z.object({
  */
 export const changeUserLanguage = publicAction(changeLanguageSchema, async ({ language }, { userId }) => {
    await sleep(1000);
-   const cookie = cookies().get(`NEXT_LOCALE`)
+   const cookie = cookies().get(USER_LOCALE_COOKIE_NAME);
 
    console.log(`Current cookie value: ${cookie?.value}`);
    console.log(`Setting value to ${language}`);
 
-   cookies().set(`NEXT_LOCALE`, language, {
+   if (userId) {
+      const user = await xprisma.user.findUnique({ where: { id: userId } });
+      await xprisma.user.update({
+         where: { id: userId },
+         data: {
+            metadata: { ...(user.metadata ?? { }), language },
+         },
+      });
+   }
+
+   cookies().set(USER_LOCALE_COOKIE_NAME, language, {
       sameSite: `none`,
       secure: true,
       httpOnly: true,

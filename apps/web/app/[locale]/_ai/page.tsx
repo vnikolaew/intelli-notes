@@ -5,11 +5,15 @@ import ImageClassificationForm from "./_components/ImageClassificationForm";
 import DocumentAnsweringForm from "./_components/DocumentAnsweringForm";
 import OpenAijsonObjectForm from "./_components/OpenAIJSONObjectForm";
 import TextToSpeechForm from "./_components/TextToSpeechForm";
+import { __IS_PROD__ } from "@/lib/consts";
+import { notFound } from "next/navigation";
 
 export interface PageProps {
 }
 
 const Page = ({}: PageProps) => {
+   if(__IS_PROD__) return notFound()
+
    return (
       <section className={`flex flex-col w-full mt-12 items-center`}>
          <h2 className={`text-xl`}>AI playground.</h2>

@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils";
 import { AnimatePresence, motion, MotionProps } from "framer-motion";
 import { isExecuting } from "next-safe-action/status";
 import { useTranslation } from "react-i18next";
+import { useTranslations } from "@/providers/TranslationsClientProvider";
 
 export interface CookieConsentBannerClientTwoProps {
    cookiePreferences: Record<string, any>;
@@ -35,7 +36,7 @@ const customizePrefsModalProps: MotionProps = {
 };
 
 const CookieConsentBannerClientTwo = ({ cookiePreferences }: CookieConsentBannerClientTwoProps) => {
-   const { t } = useTranslation(`home`, { keyPrefix: `CookieBanner` });
+   const t = useTranslations();
    const { status, execute: acceptAction } = useAction(acceptAllCookies, {
       onSuccess: res => {
          if (res.success) {
@@ -72,11 +73,13 @@ const CookieConsentBannerClientTwo = ({ cookiePreferences }: CookieConsentBanner
                    fill="currentColor" />
             </svg>
         </span>
-                     <p className="text-sm text-gray-600 dark:text-gray-300 leading-5">{t(`Description`)} <Link href="/cookie-policy"
-                                                              className="text-blue-500 hover:underline">
-                        {t(`ReadCookiePolicy`)}</Link> </p>
+                     <p className="text-sm text-gray-600 dark:text-gray-300 leading-5">
+                        {t.cookieBanner_description}
+                        <Link href="/cookie-policy"
+                              className="text-blue-500 hover:underline">
+                           {t.cookieBanner_readCookiePolicy}
+                        </Link></p>
                   </div>
-
                   <div className="flex items-center mt-6 gap-x-4 shrink-0 lg:mt-0">
                      <button
                         onClick={_ => {
@@ -84,7 +87,7 @@ const CookieConsentBannerClientTwo = ({ cookiePreferences }: CookieConsentBanner
                            setShowManagePrefsBanner(true);
                         }}
                         className="w-1/2 text-xs text-gray-800 underline transition-colors duration-300 md:w-auto dark:text-white dark:hover:text-gray-400 hover:text-gray-600 focus:outline-none">
-                        {t(`CookieSettings`)}
+                        {t.cookieBanner_cookieSettings}
                      </button>
 
                      <button
@@ -96,8 +99,7 @@ const CookieConsentBannerClientTwo = ({ cookiePreferences }: CookieConsentBanner
                               <Loader2 size={14} className={`animate-spin`} />
                               Accepting ...
                            </>
-                        ) : t(`AcceptAll`)}
-
+                        ) : t.cookieBanner_acceptAll}
                      </button>
                   </div>
                </motion.section>

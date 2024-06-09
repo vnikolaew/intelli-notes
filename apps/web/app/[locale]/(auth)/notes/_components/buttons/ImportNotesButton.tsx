@@ -13,7 +13,7 @@ import { FolderDown, Loader2 } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { importNotes } from "../../actions";
 import { isExecuting } from "next-safe-action/status";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "@/providers/TranslationsClientProvider";
 
 async function readFileAsText(file: File) {
    let reader = new FileReader();
@@ -29,7 +29,7 @@ export function ImportNotesButton() {
          if (res.ok) console.log(res);
       },
    });
-   const { t } = useTranslation(`home`, { keyPrefix: `Notes.Buttons` });
+   const t = useTranslations()
 
    async function handleImport(file: File, type: ExportFormat) {
       console.log({ file });
@@ -38,7 +38,7 @@ export function ImportNotesButton() {
    }
 
    return (
-      <Fragment><Fragment>
+      <Fragment>
          {EXPORT_FORMATS.map(({ value, icon }, index) => (
             <input accept={`.${value.toLowerCase()}`} onChange={async e => {
                if (!e.target.files.length) return;
@@ -46,19 +46,18 @@ export function ImportNotesButton() {
 
             }} id={`input-${value}`} type={`file`} className={`hidden`} hidden />
          ))}
-      </Fragment>
          <DropdownMenu>
             <DropdownMenuTrigger>
                <Button
                   disabled={isExecuting(status)} className={`shadow-md items-center gap-2`} variant={`default`}
-                       size={"default"}>
+                  size={"default"}>
                   {isExecuting(status) ? (
                      <Fragment>
                         <Loader2 size={14} className={`animate-spin`} />
                         Importing ...
                      </Fragment>
                   ) : (
-                     <Fragment><FolderDown size={24} /><span>{t(`Import`)}</span></Fragment>
+                     <Fragment><FolderDown size={24} /><span>{t.notes_buttons_import}</span></Fragment>
                   )}
                </Button>
             </DropdownMenuTrigger>
@@ -77,6 +76,7 @@ export function ImportNotesButton() {
                ))}
             </DropdownMenuContent>
          </DropdownMenu>
-      </Fragment>);
+      </Fragment>
+   );
 
 }

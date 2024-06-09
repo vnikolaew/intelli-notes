@@ -12,6 +12,7 @@ import { NotebookPen, Server, Sparkles } from "lucide-react";
 import { Spotlight } from "components/ui/Spotlight";
 import initTranslations from "@/app/[locale]/i18n";
 import { TFunction } from "i18next";
+import { Fragment } from "react";
 
 const inter = FontSans({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -19,7 +20,7 @@ const FEATURES = (t: TFunction<"translation", undefined>) =>  [
    {
       title: t(`Index.Feature1Title`),
       description: t(`Index.Feature1Description`),
-      icon: <Sparkles size={60} />,
+        icon: <Sparkles size={60} />,
    },
    {
       title: t(`Index.Feature2Title`),
@@ -57,10 +58,10 @@ export default async function Page({ params: { locale } }): Promise<JSX.Element>
                   </div>
                </div>
             )}
-            appDescription={<>
+            appDescription={<Fragment>
                {t(`Index.HeroTitle`)} <span
                className={`test-gradient drop-shadow-lg`}> {APP_NAME} </span>
-            </>} />
+            </Fragment>} />
          <FeaturesTwo features={FEATURES(t)} />
          <FaqOne faqs={[
             {

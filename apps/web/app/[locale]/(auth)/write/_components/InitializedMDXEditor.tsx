@@ -24,7 +24,7 @@ import NotesCategorySelect from "./NotesCategorySelect";
 import { useMarkdownEditor } from "../_hooks/useMarkdownEditor";
 import { useAiTextGeneration } from "../_hooks/useAiTextGeneration";
 import LinearGradient from "components/ui/linear-gradient";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "@/providers/TranslationsClientProvider";
 
 export interface InitializedMdxEditorProps extends MDXEditorProps {
    editorRef: MutableRefObject<MDXEditorMethods> | null;
@@ -61,7 +61,7 @@ const InitializedMdxEditor = ({
       lastCompletionText,
       aiGenerateTextStatus,
    } = useAiTextGeneration(editorRef, noteTitle, markdownValue);
-   const {t} = useTranslation(`home`, {keyPrefix: `Notes.Write`})
+   const t = useTranslations();
 
    return (
       <div className={`flex flex-col items-start gap-2 mt-4`}>
@@ -84,16 +84,16 @@ const InitializedMdxEditor = ({
                      </TooltipTrigger>
                      <TooltipContent side={`bottom`} className={`bg-black text-white rounded-md text-xs max-w-[240px]`}>
                         {currentNote?.public ? (
-                           t(`Tooltips.MakePrivate`)
+                           t.notes_write_tooltips_makePrivate
                         ) : (
-                           t(`Tooltips.MakePublic`)
+                           t.notes_write_tooltips_makePublic
                         )}
                      </TooltipContent>
                   </Tooltip>
                </TooltipProvider>
             </div>
             <Input
-               placeholder={t(`Placeholders.Title`)}
+               placeholder={t.notes_write_placeholders_title}
                className={`border-none !px-5 !py-2 !h-fit flex-1 text-xl outline-none ring-0 focus:!outline-none focus:!border-none shadow-none !bg-transparent text-neutral-700 border-b-[1px] !border-b-neutral-300 focus:!ring-0 focus:!bg-neutral-100 transition-colors duration-300`}
                onChange={e => setNoteTitle(e.target.value)}
                value={noteTitle} />
@@ -132,7 +132,7 @@ const InitializedMdxEditor = ({
                ))}
             </div>
             <Input
-               placeholder={t(`Placeholders.Tags`)}
+               placeholder={t.notes_write_placeholders_tags}
                value={currentTag}
                onChange={e => setCurrentTag(e.target.value)}
                onKeyPress={e => {
@@ -146,7 +146,9 @@ const InitializedMdxEditor = ({
          </div>
          <AiTip />
          <div className={`relative w-full rounded-b-lg`}>
-            <LinearGradient className={`bg-transparent !rounded-b-xl`} from={`transparent`} to={`#DDDDDD`} transitionPoint={`95%`} />
+            <LinearGradient
+               className={`bg-transparent !rounded-b-xl`} from={`transparent`} to={`#DDDDDD`}
+               transitionPoint={`95%`} />
             <div className={`absolute bottom-2 right-2`}>
                <TooltipProvider>
                   <Tooltip delayDuration={200}>
@@ -162,9 +164,9 @@ const InitializedMdxEditor = ({
                         </Button>
                      </TooltipTrigger>
                      <TooltipContent side={`bottom`} className={`bg-black text-white rounded-md text-xs max-w-[240px]`}>
-                        <span className={`text-sm block`}>{t(`Tooltips.AskAi.Title`)}</span>
+                        <span className={`text-sm block`}>{t.notes_write_tooltips_askAi_title}</span>
                         <span className={`text-xs text-muted-foreground text-wrap mt-2`}>
-                           {t(`Tooltips.AskAi.Description`)}
+                           {t.notes_write_tooltips_askAi_description}
                         </span>
                      </TooltipContent>
                   </Tooltip>

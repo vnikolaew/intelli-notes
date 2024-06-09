@@ -3,14 +3,14 @@ import { Input } from "components/ui/input";
 import React from "react";
 import { Search, X } from "lucide-react";
 import { parseAsString, useQueryState } from "nuqs";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "@/providers/TranslationsClientProvider";
 
 export interface NotesSearchInputProps {
 }
 
 const NotesSearchInput = ({}: NotesSearchInputProps) => {
    const [q, setQ] = useQueryState(`q`, parseAsString.withDefault(``));
-   const { t } = useTranslation(`home`, { keyPrefix: `Notes.Search` });
+   const t = useTranslations()
 
    return (
       <div className={`relative`}>
@@ -23,7 +23,7 @@ const NotesSearchInput = ({}: NotesSearchInputProps) => {
             </span>
          )}
          <Input
-            placeholder={t(`Placeholder`)}
+            placeholder={t.notes_search_placeholder}
             className={`px-8 placeholder:text-muted-foreground focus:!ring-0`}
             onChange={e => setQ(e.target.value)}
             value={q} type={`text`} />

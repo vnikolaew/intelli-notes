@@ -132,7 +132,7 @@ export const createFolder = authorizedAction(createSchema!, async ({ title }, { 
    const session = await auth();
 
    const file = await new GoogleDriveStorage(session?.accessToken, session?.refreshToken)
-      .createFolder(title);
+      .createFolderIfNotExists(title);
 
    console.log({ file });
    return { file, success: true }

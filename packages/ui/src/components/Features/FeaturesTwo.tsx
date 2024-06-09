@@ -24,20 +24,21 @@ export const TextWithSparkles = ({ text, className, ...props }: {
       <h1 className={cn("md:text-2xl text-xl lg:text-3xl font-semibold text-center text-black relative z-20", className)} {...props}>
          {text}
       </h1>
-      <div className="w-full h-4 relative">
+      <div className="w-full h-5 relative">
          {/* Gradients */}
          <div
-            className="absolute -translate-x-1/2 left-1/2 top-0 bg-gradient-to-r from-transparent via-indigo-500 to-transparent h-[2px] w-3/4 blur-sm" />
+            className="absolute -translate-x-1/2 left-1/2 top-2 bg-gradient-to-r from-transparent via-indigo-500 to-transparent h-[2px] w-3/4 blur-sm" />
          <div
-            className="absolute -translate-x-1/2 left-1/2 top-0 bg-gradient-to-r from-transparent via-indigo-500 to-transparent h-px w-3/4" />
+            className="absolute -translate-x-1/2 left-1/2 top-2 bg-gradient-to-r from-transparent via-indigo-500 to-transparent h-px w-3/4" />
          <div
-            className=" absolute -translate-x-1/2 left-1/2 top-0 bg-gradient-to-r from-transparent via-sky-500 to-transparent h-[5px] w-1/4 blur-sm" />
+            className=" absolute -translate-x-1/2 left-1/2 top-2 bg-gradient-to-r from-transparent via-sky-500 to-transparent h-[5px] w-1/4 blur-sm" />
          <div
-            className="absolute -translate-x-1/2 left-1/2 top-0 bg-gradient-to-r from-transparent via-sky-500 to-transparent h-px w-1/4" />
+            className="absolute -translate-x-1/2 left-1/2 top-2 bg-gradient-to-r from-transparent via-sky-500 to-transparent h-px w-1/4" />
 
          {/* Core component */}
          <SparklesCore
             background="red"
+            id={text}
             minSize={0.4}
             maxSize={1}
             particleDensity={1200}

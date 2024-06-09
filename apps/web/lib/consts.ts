@@ -11,6 +11,7 @@ export const HTTP = {
 };
 
 export const USER_SUBMITTED_FEEDBACK_COOKIE_NAME = `feedback-submitted`
+export const USER_LOCALE_COOKIE_NAME = `NEXT_LOCALE`
 
 export const STRIPE_PRICING_PLANS = {
    Free: `https://buy.stripe.com/test_3cscQh60k24ddws5kk`,
