@@ -27,6 +27,7 @@ import ShimmerButton from "components/ui/shimmer-button";
 import { cookies } from "next/headers";
 import { USER_SUBMITTED_FEEDBACK_COOKIE_NAME } from "lib/consts";
 import { getTranslation } from "@/lib/i18n";
+import { uniq } from "lodash";
 
 export interface PageProps {
    searchParams: { page?: number, public?: string; tags?: string, view?: string };
@@ -83,8 +84,12 @@ const Page = async ({ searchParams, params }: PageProps) => {
          userId: session?.user?.id,
       },
    });
-   const allTags = [...new Set(myNotes.flatMap(n => n.tags))];
-   const showGoogleDriveUploadFeature = !!session.accessToken && !!session.refreshToken;
+   const allTags = uniq(myNotes.flatMap(n => n.tags));
+   const showGoogleDriveUploadFeature =
+      !!session.accessToken
+      && !!session.refreshToken
+      && session.provider === `google`;
+
 
    let hasUserSubmittedFeedback = cookies().get(USER_SUBMITTED_FEEDBACK_COOKIE_NAME)?.value === `1`;
    const show = !hasUserSubmittedFeedback && await showFeedbackModal();

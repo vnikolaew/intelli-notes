@@ -1,6 +1,6 @@
 "use client";
 import React, { Fragment } from "react";
-import { parseAsStringLiteral, useQueryState } from "nuqs";
+import { parseAsString, parseAsStringLiteral, useQueryState } from "nuqs";
 import { NOTES_VIEW_OPTIONS } from "./NotesHeader";
 import NotesGrid from "./NotesGrid";
 import { Note, NoteCategory } from "@repo/db";
@@ -17,9 +17,10 @@ export interface NotesSectionProps {
 
 }
 
-export function NotesSection ({ notes, categories }: NotesSectionProps)  {
+export function NotesSection({ notes, categories }: NotesSectionProps) {
    const [view, setView] = useQueryState(`view`, parseAsStringLiteral(Object.values(NOTES_VIEW_OPTIONS)).withDefault(NOTES_VIEW_OPTIONS.ALL));
    const [open, setOpen] = useBoolean();
+   const [expanded, setExpanded] = useQueryState(`expanded`, parseAsString);
 
    return view === NOTES_VIEW_OPTIONS.ALL ? <NotesGrid notes={notes} /> :
       <div className={`flex flex-col items-center justify-center mt-0 min-h-[50vh] gap-4 w-full`}>
@@ -35,10 +36,12 @@ export function NotesSection ({ notes, categories }: NotesSectionProps)  {
             </Fragment>
          ) : (
             <div className={`flex flex-col items-center justify-center gap-8`}>
-               <Accordion type="single" collapsible>
+               <Accordion onValueChange={value => setExpanded(value)} value={expanded} type="single" collapsible>
                   {categories.map((category) => (
-                     <AccordionItem className={`w-[400px]`} key={category.id} value={category.id}>
-                        <AccordionTrigger>{category.title}</AccordionTrigger>
+                     <AccordionItem className={`w-[400px]`} key={category.id} value={category.title}>
+                        <AccordionTrigger>
+                           {category.title}
+                        </AccordionTrigger>
                         <AccordionContent>
                            <NotesFromCategory
                               category={category}

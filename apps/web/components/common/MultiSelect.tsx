@@ -68,7 +68,7 @@ export function MultiSelect({ items, placeholder, setSelected, selected , childr
             <div title={`Clear`} onClick={_ => setSelected([])} className={`absolute right-2 top-1/2 -translate-y-1/2`}>
                <X className={`cursor-pointer hover:opacity-60 transition-opacity duration-200`} size={14} />
             </div>
-            <div className="flex flex-wrap gap-1">
+            <div className="flex flex-wrap gap-1 ml-4">
                {selected.map((framework) => {
                   return (
                      <Badge key={framework.value} variant="default">
@@ -99,7 +99,7 @@ export function MultiSelect({ items, placeholder, setSelected, selected , childr
                   onBlur={() => setOpen(false)}
                   onFocus={() => setOpen(true)}
                   placeholder={placeholder ?? "Select tags..."}
-                  className="ml-6 flex-1 bg-transparent outline-none placeholder:text-muted-foreground !focus:ring-0"
+                  className="ml-3 flex-1 bg-transparent outline-none placeholder:text-muted-foreground !focus:ring-0"
                />
             </div>
             {children}

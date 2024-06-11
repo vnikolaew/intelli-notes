@@ -25,6 +25,19 @@ const customAdapter = {
    },
 } satisfies Adapter;
 
+declare module "next-auth" {
+   /**
+    * Returned by `auth`, `useSession`, `getSession` and received as a prop on the `SessionProvider` React Context
+    */
+   interface Session {
+      accessToken?: string;
+      idToken?: string;
+      refreshToken?: string;
+      provider?: string;
+      user: DefaultSession["user"];
+   }
+}
+
 export const { handlers, signIn, signOut, auth } = NextAuth({
    adapter: customAdapter,
    events: {
@@ -74,6 +87,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             token.accessToken = account.access_token;
             token.refreshToken = account.refresh_token;
             token.idToken = account.id_token;
+            if (account.provider) token.provider = account.provider;
          }
 
          return token;

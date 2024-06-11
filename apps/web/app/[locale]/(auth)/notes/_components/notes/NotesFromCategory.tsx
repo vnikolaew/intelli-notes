@@ -8,11 +8,13 @@ import NoteCardDialog from "@/app/[locale]/(auth)/notes/_components/note/NoteCar
 import { useQueryState } from "nuqs";
 
 export function NotesFromCategory({ category, notes }: { notes: Note[], category: NoteCategory }) {
-   const { pagedNotes, filteredNotes } = useFilteredNotes(notes);
-   const [setPreviewNoteId] = useQueryState(`previewId`);
+   const { pagedNotes, filteredNotes } = useFilteredNotes(notes.map(n => ({ ...n, category })));
+   const [_, setPreviewNoteId] = useQueryState(`previewId`);
 
    return notes.length === 0 ? (
-      <div className={`text-muted-foreground text-sm text-center`}>You have no notes from this category yet.</div>
+      <div className={`text-muted-foreground text-sm text-center`}>
+         You have no notes from this category yet.
+      </div>
    ) : (
       <div className={`flex flex-col items-start gap-8`}>
          {filteredNotes.map((note, index) =>
@@ -23,7 +25,9 @@ export function NotesFromCategory({ category, notes }: { notes: Note[], category
                   showPublicity
                   showComments
                   note={note} />
-               <div onClick={_ => setPreviewNoteId(note.id)} className={`flex items-center gap-4 w-full !cursor-pointer`} key={note.id}>
+               <div
+                  onClick={_ => setPreviewNoteId(note.id)}
+                  className={`flex items-center gap-4 w-full !cursor-pointer`} key={note.id}>
                   <Notebook className={`text-muted-foreground`} size={24} />
                   <div className={`flex flex-col items-start gap-0`} key={note.id}>
                          <span
@@ -37,8 +41,10 @@ export function NotesFromCategory({ category, notes }: { notes: Note[], category
                              </time>
                          </span>
                   </div>
-                  <div className={`flex-1 flex justify-end`}>
-                     <Link title={`Edit`} href={`/write?id=${note.id}`}>
+                  <div className={`flex-1 flex justify-end z-[10]`}>
+                     <Link onClick={e => {
+                        e.stopPropagation();
+                     }} title={`Edit`} href={`/write?id=${note.id}`}>
                         <Pencil className={`text-neutral-700`} size={20} />
                      </Link>
                   </div>

@@ -2,8 +2,9 @@
 
 import { parseAsBoolean, useQueryState } from "nuqs";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "components/ui/tooltip";
-import { Eye, LockKeyhole, Notebook} from "lucide-react";
+import { Eye, LockKeyhole, Notebook } from "lucide-react";
 import React, { useMemo } from "react";
+import { Button } from "@/components/ui/button";
 
 /**
  * Renders a component that allows the user to filter notes based on their visibility.
@@ -29,14 +30,19 @@ export function NotesVisibilityFilter() {
       <Tooltip delayDuration={200}>
          <TooltipTrigger
             className={`mb-2`}
-            onClick={handleChangeVisibilityFilter} asChild>
-            {showPublic === null ? (
-               <Notebook className={`cursor-pointer`} size={18} />
-            ) : showPublic ? (
-               <Eye className={`cursor-pointer`} size={18} />
-            ) : (
-               <LockKeyhole className={`cursor-pointer`} size={18} />
-            )}
+            asChild>
+            <Button
+               onClick={handleChangeVisibilityFilter}
+               className={`rounded-md p-2`}
+               variant={`ghost`} size={"icon"}>
+               {showPublic === null ? (
+                  <Notebook className={`cursor-pointer`} size={18} />
+               ) : showPublic ? (
+                  <Eye className={`cursor-pointer`} size={18} />
+               ) : (
+                  <LockKeyhole className={`cursor-pointer`} size={18} />
+               )}
+            </Button>
          </TooltipTrigger>
          <TooltipContent side={`bottom`} className={`bg-black text-white rounded-md text-xs max-w-[240px]`}>
             {tooltipMessage}

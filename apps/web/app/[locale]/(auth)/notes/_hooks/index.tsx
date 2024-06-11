@@ -1,6 +1,6 @@
 "use client";
 
-import { Note } from "@repo/db";
+import { Note, NoteCategory } from "@repo/db";
 import { useSearchParam } from "hooks/useSearchParam";
 import { useMemo } from "react";
 import { parseAsBoolean, parseAsInteger, useQueryState } from "nuqs";
@@ -9,7 +9,7 @@ import { Item } from "@/components/common/MultiSelect";
 
 const PAGE_SIZE = 12;
 
-export function useFilteredNotes(notes: Note[]) {
+export function useFilteredNotes(notes: Note & ({ category: NoteCategory })[]) {
    const q = useSearchParam(`q`);
    const [showPublic] = useQueryState(`public`, parseAsBoolean);
    const [selectedTags] = useQueryState<Item[]>(`tags`, parseAsItems);
@@ -33,6 +33,7 @@ export function useFilteredNotes(notes: Note[]) {
 
       return filtered.filter(n =>
          n.raw_text.toLowerCase().includes(q.toLowerCase())
+         || n.category?.title?.toLowerCase().includes(q.toLowerCase())
          || n.title.toLowerCase().indexOf(q.toLowerCase()) > -1
          || n.tags.includes(q.toLowerCase()));
    }, [q, notes, selectedTags, showPublic]);

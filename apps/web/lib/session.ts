@@ -19,6 +19,7 @@ export const session = async ({ session, token, user, ...rest }: ({
       session.accessToken = token.accessToken;
       session.idToken = token.idToken;
       session.refreshToken = token.refreshToken;
+      session.provider = token.provider;
 
       return session;
    }

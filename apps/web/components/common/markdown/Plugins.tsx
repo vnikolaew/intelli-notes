@@ -61,8 +61,7 @@ export const plugins = [
    ),
    tablePlugin(),
    headingsPlugin(),
-   markdownShortcutPlugin({
-   }),
+   markdownShortcutPlugin({}),
    listsPlugin(),
    quotePlugin(),
    linkPlugin(),
@@ -72,7 +71,9 @@ export const plugins = [
       disableImageSettingsButton: false,
       imagePreviewHandler: async src => src,
    }),
-   codeBlockPlugin({ defaultCodeBlockLanguage: `js` }),
+   codeBlockPlugin({
+      defaultCodeBlockLanguage: `js`, codeBlockEditorDescriptors: [],
+   }),
    directivesPlugin({ directiveDescriptors: [CalloutDirectiveDescriptor, AdmonitionDirectiveDescriptor, YTDescriptor] }),
    sandpackPlugin({
       sandpackConfig: {
