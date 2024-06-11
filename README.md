@@ -8,7 +8,7 @@ Unleash the power of **AI** to transform your note-taking with **IntelliNotes**,
 organization.
 
 <div style="text-align: center">
-  <img alt="Repo License" src="https://img.shields.io/github/license/vnikolaew/intelli-notes">
+  <img alt="GitHub License" src="https://img.shields.io/github/license/vnikolaew/intelli-notes">
   <img alt="Website Status" src="https://img.shields.io/badge/https%3A%2F%2Fintelli-notes-liard.vercel.app%2F">
 </div>
 
