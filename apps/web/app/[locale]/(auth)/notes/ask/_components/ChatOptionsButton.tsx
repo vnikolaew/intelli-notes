@@ -111,7 +111,7 @@ const ChatOptionItem = ({ icon, title, onAction, className, loading, loadingText
             e.stopPropagation();
             return onAction?.();
          }}
-         className={cn(`cursor-pointer hover:!bg-neutral-500 hover:!opacity-90 transition-all duration-200  items-center gap-2 justify-between text-base !text-white !px-4`, className)}
+         className={cn(`cursor-pointer hover:!bg-neutral-500 hover:!opacity-90 transition-all duration-200  items-center gap-2 justify-start text-base !text-white !px-4 min-w-[200px]`,className)}
          {...props}>
          {loading ? <Loader2 className={`animate-spin`} size={18} /> : icon}
          {loading ? (`Loading ...` ?? loadingText) : title}

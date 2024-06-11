@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { MovingBorderButton } from "../common/moving-border";
 import DotPattern from "../common/dot-pattern";
 import { cn } from "../Pricing";
+import { useTranslation } from "react-i18next";
 
 export interface HeroSectionTwoProps {
    appDescription: string | ReactNode;
@@ -13,6 +14,8 @@ export interface HeroSectionTwoProps {
 }
 
 export const HeroSectionTwo = ({ appDescription, heroLogo }: HeroSectionTwoProps) => {
+   const { t } = useTranslation();
+
    return (
       <section className="text-gray-400 body-font">
          <div className="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center">
@@ -45,7 +48,7 @@ export const HeroSectionTwo = ({ appDescription, heroLogo }: HeroSectionTwoProps
                      containerClassName={`!rounded-lg !w-fit !bg-transparent !text-xl`}>
                      <NotebookPen size={18} />
                      <Link className={`text-lg`} href={`/write`}>
-                        Start writing now
+                        {t(`Index.HeroCTA`)}
                      </Link>
                   </MovingBorderButton>
                </div>

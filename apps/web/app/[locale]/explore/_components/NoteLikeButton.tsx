@@ -13,8 +13,6 @@ export interface NotesLikeButtonProps {
 }
 
 const NoteLikeButton = ({ hasUserLiked, total, note }: NotesLikeButtonProps) => {
-   console.log({ total, hasUserLiked });
-
    const { execute: likeNoteAction, status: likeStatus } = useAction(likeNote, {
       onSuccess: res => {
          if (res.success) console.log({ res });

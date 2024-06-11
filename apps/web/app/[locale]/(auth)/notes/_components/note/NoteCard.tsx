@@ -1,5 +1,5 @@
 "use client";
-import { Note } from "@repo/db";
+import { Note, NoteCategory } from "@repo/db";
 import React, { Fragment } from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import moment from "moment";
@@ -22,7 +22,7 @@ import NoteCardDialog from "./NoteCardDialog";
 import { DeleteNoteModal } from "./DeleteNoteModal";
 
 export interface NoteCardProps extends React.HTMLAttributes<HTMLDivElement> {
-   note: Note;
+   note: Note & { category?: NoteCategory };
    markdownProps?: ScrollAreaProps;
    showButtons?: boolean;
    showPublicity?: boolean;
@@ -72,6 +72,7 @@ const NoteCard = ({
             showPublicity={showPublicity}
             showComments={showComments}
             note={note} />
+
          <MotionCard
             initial={{ opacity: 0 }}
             animate={{ opacity: 100 }}
@@ -135,7 +136,8 @@ const NoteCard = ({
             </CardContent>
             <CardFooter className={`flex items-center justify-between mt-auto justify-self-end`}>
                <div
-                  className={`invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-opacity duration-200`}>
+                  className={`invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex flex-col gap-3 items-start`}>
+                  <span className={`bg-gradient-to-r from-blue-500 to-blue-900 inline-block text-white px-3 py-.5 rounded-full shadow-md`} >{note.category?.title}</span>
                   <NoteTags tags={note.tags} />
                </div>
                {showButtons && (

@@ -47,7 +47,7 @@ export function NotesHeader({ notes }: NotesHeaderProps) {
             </Tooltip>
          </TooltipProvider>
          <h2 className={`text-3xl font-semibold drop-shadow-md`}>
-            {(q?.length || showPublic !== null) ? t(`Filtered`) : t(`AllNotes`)} ({filteredNotes.length})
+            {(q?.length || showPublic !== null) ? t(`Filtered`) : (view === NOTES_VIEW_OPTIONS.ALL ? t(`AllNotes`) : `Notes by category`) } ({filteredNotes.length})
          </h2>
       </div>
    );

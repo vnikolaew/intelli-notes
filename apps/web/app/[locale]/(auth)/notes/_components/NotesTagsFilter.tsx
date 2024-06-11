@@ -35,7 +35,7 @@ export function NotesTagsFilter({ tags }: NotesTagsFilterProps) {
             setSelected={setSelectedItems}
             placeholder={t(`Placeholder`)}
             items={tags.map(t => ({ label: t, value: t }))}>
-            <div className={`absolute top-1/2 left-3 -translate-y-1/2`}>
+            <div className={`absolute top-1/2 left-2 -translate-y-1/2 `}>
                <Filter className={`text-muted-foreground fill-muted-foreground`} size={14} />
             </div>
          </MultiSelect>

@@ -23,7 +23,7 @@ export function NotesVisibilityFilter() {
    return <TooltipProvider>
       <Tooltip delayDuration={200}>
          <TooltipTrigger
-            className={`mb-1`}
+            className={`mb-2`}
             onClick={handleChangeVisibilityFilter} asChild>
             {showPublic === null ? (
                <Notebook className={`cursor-pointer`} size={18} />

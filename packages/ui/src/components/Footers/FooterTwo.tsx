@@ -3,11 +3,25 @@ import Link from "next/link";
 import Image, { StaticImageData } from "next/image";
 import { Github, Mail } from "lucide-react";
 
+export interface LinkInfo {
+   title: string;
+   href: string;
+}
+
 export interface FooterTwoProps {
    appLogo: StaticImageData;
+   links? : {
+      title: string;
+      links: LinkInfo[]
+   },
+   legal? : {
+      title: string;
+      links: LinkInfo[]
+   },
    appName: string;
    appDescription: string;
-   links: {
+   socialLinks: {
+      title: string;
       email: string;
       twitter: string;
       linkedIn: string;
@@ -40,8 +54,9 @@ export const Icons = {
 export const FooterTwo = ({
                              appLogo,
                              appDescription,
+   legal, links,
                              appName,
-                             links: { linkedIn, email, twitter },
+                             socialLinks: { linkedIn, email, twitter, title },
                           }: FooterTwoProps) => {
    return (
       <footer className={`py-2 border-t border-border border-prose mt-24 bg-neutral-100/50 dark:bg-transparent `}>
@@ -62,26 +77,23 @@ export const FooterTwo = ({
                </span>
             </div>
             <div>
-               <h2 className={`uppercase text-muted-foreground text-base`}>Links</h2>
+               <h2 className={`uppercase text-muted-foreground text-base`}>{links.title}</h2>
                <div className="mt-4 flex space-y-2 flex-col">
-                  <Link className={`hover:underline text-sm w-fit`} href={`/`}>Home</Link>
-                  <Link className={`hover:underline text-sm w-fit`} href={`/#features`}>Features</Link>
-                  <Link className={`hover:underline text-sm w-fit`} href={`mailto:${email}`}>Support</Link>
-                  <Link href={`?report=true`} className={`hover:underline text-sm w-fit`} >
-                     Report an issue
-                  </Link>
+                  {links?.links?.map(({title, href}, index) => (
+                     <Link className={`hover:underline text-sm w-fit`} href={href}>{title}</Link>
+                  ))}
                </div>
             </div>
             <div>
-               <h2 className={`uppercase text-muted-foreground text-base`}>Legal</h2>
+               <h2 className={`uppercase text-muted-foreground text-base`}>{legal.title}</h2>
                <div className="mt-4 flex space-y-2 flex-col">
-                  <Link className={`hover:underline text-sm w-fit`} href={`/tos`}>Terms of Service</Link>
-                  <Link className={`hover:underline text-sm w-fit `} href={`/privacy-policy`}>Privacy Policy</Link>
-                  <Link className={`hover:underline text-sm w-fit `} href={`/cookie-policy`}>Cookie Policy</Link>
+                  {legal?.links?.map(({title, href}, index) => (
+                     <Link className={`hover:underline text-sm w-fit`} href={href}>{title}</Link>
+                  ))}
                </div>
             </div>
             <div>
-               <h2 className={`uppercase text-muted-foreground text-base`}>Socials</h2>
+               <h2 className={`uppercase text-muted-foreground text-base`}>{title}</h2>
                <div className="mb-8 flex space-x-8 mt-4">
                   <Link title={`E-mail`} target="_blank" rel="noreferrer" href={`mailto:${email}`}>
                      <span className="sr-only">Mail</span>

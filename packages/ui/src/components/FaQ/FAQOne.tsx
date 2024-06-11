@@ -1,7 +1,9 @@
+"use client"
 import React from "react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "./Accordion";
 import { cn } from "../Pricing";
 import DotPattern from "../common/dot-pattern";
+import { useTranslation } from "react-i18next";
 
 export interface FaQ {
    question: string;
@@ -13,6 +15,8 @@ export interface FaqOneProps {
 }
 
 export const FaqOne = ({ faqs }: FaqOneProps) => {
+   const { t} = useTranslation()
+
    return (
       <section id={`faq`} className="w-full body-font mt-20 flex items-start justify-center gap-48 mx-auto relative">
          <DotPattern
@@ -24,7 +28,7 @@ export const FaqOne = ({ faqs }: FaqOneProps) => {
             <h2 className={cn(`text-blue-500 text-lg font-bold`,
                `bg-gradient-to-r from-blue-500 to-blue-900 inline-block text-transparent bg-clip-text`)}>FAQ</h2>
             <h3 className={`font-semibold text-3xl dropshadow-md`}>
-               Frequently Asked Questions
+               {t(`Index.FAQ`)}
             </h3>
          </div>
          <div>

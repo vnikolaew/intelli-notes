@@ -134,7 +134,7 @@ const Page = async ({ searchParams, params }: PageProps) => {
          </Row>
          <Separator orientation={`horizontal`} className={`w-2/5 mt-0 text-neutral-700 bg-neutral-300 shadow-lg`} />
          <div className="w-full flex items-center justify-between gap-4">
-            <Row className={`!w-1/3`}>
+            <Row className={`!w-1/3 gap-3`}>
                <NotesVisibilityFilter />
                <NotesTagsFilter tags={allTags} />
             </Row>
