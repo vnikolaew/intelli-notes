@@ -1,0 +1,132 @@
+{
+  "AskAi": {
+    "Description": "Usa IA para recuperar información sobre tus notas actuales.",
+    "EnterPrompt": {
+      "Placeholder": "Introduce tu pregunta",
+      "Warning": "La IA puede cometer errores. Verifica la información importante."
+    },
+    "ReportContent": {
+      "Description": "Tu ayuda nos permitirá tomar la acción correcta basada en el contenido reportado.",
+      "Prompt": "Por favor, dinos por qué estás reportando",
+      "Title": "Reportar una conversación"
+    },
+    "Title": "Preguntar a la IA",
+    "Tooltips": {
+      "Archive": "Archivar",
+      "Delete": "Eliminar",
+      "NewChat": "Nuevo chat",
+      "Options": "Opciones",
+      "Report": "Reportar contenido"
+    }
+  },
+  "CookieBanner": {
+    "AcceptAll": "Aceptar todas las cookies",
+    "CookieSettings": "Configuración de cookies",
+    "Description": "Usamos cookies para asegurar que te damos la mejor experiencia en nuestro sitio web.",
+    "Preferences": {
+      "Functionality": "Funcionalidad",
+      "LearnMore": "Aprender más",
+      "Marketing": "Marketing",
+      "Necessary": "Necesarias",
+      "Statistics": "Estadísticas",
+      "Title": "Personaliza tus preferencias"
+    },
+    "ReadCookiePolicy": "Leer las políticas de cookies."
+  },
+  "Footer": {
+    "Legal": {
+      "Cookie": "Política de cookies",
+      "Privacy": "Política de privacidad",
+      "Terms": "Términos de servicio",
+      "Title": "LEGAL"
+    },
+    "Links": {
+      "Features": "Características",
+      "Home": "Inicio",
+      "Report": "Reportar un problema",
+      "Support": "Soporte",
+      "Title": "ENLACES"
+    }
+  },
+  "Header": {
+    "AskAI": "Preguntar a la IA",
+    "Explore": "Explorar",
+    "MyNotes": "Mis notas",
+    "SignIn": "Iniciar sesión",
+    "SignOut": "Cerrar sesión",
+    "Tooltips": {
+      "CreateNote": "Crear una nota",
+      "ReportIssue": "Reportar un problema"
+    },
+    "UserDropdown": {
+      "ChangeProfilePicture": "Cambiar foto de perfil",
+      "Language": "Idioma"
+    }
+  },
+  "Index": {
+    "FAQ": "Preguntas frecuentes",
+    "FAQ1Q": "¿Cómo empiezo con Intelli Notes?",
+    "FAQ2Q": "¿Mis datos están seguros con Intelli Notes?",
+    "FAQ3Q": "¿Puedo usar Intelli Notes en múltiples dispositivos?",
+    "FAQ4Q": "¿Qué características ofrece Intelli Notes para organizar notas?",
+    "FAQ5Q": "¿Hay un límite en el número de notas que puedo crear?",
+    "Feature1Description": "IntelliNotes está impulsado por tecnología avanzada de IA, asegurando que tus notas estén siempre actualizadas y sean precisas.",
+    "Feature1Title": "IA poderosa",
+    "Feature2Description": "Toma y organiza tus pensamientos, documentos y más sin esfuerzo con IntelliNotes.",
+    "Feature2Title": "Fácil toma de notas",
+    "Feature3Description": "Mantén tus notas y documentos seguros con el sistema de almacenamiento seguro de IntelliNotes.",
+    "Feature3Title": "Almacenamiento seguro",
+    "Footer": {
+      "Socials": "REDES SOCIALES"
+    },
+    "HeroCTA": "Empieza a escribir ahora",
+    "HeroDescription": "Donde la tecnología inteligente se encuentra con la organización perfecta.",
+    "HeroTitle": "Desata el poder de la IA para transformar tu toma de notas con"
+  },
+  "Misc": {
+    "Cancel": "Cancelar",
+    "ChangeProfilePicture": {
+      "Description": "Selecciona uno de nuestros avatares preseleccionados:",
+      "Title": "Cambia tu foto de perfil"
+    },
+    "GoBack": "Volver",
+    "GoBackHome": "Volver al inicio",
+    "Save": "Guardar",
+    "ScrollToTop": "Desplazar hacia arriba",
+    "Submit": "Enviar"
+  },
+  "Notes": {
+    "AllNotes": "Todas las notas",
+    "Buttons": {
+      "AskAi": "Preguntar a la IA",
+      "Export": "Exportar",
+      "Import": "Importar",
+      "NewNote": "Nueva nota"
+    },
+    "FilterByTags": {
+      "Placeholder": "Filtrar por etiquetas ..."
+    },
+    "Filtered": "Filtrado",
+    "Search": {
+      "Placeholder": "Buscar notas"
+    },
+    "Show": {
+      "All": "Mostrando todas las notas.",
+      "ByCategory": "Mostrando notas por categoría."
+    },
+    "Write": {
+      "Placeholders": {
+        "Tags": "Agregar etiquetas a la nota",
+        "Title": "Sin título"
+      },
+      "Tooltips": {
+        "AskAi": {
+          "Description": "Usa IA para sugerir completaciones para tu nota.",
+          "Title": "Preguntar a la IA"
+        },
+        "MakePrivate": "Pública. Haz clic para hacer esta nota privada.",
+        "MakePublic": "Privada. Haz clic para hacer esta nota pública."
+      }
+    }
+  }
+}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import moment from "moment";
 import { APP_HOST_NAME, APP_NAME, COMPANY_DETAILS, LINKS } from "config/site";
 import Link from "next/link";
@@ -92,10 +92,7 @@ const Page = async ({}: PageProps) => {
                {LINKS.supportEmail}
             </Link> or by post to:
             </p>
-            <b className={`mt-4`}>{APP_NAME}</b>
-            <p>{COMPANY_DETAILS.streetAddress}</p>
-            <p>{COMPANY_DETAILS.city}, {COMPANY_DETAILS.zipCode}</p>
-            <p>{COMPANY_DETAILS.country}</p>
+            <CompanyDetails />
          </div>
          <div className={`mt-8 flex items-center justify-end w-2/5`}>
             <Link className={`inline-flex gap-1 items-center`} href={`/`}>Go Home <ArrowRight size={14} /></Link>
@@ -103,6 +100,13 @@ const Page = async ({}: PageProps) => {
       </section>
    );
 };
+
+/**
+ * Company details for the cookie policy page.
+ */
+const CompanyDetails = () => (
+            <Fragment><b className={`mt-4`}>{APP_NAME}</b><p>{COMPANY_DETAILS.streetAddress}</p><p>{COMPANY_DETAILS.city}, {COMPANY_DETAILS.zipCode}</p><p>{COMPANY_DETAILS.country}</p></Fragment>
+)
 
 const Heading = ({ text }: { text: string }) => {
    return (

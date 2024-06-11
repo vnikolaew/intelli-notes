@@ -6,8 +6,8 @@ import { auth } from "auth";
 import { ArrowRight } from "lucide-react";
 import { notFound } from "next/navigation";
 import { getUserDetails } from "./_queries";
-import NoteCommentsCount from "@/app/explore/_components/comments/NoteCommentsCount";
-import NoteLikeButton from "app/explore/_components/NoteLikeButton";
+import NoteCommentsCount from "@/app/[locale]/explore/_components/comments/NoteCommentsCount";
+import NoteLikeButton from "@/app/[locale]/explore/_components/NoteLikeButton";
 
 export interface PageProps {
    params: { userId: string };

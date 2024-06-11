@@ -18,7 +18,19 @@ export interface PageProps {
 
 export const dynamic = `force-dynamic`
 
-const Page = async ({ searchParams,  params }: PageProps) => {
+
+/**
+ * Renders the main page of the application.
+ *
+ * @param {PageProps} props - The props object containing searchParams and params.
+ * @param {Object} props.searchParams - The search parameters object.
+ * @param {string} props.searchParams.chatId - The chat ID parameter.
+ * @param {string} props.searchParams.new - The new parameter.
+ * @param {Object} props.params - The parameters object.
+ * @param {string} props.params.locale - The locale parameter.
+ * @return {Promise<JSX.Element>} The rendered page.
+ */
+const Page = async ({ searchParams,  params }: PageProps): Promise<JSX.Element> => {
    const session = await auth();
 
    const sortedChatHistories = await getSortedUserChatHistories();

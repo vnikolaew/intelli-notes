@@ -5,6 +5,11 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "compon
 import { Eye, LockKeyhole, Notebook} from "lucide-react";
 import React, { useMemo } from "react";
 
+/**
+ * Renders a component that allows the user to filter notes based on their visibility.
+ *
+ * @return {JSX.Element} The rendered NotesVisibilityFilter component.
+ */
 export function NotesVisibilityFilter() {
    const [showPublic, setShowPublic] = useQueryState(`public`, parseAsBoolean);
    const tooltipMessage = useMemo(() => {

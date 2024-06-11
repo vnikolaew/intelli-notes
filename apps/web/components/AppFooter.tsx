@@ -52,7 +52,7 @@ const AppFooter = async ({ t }: AppFooterProps) => {
          appDescription={APP_DESCRIPTION}
          appLogo={appLogo}
          appName={APP_NAME}
-         links={FOOTER_LINKS}
+         links={LINKS}
          legal={FOOTER_LEGAL}
          socialLinks={{ ...LINKS, title: t(`Index.Footer.Socials`) }}
       />

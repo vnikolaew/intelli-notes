@@ -2,6 +2,8 @@
 import { useState, useEffect } from "react";
 
 function useWindowScroll() {
+   if(typeof window === undefined) return null!;
+
    // Initialize the state with the current scroll position
    const [scrollPosition, setScrollPosition] = useState({
       y: window?.scrollY,

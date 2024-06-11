@@ -16,7 +16,7 @@ import { cn } from "lib/utils";
 import UserAvatarDropdown from "@/components/common/UserAvatarDropdown";
 import CreateNoteButton from "@/components/common/CreateNoteButton";
 import ReportIssueButton from "@/components/common/ReportIssueButton";
-import { useTranslation  } from "react-i18next";
+import { useTranslations } from "@/providers/TranslationsClientProvider";
 
 export interface NavbarProps {
 }
@@ -47,10 +47,10 @@ const InteractiveHeaderLink = ({ icon, title, href }: InteractiveHeaderLinkProps
  * The site's header, containing the Navbar as well.
  * @constructor
  */
-const Header = ({ }: NavbarProps) => {
+const Header = ({}: NavbarProps) => {
    const pathname = usePathname();
    const [signInModalOpen, setSignInModalOpen] = useBoolean();
-   const { t, i18n } = useTranslation(`home`, {keyPrefix: `Header`});
+   const t = useTranslations();
 
    return (
       <header
@@ -67,18 +67,18 @@ const Header = ({ }: NavbarProps) => {
                   <InteractiveHeaderLink href={`/notes`} icon={<Notebook
                      size={14}
                      className={cn(pathname === `/notes` && `stroke-[3px] !text-blue-600`, `text-black`)}
-                  />} title={t(`MyNotes`)} />
+                  />} title={t.header_myNotes} />
                </SignedIn>
                <InteractiveHeaderLink href={`/explore`} icon={<Telescope
                   size={14}
                   className={cn(pathname === `/explore` && `stroke-[3px] !text-blue-600`, `text-black`)}
-               />} title={t(`Explore`)} />
+               />} title={t.header_explore} />
                <SignedIn>
                   <InteractiveHeaderLink
                      href={`/notes/ask`} icon={<Sparkles
                      size={14}
                      className={cn(pathname === `/notes/ask` && `stroke-[3px] !text-blue-600`, `text-black`)}
-                  />} title={t(`AskAI`)} />
+                  />} title={t.header_askAi} />
                </SignedIn>
             </div>
             <div className={`flex flex-1 items-center justify-end space-x-8`}>
@@ -92,7 +92,7 @@ const Header = ({ }: NavbarProps) => {
                         className={`px-4 gap-2 rounded-lg !py-2 !h-fit`}
                         onClick={_ => signOut({ redirect: true, callbackUrl: `/` })} variant={"destructive"}>
                         <LogOut size={14} />
-                        {t(`SignOut`)}
+                        {t.header_signOut}
                      </Button>
                   </div>
                </SignedIn>
@@ -100,7 +100,7 @@ const Header = ({ }: NavbarProps) => {
                   <Button
                      onClick={_ => setSignInModalOpen(true)}
                      className={`px-6 !py-0 rounded-lg cta-button`}>
-                     { t(`SignIn`)[0].toUpperCase() + t(`SignIn`).slice(1).toLowerCase()}
+                     {t.header_signIn}
                   </Button>
                   <SignInModal open={signInModalOpen} setOpen={setSignInModalOpen} />
                </SignedOut>

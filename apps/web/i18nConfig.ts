@@ -1,5 +1,6 @@
 import { NextRequest } from "next/server";
 import { ResponseCookie } from "next/dist/compiled/@edge-runtime/cookies";
+import { USER_LOCALE_COOKIE_NAME } from "@/lib/consts";
 
 export interface Config {
    locales: readonly string[];
@@ -18,7 +19,7 @@ export interface Config {
 //    .filter(d => d.isFile() && d.name.endsWith(`.json`))
 //    .map(d => d.name.split(`.`).at(0)?.trim());
 
-const SUPPORTED_LOCALES = ["en", "fr", "de"]
+const SUPPORTED_LOCALES = ["en", "fr", "de", "es"]
 
 const DEFAULT_LOCALE = "en";
 
@@ -30,7 +31,7 @@ const i18nConfig = {
       // read from `cookies()`, `headers()`, etc.
 
       const headerLanguage = request.headers.get(`Accept-Language`);
-      const cookieLanguage = request.cookies.get(`NEXT_LOCALE`)?.value;
+      const cookieLanguage = request.cookies.get(USER_LOCALE_COOKIE_NAME)?.value;
 
       console.log({ headerLanguage, cookieLanguage });
 

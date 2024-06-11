@@ -61,8 +61,13 @@ const SOCIALS = [
    },
 ] as const;
 
+/**
+ * Renders a set of social share buttons for a note.
+ *
+ * @param {NoteSocialShareButtonsProps} props - The props object containing the note object.
+ * @return {JSX.Element} The rendered social share buttons.
+ */
 const NoteSocialShareButtons = ({ note }: NoteSocialShareButtonsProps) => {
-
    return (
       <div className={`flex items-center gap-2 flex-1`}>
          {SOCIALS.map(({ Icon, title }, index) => (

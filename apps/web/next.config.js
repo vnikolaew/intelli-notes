@@ -1,7 +1,3 @@
-const createNextIntlPlugin = require('next-intl/plugin');
-
-const withNextIntl = createNextIntlPlugin(`./i18n.ts`);
-
 /** @type {import("next").NextConfig} */
 module.exports = {
    sentry: {
@@ -47,6 +43,18 @@ module.exports = {
          {
             hostname: "dummyimage",
             protocol: `https`,
+         },
+         {
+            protocol: "https",
+            hostname: "replicate.com",
+         },
+         {
+            protocol: "https",
+            hostname: "replicate.delivery",
+         },
+         {
+            protocol: "https",
+            hostname: "flaglog.com",
          },
       ],
    },

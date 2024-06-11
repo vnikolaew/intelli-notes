@@ -20,7 +20,7 @@ import { Note } from "@repo/db";
 import { useBoolean } from "@/hooks/useBoolean";
 import { downloadFile } from "@/lib/utils";
 import { toast, TOASTS } from "@/config/toasts";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "@/providers/TranslationsClientProvider";
 
 export interface BulkExportNotesButtonProps {
    notes: Note[];
@@ -56,9 +56,16 @@ export const EXPORT_FORMATS = [
    },
 ] as const;
 
+/**
+ * Renders a button component for bulk exporting notes in various formats.
+ *
+ * @param {BulkExportNotesButtonProps} props - The properties for the component.
+ * @param {Note[]} props.notes - The array of notes to be exported.
+ * @return {JSX.Element} The rendered button component.
+ */
 const BulkExportNotesButton = ({ notes }: BulkExportNotesButtonProps) => {
    const [pending, setPending] = useBoolean();
-   const { t } = useTranslation(`home`, { keyPrefix: `Notes.Buttons` });
+   const t = useTranslations()
 
    function handleExport(dataValue: ExportFormat) {
       console.log(dataValue);
@@ -89,7 +96,7 @@ const BulkExportNotesButton = ({ notes }: BulkExportNotesButtonProps) => {
                      Exporting ...
                   </Fragment>
                ) : (
-                  <><FolderUp size={24} /><span>{t(`Export`)}</span></>
+                  <><FolderUp size={24} /><span>{t.notes_buttons_export}</span></>
                )}
             </Button>
          </DropdownMenuTrigger>

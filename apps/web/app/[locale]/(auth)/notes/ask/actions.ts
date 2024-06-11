@@ -3,14 +3,11 @@
 import { authorizedAction, safeExecute } from "lib/actions";
 import { z } from "zod";
 import { HuggingFaceAPI } from "@repo/ai";
-import { nonArchivedFilter, Note, Prisma, xprisma } from "@repo/db";
+import { nonArchivedFilter, Note, xprisma } from "@repo/db";
 import { createStreamableValue, StreamableValue } from "ai/rsc";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { WebClient } from "@slack/web-api";
-import { cookies } from "next/headers";
-import { USER_SUBMITTED_FEEDBACK_COOKIE_NAME } from "@/lib/consts";
-import moment from "moment";
 import { auth } from "@/auth";
 
 const askSchema = z.object({

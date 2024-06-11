@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
-import React, { PropsWithChildren } from "react";
+import React, { Fragment, PropsWithChildren } from "react";
 
 interface DeleteNoteModalProps extends PropsWithChildren {
    onDelete: () => void;
@@ -20,7 +20,7 @@ interface DeleteNoteModalProps extends PropsWithChildren {
 
 /**
  * A modal for prompting the user to confirm note deletion.
- * @param children
+ * @param children The child nodes to render.
  * @param onDelete A callback for executing server delete action.
  * @param loading A loading flag.
  * @constructor
@@ -45,10 +45,10 @@ export const DeleteNoteModal = ({ children, onDelete, loading, open, setOpen }: 
                   variant={`destructive`}
                   type="submit">
                   {loading ? (
-                     <>
+                     <Fragment>
                         <Loader2 className={`animate-spin`} size={18} />
                         Deleting ...
-                     </>
+                     </Fragment>
                   ) : `Delete`}
                </Button>
             </DialogFooter>
