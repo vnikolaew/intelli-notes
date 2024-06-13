@@ -18,21 +18,21 @@ import TranslationsProvider from "@/providers/TranslationsProvider";
 import i18nConfig from "@/i18nConfig";
 import { dir } from "i18next";
 import AppFooter from "@/components/AppFooter";
-import appLogo from "@/public/logo.jpg"
+import appLogo from "@/public/logo.jpg";
 
 export const metadata: Metadata = {
    title: APP_NAME,
    description: APP_DESCRIPTION,
-   authors:  [{
+   authors: [{
       url: AUTHOR_WEBSITE,
-      name: AUTHOR
+      name: AUTHOR,
    }],
    applicationName: APP_NAME,
    icons: appLogo.src,
-   keywords: [`intelligent`, `notes`, `note-taking`, `AI`,],
+   keywords: [`intelligent`, `notes`, `note-taking`, `AI`],
    category: `notes`,
    creator: AUTHOR,
-   referrer: `no-referrer`
+   referrer: `no-referrer`,
 };
 
 export function generateStaticParams() {
@@ -72,7 +72,7 @@ export default async function RootLayout({
             </Suspense>
             <Toaster />
             {!__IS_DEV__ && <Analytics />}
-           <AppFooter t={t} />
+            <AppFooter t={t} />
             </body>
          </Providers>
       </TranslationsProvider>
